@@ -1,5 +1,6 @@
 package gui;
 
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
@@ -26,6 +27,9 @@ public class FindTopicsWidget extends VBox {
     String findMessage;
     @Setter
     String closeMessage;
+    @Setter
+    ObjectProperty<Topic> currentTopic;
+
     TextField textField;
     ListView<Topic> listView;
 
@@ -36,6 +40,7 @@ public class FindTopicsWidget extends VBox {
         listView.setCellFactory(Cell::new);
         getChildren().addAll(createControls(), listView);
         setMinWidth(100);
+        listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> currentTopic.setValue(newValue));
     }
 
     private Pane createControls() {
@@ -59,10 +64,6 @@ public class FindTopicsWidget extends VBox {
 
     public void open() {
         setVisible(true);
-    }
-
-    public void bindSelectionListener(ChangeListener<Topic> listener) {
-        listView.getSelectionModel().selectedItemProperty().addListener(listener);
     }
 
     private static class Cell extends ListCell<Topic> {
