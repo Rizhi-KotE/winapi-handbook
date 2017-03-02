@@ -40,6 +40,7 @@ beans {
     }
     editorBean(Editor) { bean ->
         bean.initMethod = 'setup'
+        service = dummyHandbookService
         currentTopic = currentTopicProperty
     }
     browserBean(Browser) { bean ->
