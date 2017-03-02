@@ -1,0 +1,20 @@
+plugins {
+    id "org.jruyi.thrift" version "0.4.0"
+    id "java"
+    id 'io.franzbecker.gradle-lombok' version '1.8'
+}
+
+group 'rk'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile group: 'org.springframework', name: 'spring-context', version: '4.3.6.RELEASE'
+    compile group: 'org.apache.thrift', name: 'libthrift', version: '0.9.3'
+    compile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.8'
+    compile group: 'org.projectlombok', name: 'lombok', version: '1.14'
+}
