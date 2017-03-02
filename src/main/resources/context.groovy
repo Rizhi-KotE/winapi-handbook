@@ -1,5 +1,7 @@
 import gui.Browser
+import gui.FindTopicsWidget
 import service.DummyHandbookService
+import service.Topic
 
 beans {
 //    thriftHandbookService(HandbookThrift.Client) {
@@ -13,8 +15,8 @@ beans {
     dummyHandbookService(DummyHandbookService) { bean ->
         bean.initMethod = 'setup'
         files = ["HTMLEditor.html": 1l]
-        topics = [2l: "asdfasdf",
-                  3l: "qwerqwerqwer"]
+        topics = [2l: new Topic(2l, "asdfasdf", "2"),
+                  3l: new Topic(3l, "qwerqwerqwer", "3")]
     }
 //    handbookWindow(HandbookWindow) { bean ->
 //        bean.initMethod = 'setup'
@@ -23,10 +25,17 @@ beans {
 //        height = 480
 //        title = 'WinAPI handbook'
 //    }
+    findView(FindTopicsWidget){ bean ->
+        bean.initMethod = 'setup'
+        findMessage = "find"
+        closeMessage = "close"
+        service = dummyHandbookService
+    }
     browserBean(Browser) { bean ->
         bean.initMethod = 'setup'
         bean.lazyInit = true
         service = dummyHandbookService
+        find = findView
     }
 //    viewSampler(gui.WebViewSample) {
 //        browser = browserBean

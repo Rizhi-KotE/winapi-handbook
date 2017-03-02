@@ -18,7 +18,7 @@ public class WebViewSample extends Application {
                 new GenericGroovyApplicationContext(new ClassPathResource("context.groovy"));
         browser = context.getBean(Browser.class);
         stage.setTitle("Web View");
-        scene = new Scene(browser, 750, 500, Color.web("#666970"));
+        scene = new Scene(browser, 1030, 500, Color.web("#666970"));
         stage.setScene(scene);
         stage.show();
     }

@@ -1,31 +1,45 @@
 package service;
 
-import lombok.Getter;
 import lombok.Setter;
 import model.HandbookThrift;
 import org.apache.thrift.TException;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-import static java.util.stream.Collectors.toList;
-
-@Setter @Getter
 public class ThriftHandbookService implements HandbookService {
 
+    @Setter
     HandbookThrift.Client client;
 
     public Topic getTopic(long id) {
         try {
-            return convertToHandbookTopic(client.getTopic(id));
+            return new Topic(id, client.getContent(id), "");
         } catch (TException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
 
-    public Collection<Topic> findTopics(String keyword) {
+    public List<Topic> findTopics(String keyword) {
         try {
-            return  client.findTopics(keyword).stream().map(this::convertToHandbookTopic).collect(toList());
+            Map<Long, String> headers = client.findTopicsHeaders(keyword);
+            ArrayList<Topic> topics = new ArrayList<>(headers.size());
+            for (Map.Entry<Long, String> e : headers.entrySet()) {
+                topics.add(new Topic(e.getKey(), "", e.getValue()));
+            }
+            return topics;
+        } catch (TException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public long createTopic(Topic topic) {
+        try {
+            return client.createTopic(topic.header, topic.content);
         } catch (TException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -34,7 +48,7 @@ public class ThriftHandbookService implements HandbookService {
 
     public void updateTopic(Topic topic) {
         try {
-            client.updateTopic(convertToThriftTopic(topic));
+            client.updateTopic(topic.id, topic.content);
         } catch (TException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -50,11 +64,4 @@ public class ThriftHandbookService implements HandbookService {
         }
     }
 
-    model.Topic convertToThriftTopic(Topic topic){
-        return new model.Topic(topic.id, topic.content);
-    }
-
-    Topic convertToHandbookTopic(model.Topic topic){
-       return new Topic(topic.getId(), topic.getContent());
-    }
 }

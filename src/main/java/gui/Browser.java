@@ -1,23 +1,23 @@
 package gui;
 
-import javafx.geometry.HPos;
-import javafx.geometry.VPos;
-import javafx.scene.Node;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import lombok.Setter;
 import service.HandbookService;
+import service.Topic;
 
-public class Browser extends Region {
+public class Browser extends HBox {
 
     WebView browser;
     WebEngine webEngine;
 
     @Setter
     HandbookService service;
+
+    @Setter
+    FindTopicsWidget find;
 
     public Browser() {
         //apply the styles
@@ -27,30 +27,17 @@ public class Browser extends Region {
     }
 
     public void setup() {
-        browser  = new WebView();
+        browser = new WebView();
         webEngine = browser.getEngine();
         getStyleClass().add("browser");
-        getChildren().add(browser);
+        getChildren().addAll(browser, find);
         webEngine.loadContent(service.getTopic(1).getContent());
+        find.bindSelectionListener(this::topicChanged);
     }
 
-    private Node createSpacer() {
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
-        return spacer;
-    }
-
-    @Override protected void layoutChildren() {
-        double w = getWidth();
-        double h = getHeight();
-        layoutInArea(browser,0,0,w,h,0, HPos.CENTER, VPos.CENTER);
-    }
-
-    @Override protected double computePrefWidth(double height) {
-        return 750;
-    }
-
-    @Override protected double computePrefHeight(double width) {
-        return 500;
+    public void topicChanged(ObservableValue<? extends Topic> observable,
+                             Topic oldValue, Topic newValue) {
+        if (newValue != null)
+            webEngine.loadContent(service.getTopic(newValue.getId()).getContent());
     }
 }

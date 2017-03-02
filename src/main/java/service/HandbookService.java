@@ -1,6 +1,6 @@
 package service;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by rizhi-kote on 28.02.17.
@@ -8,7 +8,9 @@ import java.util.Collection;
 public interface HandbookService {
     Topic getTopic(long id);
 
-    Collection<Topic> findTopics(String keyword);
+    List<Topic> findTopics(String keyword);
+
+    long createTopic(Topic topic);
 
     void updateTopic(Topic topic);
 

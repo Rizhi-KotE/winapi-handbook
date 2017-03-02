@@ -1,13 +1,9 @@
 namespace java model
 
-struct Topic {
-  1: i64 id,
-  2: string content,
-}
-
 service HandbookThrift {
-  Topic getTopic(i64 id),
-  list<Topic> findTopics(string keyword),
-  void updateTopic(Topic topic),
+  string getContent(i64 id),
+  map<i64, string> findTopicsHeaders(string keyword),
+  i64 createTopic(string name, string content),
+  void updateTopic(i64 id, string content),
   void removeTopic(i64 id)
 }
