@@ -1,8 +1,13 @@
-package service;
+package thrift;
 
 import lombok.Setter;
 import model.HandbookThrift;
 import org.apache.thrift.TException;
+import org.apache.thrift.protocol.TBinaryProtocol;
+import org.apache.thrift.transport.TSocket;
+import org.apache.thrift.transport.TTransportException;
+import service.HandbookService;
+import service.Topic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +15,18 @@ import java.util.Map;
 
 public class ThriftHandbookService implements HandbookService {
 
-    @Setter
     HandbookThrift.Client client;
+
+    @Setter String host;
+    @Setter int port;
+
+    public void setup() throws TTransportException {
+        TSocket socket = new TSocket(host, port);
+        socket.open();
+
+        TBinaryProtocol protocol = new TBinaryProtocol(socket);
+        new HandbookThrift.Client(protocol);
+    }
 
     public Topic getTopic(long id) {
         try {
@@ -39,7 +54,7 @@ public class ThriftHandbookService implements HandbookService {
     @Override
     public long createTopic(Topic topic) {
         try {
-            return client.createTopic(topic.header, topic.content);
+            return client.createTopic(topic.getHeader(), topic.getContent());
         } catch (TException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -48,7 +63,7 @@ public class ThriftHandbookService implements HandbookService {
 
     public void updateTopic(Topic topic) {
         try {
-            client.updateTopic(topic.id, topic.content);
+            client.updateTopic(topic.getId(), topic.getContent());
         } catch (TException e) {
             e.printStackTrace();
             throw new RuntimeException(e);

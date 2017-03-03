@@ -17,4 +17,22 @@ dependencies {
     compile group: 'org.apache.thrift', name: 'libthrift', version: '0.9.3'
     compile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.8'
     compile group: 'org.projectlombok', name: 'lombok', version: '1.14'
+
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.8.Final'
+    compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.2.8.Final'
+    compile group: 'com.h2database', name: 'h2', version: '1.4.193'
+    compile group: 'org.springframework', name: 'spring-orm', version: '4.3.6.RELEASE'
+    compile group: 'commons-dbcp', name: 'commons-dbcp', version: '1.2.2'
+    compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '1.11.0.RELEASE'
+}
+
+sourceSets.main.resources.srcDirs += ['src/main/META-INF']
+
+jar {
+    manifest.attributes 'Main-Class': 'thrift.RunServer'
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    metaInf {
+        from('src/main/resources')
+    }
 }

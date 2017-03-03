@@ -18,7 +18,7 @@ public class Editor extends VBox {
     @Setter
     HandbookService service;
     boolean isNewTopic = false;
-    private HTMLEditor htmlEditor;
+    HTMLEditor htmlEditor;
 
     void setup() {
         htmlEditor = new HTMLEditor();
@@ -36,6 +36,7 @@ public class Editor extends VBox {
 
     public void saveTopic() {
         Topic value = currentTopic.getValue();
+        if (value == null) return;
         Topic topic = new Topic(value.getId(), value.getContent(), value.getHeader());
         if (isNewTopic) {
             topic.setContent(htmlEditor.getHtmlText());

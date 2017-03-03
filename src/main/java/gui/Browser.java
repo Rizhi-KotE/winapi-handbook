@@ -84,6 +84,6 @@ public class Browser extends VBox {
     public void topicChanged(ObservableValue<? extends Topic> observable,
                              Topic oldValue, Topic newValue) {
         if (newValue != null)
-            webEngine.loadContent(service.getTopic(newValue.getId()).getContent());
+            webEngine.loadContent(newValue.getContent());
     }
 }
