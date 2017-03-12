@@ -1,28 +1,13 @@
 import org.apache.commons.dbcp.BasicDataSource
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean
+import org.springframework.orm.jpa.JpaTransactionManager
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
+import thrift.HandbookThriftProcessor
+import thrift.HibernateHandbookThriftService
 
 beans {
 
-//    dataSourceBuilder(EmbeddedDatabaseBuilder) {
-//        type = EmbeddedDatabaseType.H2
-//        addScript("db/sql/create-db.sql")
-//        addScript("db/sql/insert-data.sql")
-//        build();
-//    }
-//
-//
-//    h2DataSource(dataSourceBuilder)
-//
-//    sessionFactory(LocalSessionFactoryBean) {
-//        dataSource = h2DataSource
-//
-//        def properties = new Properties()
-//        properties.setProperty("hibernate.dialect", H2Dialect.class.name)
-//        properties.setProperty("hibernate.hbm2ddl.auto", "update")
-//        properties.setProperty("hibernate.show_sql", "true")
-//        hibernateProperties = properties
-//    }
+    xmlns([jpa: 'http://www.springframework.org/schema/data/jpa'])
+    jpa.'repositories'('base-package': 'thrift')
 
     dataSource(BasicDataSource) {
         driverClassName = "org.h2.Driver"
@@ -31,14 +16,21 @@ beans {
         password = ""
     }
 
-//    sessionFactory(LocalSessionFactoryBean) {
-//        dataSource = dataSource
-//        hibernateProperties = ["hibernate.hbm2ddl.auto": "create-drop",
-//                               "hibernate.show_sql"    : "true"]
-//    }
-
-    entityManagerFactory(LocalContainerEntityManagerFactoryBean){
+    entityManagerFactory(LocalContainerEntityManagerFactoryBean) {
         dataSource = dataSource
-//        persistenceXmlLocation = "classpath:persistence.xml"
+    }
+
+    transactionManager(JpaTransactionManager) {
+        entityManagerFactory = entityManagerFactory
+    }
+
+    handbookThriftHandler(HibernateHandbookThriftService) {
+        repository = ref("topicRepository")
+    }
+
+    thriftProcessor(HandbookThriftProcessor) { bean ->
+        bean.initMethod = 'setup'
+        port = 9090
+        handler = handbookThriftHandler
     }
 }

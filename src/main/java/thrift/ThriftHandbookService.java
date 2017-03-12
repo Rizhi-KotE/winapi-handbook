@@ -25,7 +25,7 @@ public class ThriftHandbookService implements HandbookService {
         socket.open();
 
         TBinaryProtocol protocol = new TBinaryProtocol(socket);
-        new HandbookThrift.Client(protocol);
+        client = new HandbookThrift.Client(protocol);
     }
 
     public Topic getTopic(long id) {

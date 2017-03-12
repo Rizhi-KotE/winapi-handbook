@@ -1,0 +1,4 @@
+<dataset>
+    <topics id="1" header="header" content="content"/>
+    <topics id="2" header="" content="updated"/>
+</dataset>

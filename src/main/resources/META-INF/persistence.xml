@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://java.sun.com/xml/ns/persistence"
              version="1.0">
-    <persistence-unit name="studentPersistenceUnit" transaction-type="RESOURCE_LOCAL" >
-        <class>service.Topic</class>
+    <persistence-unit name="studentPersistenceUnit" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <properties>
+            <property name="hibernate.dialect"
+                      value="org.hibernate.dialect.HSQLDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+        </properties>
     </persistence-unit>
 </persistence>
