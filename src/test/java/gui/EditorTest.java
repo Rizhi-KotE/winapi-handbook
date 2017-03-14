@@ -7,6 +7,8 @@ import org.springframework.context.support.GenericGroovyApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import service.Topic;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -39,7 +41,21 @@ public class EditorTest {
     @Test
     public void createNewTopic() throws Exception {
         editor.createNewTopic("header");
+        editor.htmlEditor.setHtmlText("content2");
+        editor.saveTopic();
+        List<Topic> header = editor.service.findTopics("header");
+        assertEquals("content2", header.get(0).getContent());
+    }
 
+    @Test
+    public void changeTopic() throws Exception {
+        Topic topic = new Topic(1l, "content", "header");
+        editor.service.createTopic(topic);
+        editor.currentTopic.setValue(topic);
+        editor.htmlEditor.setHtmlText("changed");
+        editor.saveTopic();
+        List<Topic> header = editor.service.findTopics("header");
+        assertEquals("changed", header.get(0).getContent());
     }
 
     @Test

@@ -49,6 +49,7 @@ public class DummyHandbookService implements HandbookService {
 
     @Override
     public void updateTopic(Topic topic) {
+        if (!topics.containsKey(topic.getId())) throw new IllegalArgumentException(topic.toString());
         topics.put(topic.getId(), topic);
     }
 

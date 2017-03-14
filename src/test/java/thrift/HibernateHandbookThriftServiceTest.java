@@ -3,6 +3,7 @@ package thrift;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
+import model.Topic;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +17,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 
 import javax.transaction.Transactional;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -42,7 +44,7 @@ public class HibernateHandbookThriftServiceTest {
     @Test
     @DatabaseSetup(value = "classpath:datasets/getContentDataSet.xml")
     public void getContent() throws Exception {
-        String content = service.getContent(1l);
+        String content = service.getTopic(1l).getContent();
         assertEquals("content", content);
     }
 
@@ -50,21 +52,21 @@ public class HibernateHandbookThriftServiceTest {
     @DatabaseSetup("classpath:datasets/sampleData.xml")
     @ExpectedDatabase(value = "classpath:datasets/createTopicExpectedDataSet.xml")
     public void createTopic() throws Exception {
-        service.createTopic("header", "content");
+        service.createTopic(new Topic(0, "content","header"));
     }
 
     @Test
     @DatabaseSetup("classpath:datasets/sampleData.xml")
     @ExpectedDatabase("classpath:datasets/updateTopicExpected.xml")
     public void updateTopic() throws Exception {
-        service.updateTopic(1l, "updated");
+        service.updateTopic(new Topic(1l, "updated", "header"));
     }
 
     @Test
     @DatabaseSetup("classpath:datasets/sampleData.xml")
     @ExpectedDatabase("classpath:datasets/updateNonexistTopicExpected.xml")
     public void updateNonexistTopic() throws Exception {
-        service.updateTopic(2l, "updated");
+        service.updateTopic(new Topic(2l, "updated", ""));
     }
 
     @Test
@@ -77,8 +79,8 @@ public class HibernateHandbookThriftServiceTest {
     @Test
     @DatabaseSetup("classpath:datasets/sampleData.xml")
     public void findTopicHeaders() throws Exception {
-        Map<Long, String> headers = service.findTopicsHeaders("");
+        List<Topic> headers = service.findTopicsHeaders("");
         assertEquals(1, headers.size());
-        assertTrue(headers.containsKey(1l));
+        assertEquals(1l,headers.get(0).getId());
     }
 }

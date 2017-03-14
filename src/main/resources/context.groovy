@@ -10,7 +10,7 @@ beans {
     handbookService(ThriftHandbookService) { bean ->
         bean.initMethod = 'setup'
         host = 'localhost'
-        port = 9090
+        port = 9091
     }
 //    handbookService(DummyHandbookService) { bean ->
 //        bean.initMethod = 'setup'

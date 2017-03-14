@@ -3,11 +3,18 @@ import org.springframework.orm.jpa.JpaTransactionManager
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
 import thrift.HandbookThriftProcessor
 import thrift.HibernateHandbookThriftService
+import thrift.InitializeBase
 
 beans {
 
     xmlns([jpa: 'http://www.springframework.org/schema/data/jpa'])
     jpa.'repositories'('base-package': 'thrift')
+
+    initDatabase(InitializeBase) { bean ->
+        bean.initMethod = 'setup'
+        content = [1l: 'methods/CompareFileTime.html']
+        repository = ref("topicRepository")
+    }
 
     dataSource(BasicDataSource) {
         driverClassName = "org.h2.Driver"
@@ -30,7 +37,7 @@ beans {
 
     thriftProcessor(HandbookThriftProcessor) { bean ->
         bean.initMethod = 'setup'
-        port = 9090
+        port = 9091
         handler = handbookThriftHandler
     }
 }

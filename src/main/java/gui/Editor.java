@@ -17,7 +17,7 @@ public class Editor extends VBox {
     ObjectProperty<Topic> currentTopic;
     @Setter
     HandbookService service;
-    boolean isNewTopic = false;
+
     HTMLEditor htmlEditor;
 
     void setup() {
@@ -30,29 +30,23 @@ public class Editor extends VBox {
     void changeCurrentTopic(ObservableValue<? extends Topic> observable, Topic oldValue, Topic newValue) {
         if (newValue != null) {
             htmlEditor.setHtmlText(newValue.getContent());
-            isNewTopic = false;
         }
     }
 
     public void saveTopic() {
         Topic value = currentTopic.getValue();
-        if (value == null) return;
+        if(value.getId()==0) return;
         Topic topic = new Topic(value.getId(), value.getContent(), value.getHeader());
-        if (isNewTopic) {
-            topic.setContent(htmlEditor.getHtmlText());
-            long id = service.createTopic(topic);
-            topic.setId(id);
-        } else {
-            topic.setContent(htmlEditor.getHtmlText());
-            service.updateTopic(topic);
-        }
+        topic.setContent(htmlEditor.getHtmlText());
+        service.updateTopic(topic);
         currentTopic.setValue(topic);
-        isNewTopic = false;
     }
 
     public void createNewTopic(String topicName) {
         saveTopic();
-        isNewTopic = true;
-        currentTopic.setValue(new Topic(0, "", topicName));
+        Topic topic = new Topic(0l, "", topicName);
+        long id = service.createTopic(topic);
+        topic.setId(id);
+        currentTopic.setValue(topic);
     }
 }

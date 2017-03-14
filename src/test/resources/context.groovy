@@ -9,8 +9,7 @@ beans {
     dummyHandbookService(DummyHandbookService) { bean ->
         bean.initMethod = 'setup'
         files = new HashMap<>()
-        topics = [2l: new Topic(2l, "content2", "header2"),
-                  3l: new Topic(3l, "content3", "header3")]
+        topics = new HashMap<>()
     }
     currentTopicProperty(SimpleObjectProperty) {
         value = new Topic()

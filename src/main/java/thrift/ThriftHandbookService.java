@@ -6,19 +6,23 @@ import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransportException;
+import service.ConverterUtils;
 import service.HandbookService;
 import service.Topic;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+import static java.util.stream.Collectors.toList;
+import static service.ConverterUtils.convert;
 
 public class ThriftHandbookService implements HandbookService {
 
     HandbookThrift.Client client;
 
-    @Setter String host;
-    @Setter int port;
+    @Setter
+    String host;
+    @Setter
+    int port;
 
     public void setup() throws TTransportException {
         TSocket socket = new TSocket(host, port);
@@ -30,7 +34,7 @@ public class ThriftHandbookService implements HandbookService {
 
     public Topic getTopic(long id) {
         try {
-            return new Topic(id, client.getContent(id), "");
+            return convert(client.getTopic(id));
         } catch (TException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -39,12 +43,10 @@ public class ThriftHandbookService implements HandbookService {
 
     public List<Topic> findTopics(String keyword) {
         try {
-            Map<Long, String> headers = client.findTopicsHeaders(keyword);
-            ArrayList<Topic> topics = new ArrayList<>(headers.size());
-            for (Map.Entry<Long, String> e : headers.entrySet()) {
-                topics.add(new Topic(e.getKey(), "", e.getValue()));
-            }
-            return topics;
+            return client.findTopicsHeaders(keyword)
+                    .stream()
+                    .map(ConverterUtils::convert)
+                    .collect(toList());
         } catch (TException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -54,7 +56,7 @@ public class ThriftHandbookService implements HandbookService {
     @Override
     public long createTopic(Topic topic) {
         try {
-            return client.createTopic(topic.getHeader(), topic.getContent());
+            return client.createTopic(convert(topic));
         } catch (TException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -63,7 +65,7 @@ public class ThriftHandbookService implements HandbookService {
 
     public void updateTopic(Topic topic) {
         try {
-            client.updateTopic(topic.getId(), topic.getContent());
+            client.updateTopic(convert(topic));
         } catch (TException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
