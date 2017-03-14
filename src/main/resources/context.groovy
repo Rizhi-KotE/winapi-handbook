@@ -2,6 +2,8 @@ import gui.Browser
 import gui.Editor
 import gui.FindTopicsWidget
 import javafx.beans.property.SimpleObjectProperty
+import service.DummyHandbookService
+import service.Topic
 import thrift.ThriftHandbookService
 
 beans {
@@ -16,15 +18,8 @@ beans {
 //        topics = [2l: new Topic(2l, "asdfasdf", "2"),
 //                  3l: new Topic(3l, "qwerqwerqwer", "3")]
 //    }
-//    handbookWindow(HandbookWindow) { bean ->
-//        bean.initMethod = 'setup'
-//        service = thriftHandbookService
-//        width = 640
-//        height = 480
-//        title = 'WinAPI handbook'
-//    }
     currentTopicProperty(SimpleObjectProperty) {
-
+        value = new Topic()
     }
 
     findView(FindTopicsWidget) { bean ->

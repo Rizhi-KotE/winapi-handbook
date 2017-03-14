@@ -13,7 +13,7 @@ beans {
                   3l: new Topic(3l, "content3", "header3")]
     }
     currentTopicProperty(SimpleObjectProperty) {
-
+        value = new Topic()
     }
 
     findView(FindTopicsWidget) { bean ->

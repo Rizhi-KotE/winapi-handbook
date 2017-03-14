@@ -8,10 +8,8 @@ import org.springframework.core.io.ClassPathResource;
 import service.Topic;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-/**
- * Created by rizhi-kote on 02.03.17.
- */
 public class EditorTest {
 
     @Rule
@@ -19,21 +17,29 @@ public class EditorTest {
 
     private Editor editor;
 
+    @Before
+    public void setUp() throws Exception {
+        GenericGroovyApplicationContext context = new GenericGroovyApplicationContext(new ClassPathResource("context.groovy"));
+        editor = context.getBean(Editor.class);
+    }
+
     @Test
     public void saveTopic() throws Exception {
+        editor.htmlEditor.setHtmlText("aqwert");
+        editor.saveTopic();
+        assertEquals("aqwert", editor.currentTopic.getValue().getContent());
+    }
 
+    @Test
+    public void currentTopicShouldBeNotNull() throws Exception {
+        assertNotNull(editor.currentTopic);
+        assertNotNull(editor.currentTopic.getValue());
     }
 
     @Test
     public void createNewTopic() throws Exception {
         editor.createNewTopic("header");
 
-    }
-
-    @Before
-    public void setUp() throws Exception {
-        GenericGroovyApplicationContext context = new GenericGroovyApplicationContext(new ClassPathResource("context.groovy"));
-        editor = context.getBean(Editor.class);
     }
 
     @Test

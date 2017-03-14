@@ -34,20 +34,22 @@ public class Browser extends VBox {
         browser = new WebView();
         webEngine = browser.getEngine();
         getStyleClass().add("browser");
-        hBox = new HBox(find);
+        hBox = new HBox(editor, browser, find);
         getChildren().addAll(createMenuBar(), hBox);
         currentTopic.addListener(this::topicChanged);
         changeToBrowseState(null);
+        editor.managedProperty().bind(editor.visibleProperty());
+        browser.managedProperty().bind(browser.visibleProperty());
     }
 
-    private void changeToBrowseState(Event e) {
-        hBox.getChildren().remove(editor);
-        hBox.getChildren().add(0, browser);
+    void changeToBrowseState(Event e) {
+        editor.setVisible(false);
+        browser.setVisible(true);
     }
 
-    private void changeToEditorState(Event e) {
-        hBox.getChildren().remove(browser);
-        hBox.getChildren().add(0, editor);
+    void changeToEditorState(Event e) {
+        editor.setVisible(true);
+        browser.setVisible(false);
     }
 
     public HBox createMenuBar() {
@@ -62,11 +64,11 @@ public class Browser extends VBox {
         return new HBox(browse, edit, create, save);
     }
 
-    private void saveTopic(ActionEvent actionEvent) {
+    void saveTopic(ActionEvent actionEvent) {
         editor.saveTopic();
     }
 
-    private void createNewTopic(ActionEvent actionEvent) {
+    void createNewTopic(ActionEvent actionEvent) {
         TextInputDialog dialog = new TextInputDialog("walter");
         dialog.setTitle("New topic");
         dialog.setHeaderText("Create new topic");
