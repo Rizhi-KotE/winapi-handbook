@@ -2,13 +2,14 @@ plugins {
     id "org.jruyi.thrift" version "0.4.0"
     id "java"
     id 'io.franzbecker.gradle-lombok' version '1.8'
+    id "com.dorongold.task-tree" version "1.3"
 }
 
 group 'rk'
 version '1.0-SNAPSHOT'
 
 repositories {
-    mavenCentral()
+    mavenCenter()
 }
 
 dependencies {
@@ -23,22 +24,24 @@ dependencies {
     compile group: 'org.springframework', name: 'spring-context', version: '4.3.6.RELEASE'
     compile group: 'org.apache.thrift', name: 'libthrift', version: '0.9.3'
     compile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.8'
-    compile group: 'org.projectlombok', name: 'lombok', version: '1.14'
+    compile group: 'org.projectlombok', name: 'lombok', version: '1.16.8'
 
     compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.8.Final'
     compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.2.8.Final'
     compile group: 'com.h2database', name: 'h2', version: '1.4.193'
     compile group: 'org.springframework', name: 'spring-orm', version: '4.3.6.RELEASE'
     compile group: 'commons-dbcp', name: 'commons-dbcp', version: '1.2.2'
+    compile 'org.springframework.integration:spring-integration-core:4.3.8.RELEASE'
     compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '1.11.0.RELEASE'
 }
 
 sourceSets.main.resources.srcDirs += ['src/main/META-INF']
 
 jar {
-    manifest.attributes 'Main-Class': 'thrift.RunServer'
-    baseName = project.name + '-all'
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+
+    def classpath = fileTree(dir: 'allLibs').join(" ")
+    baseName = project.name + '-cp'
+    manifest.attributes 'Main-Class': 'gui.WebViewSample', 'Class-Path': classpath
     metaInf {
         from('src/main/resources')
     }
@@ -49,3 +52,19 @@ task showMeCache{
         configurations.compile.each { println it }
     }
 }
+
+task copyAllDependencies(type: Copy) {
+    //referring to the 'compile' configuration
+    from configurations.compile
+    into 'allLibs'
+}
+
+//task classpathJar(type: Jar) {
+//
+//    def classpath = fileTree(dir: 'allLibs').join(":")+":"+jar.baseName
+//    baseName = project.name + '-cp'
+//    manifest.attributes 'Class-Path': classpath
+//}
+
+jar.dependsOn copyAllDependencies
+//jar.dependsOn classpathJar
