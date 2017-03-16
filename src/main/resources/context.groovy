@@ -1,15 +1,28 @@
 import client.gui.Browser
 import client.gui.Editor
 import client.gui.FindTopicsWidget
+import client.service.HandbookSoapAdapter
+import client.service.SoupHandbookServiceFactory
 import javafx.beans.property.SimpleObjectProperty
 import common.service.Topic
-import client.service.ThriftHandbookService
 
 beans {
-    handbookService(ThriftHandbookService) { bean ->
-        bean.initMethod = 'setup'
-        url = 'http://0.0.0.0:8080/'
+//    handbookService(ThriftHandbookService) { bean ->
+//        bean.initMethod = 'setup'
+//        host = 'localhost'
+//        port = 9090
+//    }
+
+    soapHandbookServiceFactory(SoupHandbookServiceFactory){
+        url = "http://localhost:1986/wss/hello?wsdl"
+        namespaceUri = "http://soap.server/"
+        localPart = "HandbookSoapServiceImplService";
     }
+
+    handbookSoupService(soapHandbookServiceFactory: 'createService')
+
+    handbookService(HandbookSoapAdapter, handbookSoupService)
+
 //    handbookService(DummyHandbookService) { bean ->
 //        bean.initMethod = 'setup'
 //        files = ["HTMLEditor.html": 1l]

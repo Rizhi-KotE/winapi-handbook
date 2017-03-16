@@ -6,7 +6,7 @@ struct Topic {
   3: string header
 }
 
-common.service HandbookThrift {
+service HandbookThrift {
   Topic getTopic(i64 id),
   list<Topic> findTopicsHeaders(string keyword),
   i64 createTopic(Topic topic),

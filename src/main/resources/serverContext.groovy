@@ -1,10 +1,11 @@
 import org.apache.commons.dbcp.BasicDataSource
 import org.springframework.orm.jpa.JpaTransactionManager
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
-import server.thrift.HandbookTServletFactory
-
+import server.soap.HandbookSoapPublisher
+import server.soap.HandbookSoapServiceImpl
 import server.thrift.HibernateHandbookThriftService
 import server.thrift.InitializeBase
+import server.thrift.ThriftServer
 
 beans {
 
@@ -36,7 +37,17 @@ beans {
         repository = ref("topicRepository")
     }
 
-    TServletFactory(HandbookTServletFactory){
+    thriftServer(ThriftServer){
         handler = handbookThriftHandler
+        port = 9090
+    }
+
+    handbookSoupService(HandbookSoapServiceImpl){
+        repository = ref("topicRepository")
+    }
+
+    soupPublisher(HandbookSoapPublisher){
+        url = "http://localhost:1986/wss/hello?wsdl"
+        service = handbookSoupService
     }
 }

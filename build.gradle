@@ -2,14 +2,14 @@ plugins {
     id "org.jruyi.thrift" version "0.4.0"
     id "java"
     id 'io.franzbecker.gradle-lombok' version '1.8'
-    id "com.dorongold.task-tree" version "1.3"
+    id "cz.swsamuraj.jaxws" version "0.6.1"
 }
 
 group 'rk'
 version '1.0-SNAPSHOT'
 
 repositories {
-    mavenCenter()
+    mavenCentral()
 }
 
 dependencies {
@@ -24,7 +24,7 @@ dependencies {
     compile group: 'org.springframework', name: 'spring-context', version: '4.3.6.RELEASE'
     compile group: 'org.apache.thrift', name: 'libthrift', version: '0.9.3'
     compile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.8'
-    compile group: 'org.projectlombok', name: 'lombok', version: '1.16.8'
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.16.14'
 
     compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.8.Final'
     compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.2.8.Final'
@@ -33,6 +33,8 @@ dependencies {
     compile group: 'commons-dbcp', name: 'commons-dbcp', version: '1.2.2'
     compile 'org.springframework.integration:spring-integration-core:4.3.8.RELEASE'
     compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '1.11.0.RELEASE'
+
+    compile 'org.eclipse.jetty.aggregate:jetty-all:9.4.2.v20170220'
 }
 
 sourceSets.main.resources.srcDirs += ['src/main/META-INF']
@@ -41,7 +43,7 @@ jar {
 
     def classpath = fileTree(dir: 'allLibs').join(" ")
     baseName = project.name + '-cp'
-    manifest.attributes 'Main-Class': 'gui.WebViewSample', 'Class-Path': classpath
+    manifest.attributes 'Main-Class': 'client.gui.WebViewSample', 'Class-Path': classpath
     metaInf {
         from('src/main/resources')
     }

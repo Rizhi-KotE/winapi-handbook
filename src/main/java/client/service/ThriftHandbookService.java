@@ -4,12 +4,12 @@ import lombok.Setter;
 import model.HandbookThrift;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
-import org.apache.thrift.transport.THttpClient;
-import org.apache.thrift.transport.TTransportException;
+import org.apache.thrift.transport.*;
 import common.service.ConverterUtils;
 import common.service.HandbookService;
 import common.service.Topic;
 
+import java.io.IOException;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -20,13 +20,17 @@ public class ThriftHandbookService implements HandbookService {
     HandbookThrift.Client client;
 
     @Setter
-    String url;
+    String host;
 
-    public void setup() throws TTransportException {
-        THttpClient thc = new THttpClient(url);
+    @Setter
+    int port;
 
-        TBinaryProtocol protocol = new TBinaryProtocol(thc);
+    public void setup() throws TTransportException, IOException {
+        TTransport transport = new TFramedTransport(new TSocket(host, port));
+
+        TBinaryProtocol protocol = new TBinaryProtocol(transport);
         client = new HandbookThrift.Client(protocol);
+        transport.open();
     }
 
     public Topic getTopic(long id) {

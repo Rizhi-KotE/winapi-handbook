@@ -1,8 +1,0 @@
-<definitions name="HandbookService"
-             targetNamespace="http://www.examples.com/wsdl/HandbookService.wsdl"
-             xmlns="http://schemas.xmlsoap.org/wsdl/"
-             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-             xmlns:tns="http://www.examples.com/wsdl/HandbookService.wsdl"
-             xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-
-</definitions>

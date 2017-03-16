@@ -1,5 +1,5 @@
 plugins {
-    id "org.jruyi.thrift" version "0.4.0"
+    id "org.jruyi.server.thrift" version "0.4.0"
     id "java"
     id 'io.franzbecker.gradle-lombok' version '1.8'
     id "com.dorongold.task-tree" version "1.3"
