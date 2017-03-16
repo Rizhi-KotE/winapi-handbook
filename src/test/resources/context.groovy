@@ -1,9 +1,9 @@
-import gui.Browser
-import gui.Editor
-import gui.FindTopicsWidget
+import client.gui.Browser
+import client.gui.Editor
+import client.gui.FindTopicsWidget
 import javafx.beans.property.SimpleObjectProperty
-import service.DummyHandbookService
-import service.Topic
+import common.service.DummyHandbookService
+import common.service.Topic
 
 beans {
     dummyHandbookService(DummyHandbookService) { bean ->

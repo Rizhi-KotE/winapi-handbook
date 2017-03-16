@@ -1,11 +1,11 @@
-package gui;
+package client.gui;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.springframework.context.support.GenericGroovyApplicationContext;
 import org.springframework.core.io.ClassPathResource;
-import service.Topic;
+import common.service.Topic;
 
 import java.util.List;
 
@@ -23,13 +23,6 @@ public class EditorTest {
     public void setUp() throws Exception {
         GenericGroovyApplicationContext context = new GenericGroovyApplicationContext(new ClassPathResource("context.groovy"));
         editor = context.getBean(Editor.class);
-    }
-
-    @Test
-    public void saveTopic() throws Exception {
-        editor.htmlEditor.setHtmlText("aqwert");
-        editor.saveTopic();
-        assertEquals("aqwert", editor.currentTopic.getValue().getContent());
     }
 
     @Test

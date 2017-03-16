@@ -1,16 +1,14 @@
-import gui.Browser
-import gui.Editor
-import gui.FindTopicsWidget
+import client.gui.Browser
+import client.gui.Editor
+import client.gui.FindTopicsWidget
 import javafx.beans.property.SimpleObjectProperty
-import service.DummyHandbookService
-import service.Topic
-import thrift.ThriftHandbookService
+import common.service.Topic
+import client.service.ThriftHandbookService
 
 beans {
     handbookService(ThriftHandbookService) { bean ->
         bean.initMethod = 'setup'
-        host = 'localhost'
-        port = 9091
+        url = 'http://0.0.0.0:8080/'
     }
 //    handbookService(DummyHandbookService) { bean ->
 //        bean.initMethod = 'setup'
@@ -42,7 +40,7 @@ beans {
         find = findView
         editor = editorBean
     }
-//    viewSampler(gui.WebViewSample) {
+//    viewSampler(client.gui.WebViewSample) {
 //        browser = browserBean
 //    }
 }

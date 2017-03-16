@@ -1,14 +1,15 @@
 import org.apache.commons.dbcp.BasicDataSource
 import org.springframework.orm.jpa.JpaTransactionManager
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
-import thrift.HandbookThriftProcessor
-import thrift.HibernateHandbookThriftService
-import thrift.InitializeBase
+import server.thrift.HandbookTServletFactory
+
+import server.thrift.HibernateHandbookThriftService
+import server.thrift.InitializeBase
 
 beans {
 
     xmlns([jpa: 'http://www.springframework.org/schema/data/jpa'])
-    jpa.'repositories'('base-package': 'thrift')
+    jpa.'repositories'('base-package': 'server.thrift')
 
     initDatabase(InitializeBase) { bean ->
         bean.initMethod = 'setup'
@@ -35,9 +36,7 @@ beans {
         repository = ref("topicRepository")
     }
 
-    thriftProcessor(HandbookThriftProcessor) { bean ->
-        bean.initMethod = 'setup'
-        port = 9091
+    TServletFactory(HandbookTServletFactory){
         handler = handbookThriftHandler
     }
 }

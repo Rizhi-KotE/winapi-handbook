@@ -1,4 +1,4 @@
-package thrift;
+package server.thrift;
 
 import org.springframework.context.ApplicationContext;
 

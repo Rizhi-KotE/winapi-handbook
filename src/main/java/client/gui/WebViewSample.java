@@ -1,10 +1,7 @@
-package gui;
+package client.gui;
 
 import javafx.application.Application;
-import javafx.beans.property.ObjectProperty;
-import javafx.event.Event;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.springframework.context.support.GenericGroovyApplicationContext;
@@ -16,8 +13,13 @@ public class WebViewSample extends Application {
 
     private Scene scene;
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
     public void start(Stage stage) {
+
         GenericGroovyApplicationContext context =
                 new GenericGroovyApplicationContext(new ClassPathResource("context.groovy"));
         browser = context.getBean(Browser.class);
@@ -25,11 +27,5 @@ public class WebViewSample extends Application {
         scene = new Scene(browser, 1030, 500, Color.web("#666970"));
         stage.setScene(scene);
         stage.show();
-    }
-
-
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

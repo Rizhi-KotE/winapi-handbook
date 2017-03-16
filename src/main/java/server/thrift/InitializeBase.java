@@ -1,7 +1,7 @@
-package thrift;
+package server.thrift;
 
 import lombok.Setter;
-import service.Topic;
+import common.service.Topic;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

@@ -1,11 +1,11 @@
-package gui;
+package client.gui;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.springframework.context.support.GenericGroovyApplicationContext;
 import org.springframework.core.io.ClassPathResource;
-import service.Topic;
+import common.service.Topic;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package gui;
+package client.gui;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.value.ObservableValue;
@@ -11,8 +11,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import lombok.Setter;
-import service.HandbookService;
-import service.Topic;
+import common.service.HandbookService;
+import common.service.Topic;
 
 import java.util.Optional;
 

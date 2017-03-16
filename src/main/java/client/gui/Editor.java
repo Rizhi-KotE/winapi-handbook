@@ -1,4 +1,4 @@
-package gui;
+package client.gui;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.value.ObservableValue;
@@ -8,8 +8,8 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.HTMLEditor;
 import lombok.Setter;
-import service.HandbookService;
-import service.Topic;
+import common.service.HandbookService;
+import common.service.Topic;
 
 public class Editor extends VBox {
 

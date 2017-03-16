@@ -1,34 +1,31 @@
-package thrift;
+package client.service;
 
 import lombok.Setter;
 import model.HandbookThrift;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
-import org.apache.thrift.transport.TSocket;
+import org.apache.thrift.transport.THttpClient;
 import org.apache.thrift.transport.TTransportException;
-import service.ConverterUtils;
-import service.HandbookService;
-import service.Topic;
+import common.service.ConverterUtils;
+import common.service.HandbookService;
+import common.service.Topic;
 
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
-import static service.ConverterUtils.convert;
+import static common.service.ConverterUtils.convert;
 
 public class ThriftHandbookService implements HandbookService {
 
     HandbookThrift.Client client;
 
     @Setter
-    String host;
-    @Setter
-    int port;
+    String url;
 
     public void setup() throws TTransportException {
-        TSocket socket = new TSocket(host, port);
-        socket.open();
+        THttpClient thc = new THttpClient(url);
 
-        TBinaryProtocol protocol = new TBinaryProtocol(socket);
+        TBinaryProtocol protocol = new TBinaryProtocol(thc);
         client = new HandbookThrift.Client(protocol);
     }
 
