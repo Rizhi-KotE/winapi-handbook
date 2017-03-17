@@ -1,13 +1,14 @@
 import org.springframework.context.support.GenericGroovyApplicationContext;
 import server.soap.HandbookSoapPublisher;
+import server.thrift.ThriftServer;
 
-public class JettyBootstrap {
+public class StartServer {
     public static void main(String[] args) throws Exception {
         GenericGroovyApplicationContext context = new GenericGroovyApplicationContext("serverContext.groovy");
-        HandbookSoapPublisher bean = context.getBean(HandbookSoapPublisher.class);
-        bean.publish();
-//        ThriftServer bean = context.getBean(ThriftServer.class);
-//        bean.run();
+        HandbookSoapPublisher soap = context.getBean(HandbookSoapPublisher.class);
+        soap.publish();
+        ThriftServer thrift = context.getBean(ThriftServer.class);
+        thrift.run();
     }
 }
 

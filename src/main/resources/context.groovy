@@ -3,32 +3,37 @@ import client.gui.Editor
 import client.gui.FindTopicsWidget
 import client.service.HandbookSoapAdapter
 import client.service.SoupHandbookServiceFactory
-import javafx.beans.property.SimpleObjectProperty
+import client.service.ThriftHandbookService
 import common.service.Topic
+import javafx.beans.property.SimpleObjectProperty
 
 beans {
-//    handbookService(ThriftHandbookService) { bean ->
-//        bean.initMethod = 'setup'
-//        host = 'localhost'
-//        port = 9090
-//    }
 
-    soapHandbookServiceFactory(SoupHandbookServiceFactory){
-        url = "http://localhost:1986/wss/hello?wsdl"
-        namespaceUri = "http://soap.server/"
-        localPart = "HandbookSoapServiceImplService";
+    switch (System.getProperty("protocol")) {
+        case "soap":
+            handbookServiceFactory(SoupHandbookServiceFactory) {
+                url = "http://localhost:1986/wss/hello?wsdl"
+                namespaceUri = "http://soap.server/"
+                localPart = "HandbookSoapServiceImplService";
+            }
+
+            handbookSoupService(handbookServiceFactory: 'createService')
+
+            handbookService(HandbookSoapAdapter, handbookSoupService) { bean ->
+                bean.initMethod = 'setup'
+            }
+            break;
+        case "thrift":
+            handbookService(ThriftHandbookService) { bean ->
+                bean.initMethod = 'setup'
+                host = 'localhost'
+                port = 9090
+            }
     }
 
-    handbookSoupService(soapHandbookServiceFactory: 'createService')
 
-    handbookService(HandbookSoapAdapter, handbookSoupService)
 
-//    handbookService(DummyHandbookService) { bean ->
-//        bean.initMethod = 'setup'
-//        files = ["HTMLEditor.html": 1l]
-//        topics = [2l: new Topic(2l, "asdfasdf", "2"),
-//                  3l: new Topic(3l, "qwerqwerqwer", "3")]
-//    }
+
     currentTopicProperty(SimpleObjectProperty) {
         value = new Topic()
     }
@@ -53,7 +58,4 @@ beans {
         find = findView
         editor = editorBean
     }
-//    viewSampler(client.gui.WebViewSample) {
-//        browser = browserBean
-//    }
 }

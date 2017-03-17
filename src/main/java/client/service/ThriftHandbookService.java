@@ -31,6 +31,7 @@ public class ThriftHandbookService implements HandbookService {
         TBinaryProtocol protocol = new TBinaryProtocol(transport);
         client = new HandbookThrift.Client(protocol);
         transport.open();
+        System.out.println("Run thrift client");
     }
 
     public Topic getTopic(long id) {

@@ -1,5 +1,4 @@
-package client.gui;
-
+import client.gui.Browser;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
@@ -8,7 +7,7 @@ import org.springframework.context.support.GenericGroovyApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 
 
-public class WebViewSample extends Application {
+public class StartSoapGui extends Application {
     Browser browser;
 
     private Scene scene;
@@ -19,7 +18,7 @@ public class WebViewSample extends Application {
 
     @Override
     public void start(Stage stage) {
-
+        System.setProperty("protocol", "soap");
         GenericGroovyApplicationContext context =
                 new GenericGroovyApplicationContext(new ClassPathResource("context.groovy"));
         browser = context.getBean(Browser.class);

@@ -18,6 +18,10 @@ public class HandbookSoapAdapter implements HandbookService {
         this.soapService = soapService;
     }
 
+    public void setup() {
+        System.out.println("Run soap client");
+    }
+
     @Override
     public Topic getTopic(long id) {
         return soapService.getTopic(id);
