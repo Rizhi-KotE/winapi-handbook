@@ -1,26 +1,23 @@
 package server.thrift;
 
 import lombok.Setter;
-import model.HandbookThrift;
 import org.apache.thrift.server.TNonblockingServer;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.transport.TNonblockingServerSocket;
 import org.apache.thrift.transport.TNonblockingServerTransport;
-import org.apache.thrift.transport.TServerSocket;
-import org.apache.thrift.transport.TServerTransport;
 
 /**
  * Created by rizhi-kote on 16.03.17.
  */
 public class ThriftServer {
     @Setter
-    HibernateHandbookThriftService handler;
+    TWinApiHandbookHandler handler;
     @Setter
     int port;
 
     public void run() {
         try {
-            HandbookThrift.Processor<HibernateHandbookThriftService> processor = new HandbookThrift.Processor<>(handler);
+            TWinApiHandbookService.Processor<TWinApiHandbookHandler> processor = new TWinApiHandbookService.Processor<>(handler);
 
             TNonblockingServerTransport serverTransport = new TNonblockingServerSocket(port);
             TServer server = new TNonblockingServer(

@@ -3,7 +3,6 @@ import client.gui.Editor
 import client.gui.FindTopicsWidget
 import javafx.beans.property.SimpleObjectProperty
 import common.service.DummyHandbookService
-import common.service.Topic
 
 beans {
     dummyHandbookService(DummyHandbookService) { bean ->
@@ -12,7 +11,7 @@ beans {
         topics = new HashMap<>()
     }
     currentTopicProperty(SimpleObjectProperty) {
-        value = new Topic()
+        value = new WinApiClass()
     }
 
     findView(FindTopicsWidget) { bean ->

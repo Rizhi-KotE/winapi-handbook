@@ -1,23 +1,30 @@
 package client.service;
 
+import common.exception.NoSuchEntityException;
+import common.service.ConverterUtils;
+import common.service.WinApiHandbookService;
 import lombok.Setter;
-import model.HandbookThrift;
+import model.WinApiClass;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
-import org.apache.thrift.transport.*;
-import common.service.ConverterUtils;
-import common.service.HandbookService;
-import common.service.Topic;
+import org.apache.thrift.transport.TFramedTransport;
+import org.apache.thrift.transport.TSocket;
+import org.apache.thrift.transport.TTransport;
+import org.apache.thrift.transport.TTransportException;
+import server.thrift.TNoSuchEntityException;
+import server.thrift.TWinApiHandbookService;
 
 import java.io.IOException;
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
 import static common.service.ConverterUtils.convert;
+import static java.util.stream.Collectors.toList;
 
-public class ThriftHandbookService implements HandbookService {
+public class ThriftHandbookService implements WinApiHandbookService {
 
-    HandbookThrift.Client client;
+    @Setter
+    TWinApiHandbookService.Iface client;
+
 
     @Setter
     String host;
@@ -29,26 +36,15 @@ public class ThriftHandbookService implements HandbookService {
         TTransport transport = new TFramedTransport(new TSocket(host, port));
 
         TBinaryProtocol protocol = new TBinaryProtocol(transport);
-        client = new HandbookThrift.Client(protocol);
+        client = new TWinApiHandbookService.Client(protocol);
         transport.open();
         System.out.println("Run thrift client");
     }
 
-    public Topic getTopic(long id) {
+    @Override
+    public WinApiClass getTopic(long id) {
         try {
-            return convert(client.getTopic(id));
-        } catch (TException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    public List<Topic> findTopics(String keyword) {
-        try {
-            return client.findTopicsHeaders(keyword)
-                    .stream()
-                    .map(ConverterUtils::convert)
-                    .collect(toList());
+            return convert(client.getClass(id));
         } catch (TException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -56,31 +52,44 @@ public class ThriftHandbookService implements HandbookService {
     }
 
     @Override
-    public long createTopic(Topic topic) {
+    public List<WinApiClass> findTopics(String keyword) {
         try {
-            return client.createTopic(convert(topic));
+            return client.findClass(keyword).stream().map(ConverterUtils::convert).collect(toList());
         } catch (TException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
 
-    public void updateTopic(Topic topic) {
+    @Override
+    public long createTopic(WinApiClass topic) {
         try {
-            client.updateTopic(convert(topic));
+            return client.createClass(convert(topic));
         } catch (TException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
 
+    @Override
+    public void updateTopic(WinApiClass topic) throws NoSuchEntityException {
+        try {
+            client.updateClass(convert(topic));
+        } catch (TNoSuchEntityException e) {
+            throw new NoSuchEntityException(e.getMessage());
+        } catch (TException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public void removeTopic(long id) {
         try {
-            client.removeTopic(id);
+            client.removeClass(id);
         } catch (TException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
-
 }

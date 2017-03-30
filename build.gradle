@@ -1,16 +1,31 @@
-plugins {
-    id "org.jruyi.thrift" version "0.4.0"
-    id "java"
-    id 'io.franzbecker.gradle-lombok' version '1.8'
+buildscript {
+    repositories {
+        mavenLocal()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "io.franzbecker:gradle-lombok:1.8"
+//        classpath "gradle.plugin.org.jruyi.gradle:thrift-gradle-plugin:0.4.0"
+    }
 }
+
+apply plugin: 'java'
+apply plugin: 'io.franzbecker.gradle-lombok'
+//apply plugin: "org.jruyi.thrift"
 
 group 'rk'
 version '1.0-SNAPSHOT'
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven {
         url = 'file://home/rizhi-kote/Student/labs/winapi-handbook/allLibs'
+    }
+    maven {
+        url 'https://oss.sonatype.org/content/repositories/snapshots/'
     }
 }
 
@@ -25,8 +40,7 @@ dependencies {
 
     compile group: 'org.springframework', name: 'spring-context', version: '4.3.6.RELEASE'
     compile group: 'org.apache.thrift', name: 'libthrift', version: '0.9.3'
-    compile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.8'
-    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.16.14'
+    compile group: 'org.projectlombok', name: 'lombok', version: '1.16.14'
 //    compile group: 'org.projectlombok', name: 'lombok', version: '1.16.14'
 
     compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.8.Final'
@@ -36,18 +50,11 @@ dependencies {
     compile group: 'commons-dbcp', name: 'commons-dbcp', version: '1.2.2'
     compile 'org.springframework.integration:spring-integration-core:4.3.8.RELEASE'
     compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '1.11.0.RELEASE'
-}
+    compile group: 'org.reactfx', name: 'reactfx', version: '2.0-SNAPSHOT'
+    compile group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.0.7'
 
-sourceSets.main.resources.srcDirs += ['src/main/META-INF']
 
-jar {
-
-    def classpath = fileTree(dir: 'allLibs').join(" ")
-    baseName = project.name + '-cp'
-    manifest.attributes 'Main-Class': 'client.gui.WebViewSample', 'Class-Path': classpath
-    metaInf {
-        from('src/main/resources')
-    }
+    compile project('model')
 }
 
 task showMeCache {
@@ -64,8 +71,18 @@ task copyAllDependencies(type: Copy) {
         // Top Level Modules
         def targetPath = changePath(file.path)
         file.path = targetPath
+        if (file.isDirectory()) {
+            println file.path
+            file.exclude()
+        }
     }
     into 'allLibs'
+}
+
+task collectAllJars(type: Copy) {
+    from configurations.compile
+    into 'allJars'
+    into 'build/libs'
 }
 
 //task classpathJar(type: Jar) {
@@ -75,10 +92,9 @@ task copyAllDependencies(type: Copy) {
 //    manifest.attributes 'Class-Path': classpath
 //}
 
-def changePath(path){
+def changePath(path) {
     def matches = path =~ /(.+)\/(.+)\/(.+)\/.+\/(.+)/
     def firstPart = matches[0][1].split("\\.").join("/")
-    println firstPart
     def destination = matches.replaceFirst("$firstPart/\$2/\$3/\$4")
     destination
 }

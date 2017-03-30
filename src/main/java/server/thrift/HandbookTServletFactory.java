@@ -1,10 +1,8 @@
 package server.thrift;
 
+import common.service.WinApiHibernateHandbookService;
 import lombok.Setter;
-import model.HandbookThrift;
-import org.apache.thrift.TProcessor;
 import org.apache.thrift.protocol.TBinaryProtocol;
-import org.apache.thrift.protocol.TProtocolFactory;
 import org.apache.thrift.server.TServlet;
 
 /**
@@ -13,9 +11,9 @@ import org.apache.thrift.server.TServlet;
 public class HandbookTServletFactory {
 
     @Setter
-    HibernateHandbookThriftService handler;
+    TWinApiHandbookHandler handler;
 
     public TServlet createHandbookTServlet(){
-        return new TServlet(new HandbookThrift.Processor<>(handler), new TBinaryProtocol.Factory());
+        return new TServlet(new TWinApiHandbookService.Processor(handler), new TBinaryProtocol.Factory());
     }
 }

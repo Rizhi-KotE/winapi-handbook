@@ -1,9 +1,9 @@
 package server.soap;
 
 import common.service.HandbookSoapService;
-import common.service.Topic;
 import lombok.Setter;
-import server.thrift.TopicRepository;
+import common.service.WinApiClassRepository;
+import model.WinApiClass;
 
 import javax.jws.WebService;
 import java.util.List;
@@ -11,26 +11,26 @@ import java.util.List;
 @WebService(endpointInterface = "common.service.HandbookSoapService")
 public class HandbookSoapServiceImpl implements HandbookSoapService {
     @Setter
-    TopicRepository repository;
+    WinApiClassRepository repository;
 
     @Override
-    public Topic getTopic(long id) {
+    public WinApiClass getTopic(long id) {
         return repository.findOne(id);
     }
 
     @Override
-    public Topic[] findTopics(String keyword) {
-        List<Topic> topics = repository.findByHeaderContaining(keyword);
-        return topics.toArray(new Topic[topics.size()]);
+    public WinApiClass[] findTopics(String keyword) {
+        List<WinApiClass> topics = repository.findByNameContaining(keyword);
+        return topics.toArray(new WinApiClass[topics.size()]);
     }
 
     @Override
-    public long createTopic(Topic topic) {
+    public long createTopic(WinApiClass topic) {
         return repository.save(topic).getId();
     }
 
     @Override
-    public void updateTopic(Topic topic) {
+    public void updateTopic(WinApiClass topic) {
         repository.save(topic);
     }
 

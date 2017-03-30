@@ -1,12 +1,15 @@
 package common.service;
 
+import model.TWinApiClass;
+import model.WinApiClass;
+
 public class ConverterUtils {
 
-    public static Topic convert(model.Topic topic){
-        return new Topic(topic.getId(), topic.getContent(), topic.getHeader());
+    public static WinApiClass convert(model.TWinApiClass topic){
+        return null;
     }
 
-    public static model.Topic convert(Topic topic){
-        return new model.Topic(topic.getId(), topic.getContent(), topic.getHeader());
+    public static TWinApiClass convert(WinApiClass topic){
+        return null;
     }
 }

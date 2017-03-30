@@ -4,7 +4,7 @@ import client.gui.FindTopicsWidget
 import client.service.HandbookSoapAdapter
 import client.service.SoupHandbookServiceFactory
 import client.service.ThriftHandbookService
-import common.service.Topic
+
 import javafx.beans.property.SimpleObjectProperty
 
 beans {
@@ -35,7 +35,7 @@ beans {
 
 
     currentTopicProperty(SimpleObjectProperty) {
-        value = new Topic()
+        value = new WinApiClass()
     }
 
     findView(FindTopicsWidget) { bean ->

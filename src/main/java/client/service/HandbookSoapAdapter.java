@@ -1,8 +1,8 @@
 package client.service;
 
-import common.service.HandbookService;
+import common.service.WinApiHandbookService;
 import common.service.HandbookSoapService;
-import common.service.Topic;
+import model.WinApiClass;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by rizhi-kote on 16.03.17.
  */
-public class HandbookSoapAdapter implements HandbookService {
+public class HandbookSoapAdapter implements WinApiHandbookService {
 
     HandbookSoapService soapService;
 
@@ -23,22 +23,22 @@ public class HandbookSoapAdapter implements HandbookService {
     }
 
     @Override
-    public Topic getTopic(long id) {
+    public WinApiClass getTopic(long id) {
         return soapService.getTopic(id);
     }
 
     @Override
-    public List<Topic> findTopics(String keyword) {
+    public List<WinApiClass> findTopics(String keyword) {
         return Arrays.asList(soapService.findTopics(keyword));
     }
 
     @Override
-    public long createTopic(Topic topic) {
+    public long createTopic(WinApiClass topic) {
         return soapService.createTopic(topic);
     }
 
     @Override
-    public void updateTopic(Topic topic) {
+    public void updateTopic(WinApiClass topic) {
         soapService.updateTopic(topic);
     }
 
