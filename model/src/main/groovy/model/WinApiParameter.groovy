@@ -8,12 +8,12 @@ import javax.persistence.OneToOne
 
 @Entity
 @Canonical
-public class WinApiParameter {
+class WinApiParameter {
     @Id
-    Long id;
+    Long id
 
     @OneToOne
-    WinApiClass type;
+    WinApiClass type
 
-    String name;
+    String name
 }

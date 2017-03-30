@@ -11,14 +11,14 @@ import javax.persistence.OneToMany
 class WinApiFunction {
 
     @Id
-    Long id;
+    Long id
 
-    String name;
+    String name
 
-    String description;
+    String description
 
-    String example;
+    String example
 
     @OneToMany
-    List<String> params;
+    List<String> params
 }

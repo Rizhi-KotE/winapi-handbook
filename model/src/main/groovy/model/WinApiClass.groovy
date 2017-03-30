@@ -13,14 +13,14 @@ import model.WinApiFunction;
 @TupleConstructor
 class WinApiClass {
     @Id
-    Long id;
+    Long id
 
-    String name;
+    String name
 
-    String description;
+    String description
 
-    String example;
+    String example
 
     @OneToMany
-    List<WinApiFunction> functions;
+    List<WinApiFunction> functions
 }

@@ -12,7 +12,6 @@ beans {
     }
 
     classCreateForm(ClassCreateForm, reactor) { bean ->
-        bean.initMethod = 'setup'
         bean.methodOverrides = new MethodOverrides()
         bean.methodOverrides.addOverride(new LookupOverride('functionCreateForm', 'functionCreateForm'))
     }

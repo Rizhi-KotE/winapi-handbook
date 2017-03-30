@@ -1,6 +1,5 @@
 package client.gui;
 
-import io.reactivex.subscribers.TestSubscriber;
 import javafx.event.ActionEvent;
 import model.WinApiClass;
 import model.WinApiFunction;
@@ -10,22 +9,22 @@ import org.junit.Test;
 import org.springframework.context.support.GenericGroovyApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 
-import java.util.Optional;
-
 import static java.util.Arrays.asList;
-import static java.util.Optional.ofNullable;
+import static org.junit.Assert.assertEquals;
 
 public class ClassCreateFormTest {
     @Rule
     public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
     private ClassCreateForm bean;
     private WinApiHandbookReactor reactor;
+    private FunctionCreateForm functionCreate;
 
     @Before
     public void setUp() throws Exception {
         GenericGroovyApplicationContext context = new GenericGroovyApplicationContext(new ClassPathResource("ClassCreateFormTestContext.groovy"));
-        bean = context.getBean(ClassCreateForm.class);
+        bean = context.getBean("classCreateForm", ClassCreateForm.class);
         reactor = context.getBean(WinApiHandbookReactor.class);
+        functionCreate = context.getBean(FunctionCreateForm.class);
     }
 
     @Test
@@ -33,14 +32,24 @@ public class ClassCreateFormTest {
 
         WinApiFunction function1 = new WinApiFunction(1l, "function", "", "", asList("", ""));
         WinApiFunction function = new WinApiFunction(1l, "function", "", "", asList("", ""));
-        WinApiClass winApiClass = new WinApiClass(1l, "", "", "", asList(function, function1));
+        WinApiClass winApiClass = new WinApiClass(1l, "class1", "", "", asList(function, function1));
 
+        WinApiClass[] winApiClasses = new WinApiClass[1];
+        reactor.getClassEventSource().subscribe(winApiClass1 -> winApiClasses[0] = winApiClass1);
         reactor.getClassEventSource().push(winApiClass);
 
-        TestSubscriber<WinApiClass> testSubscriber = new TestSubscriber<>();
+
+        assertEquals("class1", winApiClasses[0].getName());
+
+        bean.nameField.setText("class2");
         bean.submit.push(new ActionEvent());
-        reactor.getClassEventSource().
-reactor.getClassEventSource().subscribe(testSubscriber);
-        testSubscriber.assertResult(winApiClass);
+
+        assertEquals("class2", winApiClasses[0].getName());
+
+    }
+
+    @Test
+    public void testEditFunction() throws Exception {
+
     }
 }
