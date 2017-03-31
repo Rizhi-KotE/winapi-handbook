@@ -46,24 +46,24 @@ public class ConverterUtilsTest {
                 )));
         WinApiClass winApiClass = ConverterUtils.convert(tClass);
 
-        assertEquals(tClass.getId(), winApiClassgetId());
-        assertEquals(tClass.getName(), winApiClassgetName());
-        assertEquals(tClass.getDescription(), winApiClassgetDescription());
-        assertEquals(tClass.getExample(), winApiClassgetExample());
+        assertEquals(tClass.getId(), winApiClass.getId());
+        assertEquals(tClass.getName(), winApiClass.getName());
+        assertEquals(tClass.getDescription(), winApiClass.getDescription());
+        assertEquals(tClass.getExample(), winApiClass.getExample());
 
         WinApiFunction winApiFunction = winApiClass.getFunctions().get(0);
         TWinApiFunction tWinApiFunction = tClass.getFunctions().get(0);
 
-        assertEquals(tWinApiFunction.getId(),          winApiFunctiongetId());
-        assertEquals(tWinApiFunction.getName(),        winApiFunctiongetName());
-        assertEquals(tWinApiFunction.getDescription(), winApiFunctiongetDescription());
-        assertEquals(tWinApiFunction.getExample(),     winApiFunctiongetExample());
+        assertEquals(tWinApiFunction.getId(),          winApiFunction.getId());
+        assertEquals(tWinApiFunction.getName(),        winApiFunction.getName());
+        assertEquals(tWinApiFunction.getDescription(), winApiFunction.getDescription());
+        assertEquals(tWinApiFunction.getExample(),     winApiFunction.getExample());
 
         WinApiParameter winApiParameter = winApiFunction.getParams().get(0);
         TWinApiParams tWinApiParams = tWinApiFunction.getParams().get(0);
 
-        assertEquals(tWinApiParams.getId(),          winApiParametergetId());
-        assertEquals(tWinApiParams.getName(),        winApiParametergetName());
-        assertEquals(tWinApiParams.getType(),        winApiParametergetType());
+        assertEquals(tWinApiParams.getId(),          winApiParameter.getId());
+        assertEquals(tWinApiParams.getName(),        winApiParameter.getName());
+        assertEquals(tWinApiParams.getType(),        winApiParameter.getType());
     }
 }

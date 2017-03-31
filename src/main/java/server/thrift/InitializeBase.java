@@ -2,6 +2,7 @@ package server.thrift;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import common.service.WinApiClassRepository;
+import common.service.WinApiHibernateHandbookService;
 import lombok.Setter;
 import model.WinApiClass;
 import org.springframework.core.io.ClassPathResource;
@@ -16,7 +17,7 @@ import java.util.List;
 public class InitializeBase {
 
     @Setter
-    WinApiClassRepository repository;
+    WinApiHibernateHandbookService repository;
 
     @Setter
     List<String> content;
@@ -26,7 +27,9 @@ public class InitializeBase {
         for (String fileName : content) {
             WinApiClass[] winApiClasses = objectMapper.readValue(new ClassPathResource(fileName).getURL(), WinApiClass[].class);
             for (WinApiClass clazz : winApiClasses) {
-                repository.save(clazz);
+                long winApiClass = repository.createWinApiClass(clazz);
+                WinApiClass winApiClass1 = repository.getWinApiClass(winApiClass);
+                repository.createWinApiClass(winApiClass1);
             }
         }
     }

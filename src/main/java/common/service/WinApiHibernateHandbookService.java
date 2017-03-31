@@ -2,22 +2,29 @@ package common.service;
 
 import common.exception.NoSuchEntityException;
 import model.WinApiClass;
+import model.WinApiFunction;
+import model.WinApiParameter;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static java.util.Optional.ofNullable;
 
+@Transactional
 public class WinApiHibernateHandbookService implements WinApiHandbookService {
 
-    public WinApiHibernateHandbookService(WinApiFunctionRepository functionRepository, WinApiClassRepository classRepository){
+    public WinApiHibernateHandbookService(WinApiFunctionRepository functionRepository, WinApiClassRepository classRepository, WinApiParameterRepository paramsRepository){
 
         this.functionRepository = functionRepository;
         this.classRepository = classRepository;
+        this.paramsRepository = paramsRepository;
     }
 
     final WinApiFunctionRepository functionRepository;
 
     final WinApiClassRepository classRepository;
+
+    final WinApiParameterRepository paramsRepository;
 
     @Override
     public WinApiClass getWinApiClass(long id) {
@@ -31,13 +38,24 @@ public class WinApiHibernateHandbookService implements WinApiHandbookService {
 
     @Override
     public long createWinApiClass(WinApiClass topic) {
+//        for (WinApiFunction f : topic.getFunctions()) {
+//            for (WinApiParameter p : f.getParams()) {
+//                paramsRepository.save(p);
+//            }
+//            functionRepository.save(f);
+//        }
         return classRepository.save(topic).getId();
     }
 
     @Override
     public void updateTopic(WinApiClass topic) throws NoSuchEntityException {
-        ofNullable(classRepository.findOne(topic.getId()))
-                .orElseThrow(() -> new NoSuchEntityException(topic));
+//        for (WinApiFunction f : topic.getFunctions()) {
+//            for (WinApiParameter p : f.getParams()) {
+//                paramsRepository.save(p);
+//            }
+//            functionRepository.save(f);
+//        }
+        classRepository.save(topic).getId();
     }
 
     @Override

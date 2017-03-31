@@ -2,6 +2,8 @@ import common.service.WinApiHibernateHandbookService
 import org.apache.commons.dbcp.BasicDataSource
 import org.springframework.orm.jpa.JpaTransactionManager
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
+import server.EntityManageFactoryFactory
 import server.soap.HandbookSoapPublisher
 import server.soap.HandbookSoapServiceImpl
 
@@ -9,16 +11,12 @@ import server.thrift.InitializeBase
 import server.thrift.TWinApiHandbookHandler
 import server.thrift.ThriftServer
 
+import javax.persistence.EntityManagerFactory
+
 beans {
 
     xmlns([jpa: 'http://www.springframework.org/schema/data/jpa'])
     jpa.'repositories'('base-package': 'common.service')
-
-    initDatabase(InitializeBase) { bean ->
-        bean.initMethod = 'setup'
-        content = ['methods/winApiClasses.json']
-        repository = ref("winApiClassRepository")
-    }
 
     dataSource(BasicDataSource) {
         driverClassName = "org.h2.Driver"
@@ -27,9 +25,15 @@ beans {
         password = ""
     }
 
-    entityManagerFactory(LocalContainerEntityManagerFactoryBean) {
-        dataSource = dataSource
+
+
+    vendorAdapter(HibernateJpaVendorAdapter){
+        generateDdl = true
     }
+
+    entityManagerFactoryFactory(EntityManageFactoryFactory, vendorAdapter, dataSource)
+
+    entityManagerFactory(entityManagerFactoryFactory: 'getObject')
 
     transactionManager(JpaTransactionManager) {
         entityManagerFactory = entityManagerFactory
@@ -37,8 +41,15 @@ beans {
 
     winApiHandbookHibernateService(WinApiHibernateHandbookService,
             ref("winApiFunctionRepository"),
-            ref("winApiClassRepository")
+            ref("winApiClassRepository"),
+            ref("winApiParameterRepository")
     )
+
+    initDatabase(InitializeBase) { bean ->
+        bean.initMethod = 'setup'
+        content = ['methods/winApiClasses.json']
+        repository = winApiHandbookHibernateService
+    }
 
     handbookThriftHandler(TWinApiHandbookHandler, winApiHandbookHibernateService)
 

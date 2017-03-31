@@ -8,12 +8,14 @@ import lombok.Setter;
 import model.TWinApiClass;
 import org.apache.thrift.TException;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static common.service.ConverterUtils.convert;
 import static java.util.stream.Collectors.toList;
 
+@Transactional
 public class TWinApiHandbookHandler implements TWinApiHandbookService.Iface {
     private final WinApiHandbookService service;
 

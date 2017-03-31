@@ -1,23 +1,29 @@
 package model
 
 import groovy.transform.Canonical
+import groovy.transform.EqualsAndHashCode
 import groovy.transform.TupleConstructor
 
 import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.JoinColumn
 import javax.persistence.OneToMany
-import model.WinApiFunction;
+import model.WinApiFunction
+
+import javax.persistence.Table;
 
 @Entity
 @Canonical
 @TupleConstructor
+@EqualsAndHashCode(excludes = "functions")
 class WinApiClass {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue
     long id
 
     String name
@@ -25,28 +31,9 @@ class WinApiClass {
     @Column(length = 1000)
     String description;
 
-//    WinApiClass(){
-//
-//    }
-//
-//    WinApiClass(Long id, String nameText, String desr, String example, List<WinApiFunction> classFunctions) {
-//        this.id = id
-//        this.name = nameText
-//        desrcBlob = desr.bytes
-//        this.example = example
-//        this.functions = classFunctions
-//    }
-//
-//    String getDescription(){
-//        new String(desrcBlob)
-//    }
-//
-//    void setDescription(String s){
-//        desrcBlob = s.bytes
-//    }
-
+    @Column(length = 1000)
     String example
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     List<WinApiFunction> functions
 }
