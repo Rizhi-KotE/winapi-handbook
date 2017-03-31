@@ -1,97 +1,109 @@
 package client.gui;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.WinApiFunction;
+import model.WinApiParameter;
 import org.reactfx.EventSource;
-import org.reactfx.EventStream;
 
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
-import static org.reactfx.EventStreams.combine;
+import static javafx.collections.FXCollections.observableArrayList;
 
 public class FunctionCreateForm extends VBox {
 
-    private final EventSource<WinApiFunction> function;
-    private EventSource<ActionEvent> submit;
-    private TextField nameField;
-    private TextField descriptionField;
-    private EventSource<WinApiFunction> outputFunction;
+    final EventSource<WinApiFunction> function;
+    ObservableList<Node> paramsForms;
+    TextField name;
+    TextField description;
+    long id;
 
     FunctionCreateForm() {
         function = new EventSource<>();
-        submit = new EventSource<>();
-        outputFunction = new EventSource<>();
-        EventStream<String> nameBlock = createNameBlock();
-        EventStream<String> descriptionBlock = createDescriptionBlock();
-        EventStream<List<String>> functionsFields = createFunctionsFields();
-
-        combine(nameBlock, descriptionBlock, functionsFields)
-                .subscribe(t -> {
-                    WinApiFunction winApiFunction =
-                            new WinApiFunction(null, t._1, t._2, "", null);
-                    outputFunction.push(winApiFunction);
-                });
+        paramsForms = observableArrayList();
+        createNameBlock();
+        createDescriptionBlock();
+        createFunctionsParams();
+        id = -1l;
+        createIdBlock();
     }
 
-    private EventStream<String> createNameBlock() {
-        Label name = new Label("Name");
-        nameField = new TextField();
+    private void createNameBlock() {
+        Label label = new Label("Name");
+        name = new TextField();
         function
                 .map(WinApiFunction::getName)
-                .feedTo(nameField.textProperty());
+                .feedTo(name.textProperty());
 
 
-        VBox vBox = new VBox(name, nameField);
+        VBox vBox = new VBox(label, name);
         getChildren().add(vBox);
-
-        return submit.map(actionEvent -> nameField.getText());
     }
 
-    private EventStream<String> createDescriptionBlock() {
-        Label description = new Label("Description");
-        descriptionField = new TextField();
+    private void createDescriptionBlock() {
+        Label label = new Label("Description");
+        description = new TextField();
         function
                 .map(WinApiFunction::getDescription)
-                .feedTo(descriptionField.textProperty());
+                .feedTo(description.textProperty());
 
-        VBox vBox = new VBox(description, descriptionField);
+        VBox vBox = new VBox(label, description);
         getChildren().add(vBox);
-
-        return submit.map(e -> descriptionField.getText());
     }
 
-    private EventStream<List<String>> createFunctionsFields() {
+    private void createFunctionsParams() {
         VBox vBox = new VBox();
+        Button addParam = new Button("addParam");
+        addParam.setOnAction(this::addNewParam);
+
+        paramsForms = vBox.getChildren();
+        VBox vBox1 = new VBox(addParam, vBox);
+
         function
                 .map(WinApiFunction::getParams)
                 .map(f -> f.stream().map(ParamsForm::new).collect(toList()))
                 .subscribe(f -> vBox.getChildren().setAll(f));
+        getChildren().add(vBox1);
+    }
 
-        return submit.map(e -> vBox.getChildren().stream()
+    private void createIdBlock() {
+        function
+                .map(WinApiFunction::getId)
+                .subscribe(l -> id = l);
+    }
+
+    void addNewParam(ActionEvent actionEvent) {
+        WinApiFunction function = getFunction();
+        function.getParams().add(new WinApiParameter(0l, "",""));
+        pushFunction(function);
+    }
+
+    public WinApiFunction getFunction() {
+        List<WinApiParameter> collect = getParams();
+        return new WinApiFunction(id, name.getText(), description.getText(), "", collect);
+    }
+
+    public void pushFunction(WinApiFunction function) {
+        this.function.push(function);
+    }
+
+    List<WinApiParameter> getParams() {
+        return paramsForms.stream()
                 .map(ParamsForm.class::cast)
                 .map(ParamsForm::getParam)
-                .collect(toList()));
+                .collect(toList());
     }
 
-    public void bindSubmit(EventSource<ActionEvent> submit) {
-        submit.subscribe(this.submit::push);
-    }
-
-    public EventSource<WinApiFunction> getFunction() {
-        return outputFunction;
-    }
-
-    static class ParamsForm extends HBox {
-        public ParamsForm(String parameter) {
-        }
-
-        public String getParam() {
-            return null;
-        }
+    List<ParamsForm> getParamsForm() {
+        return paramsForms
+                .stream()
+                .map(ParamsForm.class::cast)
+                .collect(toList());
     }
 }

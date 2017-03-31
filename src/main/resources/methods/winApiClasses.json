@@ -1,0 +1,27 @@
+[
+  {
+    "name": "list",
+    "description": "The STL list class is a template class of sequence containers that maintain their elements in a linear arrangement and allow efficient insertions and deletions at any location within the sequence. The sequence is stored as a bidirectional linked list of elements, each containing a member of some type Type.",
+    "functions": [
+      {
+        "name": "max_size",
+        "description": "Returns the maximum length of a list.",
+        "params": []
+      },
+      {
+        "name": "merge",
+        "description": "Removes the elements from the argument list, inserts them into the target list, and orders the new, combined set of elements in ascending order or in some other specified order.",
+        "params": [
+          {
+            "name": "right",
+            "type": "list<Type, Allocator>& "
+          },
+          {
+            "name": "comp",
+            "type": "Traits"
+          }
+        ]
+      }
+    ]
+  }
+]

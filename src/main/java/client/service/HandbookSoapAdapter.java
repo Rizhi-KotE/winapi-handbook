@@ -23,17 +23,17 @@ public class HandbookSoapAdapter implements WinApiHandbookService {
     }
 
     @Override
-    public WinApiClass getTopic(long id) {
+    public WinApiClass getWinApiClass(long id) {
         return soapService.getTopic(id);
     }
 
     @Override
-    public List<WinApiClass> findTopics(String keyword) {
+    public List<WinApiClass> findClasses(String keyword) {
         return Arrays.asList(soapService.findTopics(keyword));
     }
 
     @Override
-    public long createTopic(WinApiClass topic) {
+    public long createWinApiClass(WinApiClass topic) {
         return soapService.createTopic(topic);
     }
 

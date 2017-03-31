@@ -39,24 +39,24 @@ public class BrowserTest {
 //    }
 //
 //    @Test
-//    public void createTopic() throws Exception {
+//    public void createWinApiClass() throws Exception {
 //        browser.editor.createNewTopic("newTopic");
 //        browser.editor.htmlEditor.setHtmlText("content");
 //        browser.saveTopic(null);
-//        List<WinApiClass> topics = browser.service.findTopics("newTopic");
+//        List<WinApiClass> topics = browser.service.findClasses("newTopic");
 //        assertEquals("content", topics.get(0).getContent());
 //    }
 //
 //    @Test
 //    public void updateTopic() throws Exception {
 //        WinApiClass topic = new WinApiClass(1l, "content", "header");
-//        browser.service.createTopic(topic);
+//        browser.service.createWinApiClass(topic);
 //        browser.currentTopic.setValue(topic);
-//        List<WinApiClass> topics = browser.service.findTopics("");
+//        List<WinApiClass> topics = browser.service.findClasses("");
 //        assertEquals("content", topics.get(0).getContent());
 //        browser.editor.htmlEditor.setHtmlText("changed");
 //        browser.saveTopic(null);
-//        topics = browser.service.findTopics("");
+//        topics = browser.service.findClasses("");
 //        assertEquals("changed", topics.get(0).getContent());
 //    }
 }

@@ -1,5 +1,5 @@
-import client.gui.Browser;
 import client.gui.ClassCreateForm;
+import client.gui.MainWindow;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
@@ -13,8 +13,8 @@ public class StartNewWindow extends Application {
     public void start(Stage stage) throws Exception {
 //        System.setProperty("protocol", "thrift");
         GenericGroovyApplicationContext context =
-                new GenericGroovyApplicationContext(new ClassPathResource("NewWindowContext.groovy"));
-        ClassCreateForm bean = context.getBean(ClassCreateForm.class);
+                new GenericGroovyApplicationContext(new ClassPathResource("ClassCreateFormTestContext.groovy"));
+        MainWindow bean = context.getBean(MainWindow.class);
         stage.setTitle("Web View");
         Scene scene = new Scene(bean, 1030, 500, Color.web("#666970"));
         stage.setScene(scene);

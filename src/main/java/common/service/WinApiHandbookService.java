@@ -6,13 +6,15 @@ import model.WinApiClass;
 import java.util.List;
 
 public interface WinApiHandbookService {
-    WinApiClass getTopic(long id);
+    WinApiClass getWinApiClass(long id);
 
-    List<WinApiClass> findTopics(String keyword);
+    List<WinApiClass> findClasses(String keyword);
 
-    long createTopic(WinApiClass topic);
+    long createWinApiClass(WinApiClass topic);
 
     void updateTopic(WinApiClass topic) throws NoSuchEntityException;
 
     void removeTopic(long id);
+
+
 }

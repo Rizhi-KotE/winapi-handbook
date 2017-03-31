@@ -1,8 +1,7 @@
-import client.gui.Browser
-import client.gui.Editor
-import client.gui.FindTopicsWidget
+import client.gui.FindClassesWidget
 import javafx.beans.property.SimpleObjectProperty
 import common.service.DummyHandbookService
+import model.WinApiClass
 
 beans {
     dummyHandbookService(DummyHandbookService) { bean ->
@@ -14,7 +13,7 @@ beans {
         value = new WinApiClass()
     }
 
-    findView(FindTopicsWidget) { bean ->
+    findView(FindClassesWidget) { bean ->
         bean.initMethod = 'setup'
         findMessage = "find"
         closeMessage = "close"

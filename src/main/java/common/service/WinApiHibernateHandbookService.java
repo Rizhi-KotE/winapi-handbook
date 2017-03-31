@@ -1,7 +1,6 @@
 package common.service;
 
 import common.exception.NoSuchEntityException;
-import lombok.Setter;
 import model.WinApiClass;
 
 import java.util.List;
@@ -10,24 +9,28 @@ import static java.util.Optional.ofNullable;
 
 public class WinApiHibernateHandbookService implements WinApiHandbookService {
 
-    @Setter
-    WinApiFunctionRepository functionRepository;
+    public WinApiHibernateHandbookService(WinApiFunctionRepository functionRepository, WinApiClassRepository classRepository){
 
-    @Setter
-    WinApiClassRepository classRepository;
+        this.functionRepository = functionRepository;
+        this.classRepository = classRepository;
+    }
+
+    final WinApiFunctionRepository functionRepository;
+
+    final WinApiClassRepository classRepository;
 
     @Override
-    public WinApiClass getTopic(long id) {
+    public WinApiClass getWinApiClass(long id) {
         return classRepository.findOne(id);
     }
 
     @Override
-    public List<WinApiClass> findTopics(String keyword) {
+    public List<WinApiClass> findClasses(String keyword) {
         return classRepository.findByNameContaining(keyword);
     }
 
     @Override
-    public long createTopic(WinApiClass topic) {
+    public long createWinApiClass(WinApiClass topic) {
         return classRepository.save(topic).getId();
     }
 

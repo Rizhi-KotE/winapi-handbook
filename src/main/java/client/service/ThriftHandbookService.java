@@ -42,7 +42,7 @@ public class ThriftHandbookService implements WinApiHandbookService {
     }
 
     @Override
-    public WinApiClass getTopic(long id) {
+    public WinApiClass getWinApiClass(long id) {
         try {
             return convert(client.getClass(id));
         } catch (TException e) {
@@ -52,7 +52,7 @@ public class ThriftHandbookService implements WinApiHandbookService {
     }
 
     @Override
-    public List<WinApiClass> findTopics(String keyword) {
+    public List<WinApiClass> findClasses(String keyword) {
         try {
             return client.findClass(keyword).stream().map(ConverterUtils::convert).collect(toList());
         } catch (TException e) {
@@ -62,7 +62,7 @@ public class ThriftHandbookService implements WinApiHandbookService {
     }
 
     @Override
-    public long createTopic(WinApiClass topic) {
+    public long createWinApiClass(WinApiClass topic) {
         try {
             return client.createClass(convert(topic));
         } catch (TException e) {

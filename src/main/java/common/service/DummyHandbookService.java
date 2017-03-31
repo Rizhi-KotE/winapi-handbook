@@ -31,17 +31,17 @@ public class DummyHandbookService implements WinApiHandbookService {
     }
 
     @Override
-    public WinApiClass getTopic(long id) {
+    public WinApiClass getWinApiClass(long id) {
         return topics.get(id);
     }
 
     @Override
-    public List<WinApiClass> findTopics(String keyword) {
+    public List<WinApiClass> findClasses(String keyword) {
         return topics.values().stream().filter(t -> t.getName().contains(keyword)).collect(toList());
     }
 
     @Override
-    public long createTopic(WinApiClass topic) {
+    public long createWinApiClass(WinApiClass topic) {
         long i = topics.size() + 1;
         topic.setId(i);
         topics.put(i, topic);

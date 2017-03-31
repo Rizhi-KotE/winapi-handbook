@@ -35,18 +35,18 @@ public class EditorTest {
 //        editor.createNewTopic("header");
 //        editor.htmlEditor.setHtmlText("content2");
 //        editor.saveTopic();
-//        List<WinApiClass> header = editor.service.findTopics("header");
+//        List<WinApiClass> header = editor.service.findClasses("header");
 //        assertEquals("content2", header.get(0).getContent());
 //    }
 //
 //    @Test
 //    public void changeTopic() throws Exception {
 //        WinApiClass topic = new WinApiClass(1l, "content", "header");
-//        editor.service.createTopic(topic);
+//        editor.service.createWinApiClass(topic);
 //        editor.currentTopic.setValue(topic);
 //        editor.htmlEditor.setHtmlText("changed");
 //        editor.saveTopic();
-//        List<WinApiClass> header = editor.service.findTopics("header");
+//        List<WinApiClass> header = editor.service.findClasses("header");
 //        assertEquals("changed", header.get(0).getContent());
 //    }
 //
