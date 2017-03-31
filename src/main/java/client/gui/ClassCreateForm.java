@@ -90,7 +90,7 @@ public abstract class ClassCreateForm extends VBox {
 
     WinApiClass getWinApiClass() {
         return new WinApiClass(
-                null,
+                0,
                 name.getText(),
                 "",
                 description.getText(),

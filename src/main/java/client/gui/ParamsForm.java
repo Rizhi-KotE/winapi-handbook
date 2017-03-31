@@ -29,6 +29,6 @@ class ParamsForm extends HBox {
     }
 
     WinApiParameter getParam() {
-        return new WinApiParameter(null, "", param.getText());
+        return new WinApiParameter(0, "", param.getText());
     }
 }

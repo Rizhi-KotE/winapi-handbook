@@ -18,7 +18,7 @@ import model.WinApiFunction;
 class WinApiClass {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    Long id
+    long id
 
     String name
 

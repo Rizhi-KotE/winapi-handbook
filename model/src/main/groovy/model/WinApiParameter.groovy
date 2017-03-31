@@ -13,7 +13,7 @@ import javax.persistence.OneToOne
 class WinApiParameter {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    Long id
+    long id
 
     String type
 

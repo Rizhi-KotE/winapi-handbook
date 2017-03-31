@@ -75,7 +75,7 @@ public class ClassCreateFormTest {
         FunctionCreateForm form = new FunctionCreateForm();
         form.pushFunction(new WinApiFunction(1l, "name", "desc", "example", new ArrayList<>()));
 
-        assertEquals(1l, form.getFunction().getId().longValue());
+        assertEquals(1l, form.getFunction().getId());
         assertEquals("name", form.getFunction().getName());
         assertEquals("desc", form.getFunction().getDescription());
 // have not implements
@@ -88,7 +88,7 @@ public class ClassCreateFormTest {
         form.paramsForms.addAll(new ParamsForm(new WinApiParameter(1l,"","param1")),
                 new ParamsForm(new WinApiParameter(1l,"","param2")));
 
-        assertEquals(2, form.getFunction().getId().longValue());
+        assertEquals(2, form.getFunction().getId());
         assertEquals("name2", form.getFunction().getName());
         assertEquals("desc2", form.getFunction().getDescription());
         assertEquals(2, form.getFunction().getParams().size());

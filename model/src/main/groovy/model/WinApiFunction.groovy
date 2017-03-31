@@ -16,7 +16,7 @@ class WinApiFunction {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    Long id
+    long id
 
     String name
 
