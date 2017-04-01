@@ -44,7 +44,8 @@ public class WinApiHibernateHandbookService implements WinApiHandbookService {
 //            }
 //            functionRepository.save(f);
 //        }
-        return classRepository.save(topic).getId();
+      return   classRepository.saveAndFlush(topic).getId();
+//        return classRepository.save(topic).getId();
     }
 
     @Override

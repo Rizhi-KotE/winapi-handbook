@@ -22,10 +22,15 @@ public abstract class ClassCreateForm extends VBox {
     VBox functionForms;
     TextField description;
     TextField name;
+    long id;
 
     ClassCreateForm(WinApiHandbookReactor reactor) {
         this.reactor = reactor;
         winApiClass = new EventSource<>();
+
+        winApiClass
+                .map(WinApiClass::getId)
+                .subscribe(e -> id = e);
         reactor.getClassEventSource().feedTo(winApiClass);
         createNameBlock();
         createDescriptionBlock();
@@ -90,7 +95,7 @@ public abstract class ClassCreateForm extends VBox {
 
     WinApiClass getWinApiClass() {
         return new WinApiClass(
-                0,
+                id,
                 name.getText(),
                 "",
                 description.getText(),

@@ -38,12 +38,12 @@ public class ClassCreateFormTest {
     @Test
     public void pushClassObject() throws Exception {
 
-        WinApiFunction function1 = new WinApiFunction(1l,
+        WinApiFunction function = new WinApiFunction(1,
                 "functionForms",
                 "",
                 "", emptyList());
-        WinApiFunction function = new WinApiFunction(1l, "functionForms", "", "", emptyList());
-        WinApiClass winApiClass = new WinApiClass(1l, "class1", "", "", asList(function, function1));
+        WinApiFunction function1 = new WinApiFunction(2, "functionForms", "", "", emptyList());
+        WinApiClass winApiClass = new WinApiClass(1, "class1", "", "", asList(function, function1));
 
         bean.pushClass(winApiClass);
 
@@ -53,6 +53,14 @@ public class ClassCreateFormTest {
         bean.submit(new ActionEvent());
 
         assertEquals("class2", bean.getWinApiClass().getName());
+        assertEquals(1, bean.getWinApiClass().getId());
+
+        WinApiFunction winApiFunction = bean.getWinApiClass().getFunctions().get(0);
+
+        assertEquals(1, winApiFunction.getId());
+        winApiFunction = bean.getWinApiClass().getFunctions().get(1);
+        assertEquals(2, winApiFunction.getId());
+
 
     }
 
@@ -85,21 +93,23 @@ public class ClassCreateFormTest {
         form.id = 2l;
         form.name.setText("name2");
         form.description.setText("desc2");
-        form.paramsForms.addAll(new ParamsForm(new WinApiParameter(1l,"","param1")),
-                new ParamsForm(new WinApiParameter(1l,"","param2")));
+        form.paramsForms.addAll(new ParamsForm(new WinApiParameter(1, "", "param1")),
+                new ParamsForm(new WinApiParameter(2, "", "param2")));
 
         assertEquals(2, form.getFunction().getId());
         assertEquals("name2", form.getFunction().getName());
         assertEquals("desc2", form.getFunction().getDescription());
         assertEquals(2, form.getFunction().getParams().size());
         assertEquals("param1", form.getFunction().getParams().get(0).getName());
+        assertEquals(1, form.getFunction().getParams().get(0).getId());
         assertEquals("param2", form.getFunction().getParams().get(1).getName());
+        assertEquals(2, form.getFunction().getParams().get(1).getId());
     }
 
     @Test
     public void addNewParam() throws Exception {
 
-        WinApiFunction function = new WinApiFunction(1l, "function", "", "", new ArrayList<>());
+        WinApiFunction function = new WinApiFunction(1, "function", "", "", new ArrayList<>());
 
         functionCreate.pushFunction(function);
 
@@ -109,9 +119,11 @@ public class ClassCreateFormTest {
 
         assertEquals(1, functionCreate.getParams().size());
 
-        functionCreate.getParamsForm().get(0).pushParameter(new WinApiParameter(1l,"","param2"));
+        ((ParamsForm) functionCreate.paramsForms
+                .get(0))
+                .pushParameter(new WinApiParameter(1, "", "param2"));
 
-        assertEquals("param", functionCreate.getParams().get(0).getName());
+        assertEquals("param2", functionCreate.getParams().get(0).getName());
     }
 
     @Test

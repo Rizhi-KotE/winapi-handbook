@@ -8,10 +8,14 @@ import org.reactfx.EventSource;
 class ParamsForm extends HBox {
     final EventSource<WinApiParameter> parameter;
     TextField param;
+    long id;
 
     ParamsForm(WinApiParameter parameter) {
 
         this.parameter = new EventSource<>();
+        this.parameter
+                .map(WinApiParameter::getId)
+                .subscribe(e -> id = e);
         crateForm();
         pushParameter(parameter);
     }
@@ -29,6 +33,6 @@ class ParamsForm extends HBox {
     }
 
     WinApiParameter getParam() {
-        return new WinApiParameter(0, "", param.getText());
+        return new WinApiParameter(id, "", param.getText());
     }
 }
