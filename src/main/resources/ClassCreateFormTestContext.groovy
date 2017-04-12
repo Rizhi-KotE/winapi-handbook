@@ -10,7 +10,7 @@ import org.springframework.beans.factory.support.LookupOverride
 import org.springframework.beans.factory.support.MethodOverrides
 
 beans {
-//    dummyHandbookService(DummyHandbookService) { bean ->
+//    handbookService(DummyHandbookService) { bean ->
 //        bean.initMethod = 'setup'
 //        files = new HashMap<>()
 //        topics = [1l: new WinApiClass(1l,"class1", "","",[])]

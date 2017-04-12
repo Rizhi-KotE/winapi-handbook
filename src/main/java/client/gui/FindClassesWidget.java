@@ -24,7 +24,6 @@ public class FindClassesWidget extends VBox {
 
     final EventSource<List<WinApiClass>> classes;
     final WinApiHandbookReactor reactor;
-    TextField search;
     ListView<WinApiClass> classesView;
 
     public FindClassesWidget(WinApiHandbookReactor reactor) {
@@ -33,18 +32,7 @@ public class FindClassesWidget extends VBox {
         this.reactor
                 .getListEventSource()
                 .subscribe(this::pushClasses);
-        reactor.getUpdateEventSource().subscribe(this::find);
-        createSearchLine();
         createClassList();
-    }
-
-    private void createSearchLine() {
-        search = new TextField();
-        search.setPromptText("write class name");
-        Button button = new Button("search");
-        button.setOnAction(this::find);
-        HBox hBox = new HBox(search, button);
-        getChildren().add(hBox);
     }
 
     private void createClassList() {
@@ -70,10 +58,6 @@ public class FindClassesWidget extends VBox {
     void chooseClass(WinApiClass s) {
         reactor.getEditEventSource().push(new ActionEvent());
         reactor.pushClass(s);
-    }
-
-    void find(ActionEvent actionEvent) {
-        reactor.search(search.getText());
     }
 
     List<WinApiClass> getClasses() {

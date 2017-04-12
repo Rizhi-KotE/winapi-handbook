@@ -24,6 +24,7 @@ public class WinApiHandbookReactor {
     EventSource<ActionEvent> editEventSource = new EventSource<>();
     EventSource<ActionEvent> findEventSource = new EventSource<>();
     EventSource<ActionEvent> updateEventSource = new EventSource<>();
+    EventSource<ActionEvent> refreshEventSource = new EventSource<>();
 
 
     public void pushClass(WinApiClass winApiClass) {
@@ -37,5 +38,10 @@ public class WinApiHandbookReactor {
     public void save(WinApiClass winApiClass) {
         service.createWinApiClass(winApiClass);
         updateEventSource.push(new ActionEvent());
+    }
+
+    public void delete(WinApiClass winApiClass) {
+        service.removeTopic(winApiClass.getId());
+        refreshEventSource.push(new ActionEvent());
     }
 }

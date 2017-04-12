@@ -20,7 +20,7 @@ import javax.persistence.Table;
 @Entity
 @Canonical
 @TupleConstructor
-@EqualsAndHashCode(excludes = "functions")
+@EqualsAndHashCode(excludes = ["functions", "id"])
 class WinApiClass {
     @Id
     @GeneratedValue

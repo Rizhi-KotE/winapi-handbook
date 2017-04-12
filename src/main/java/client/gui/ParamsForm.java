@@ -1,5 +1,6 @@
 package client.gui;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import model.WinApiParameter;
@@ -9,6 +10,7 @@ class ParamsForm extends HBox {
     final EventSource<WinApiParameter> parameter;
     TextField param;
     long id;
+    private Runnable o;
 
     ParamsForm(WinApiParameter parameter) {
 
@@ -25,7 +27,10 @@ class ParamsForm extends HBox {
         parameter
                 .map(WinApiParameter::getName)
                 .feedTo(param.textProperty());
-        getChildren().add(param);
+        Button remove = new Button("Remove");
+        remove.setOnAction(e -> o.run());
+        setSpacing(10);
+        getChildren().addAll(param, remove);
     }
 
     void pushParameter(WinApiParameter parameter) {
@@ -34,5 +39,9 @@ class ParamsForm extends HBox {
 
     WinApiParameter getParam() {
         return new WinApiParameter(id, "", param.getText());
+    }
+
+    public void removeAction(Runnable o) {
+        this.o = o;
     }
 }

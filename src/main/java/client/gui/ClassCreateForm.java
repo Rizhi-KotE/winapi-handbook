@@ -1,9 +1,9 @@
 package client.gui;
 
 import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.WinApiClass;
 import model.WinApiFunction;
@@ -19,15 +19,25 @@ public abstract class ClassCreateForm extends VBox {
 
     final WinApiHandbookReactor reactor;
     final EventSource<WinApiClass> winApiClass;
+    private final VBox vBox;
     VBox functionForms;
-    TextField description;
+    TextArea description;
     TextField name;
     long id;
 
     ClassCreateForm(WinApiHandbookReactor reactor) {
+        vBox = new VBox();
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(vBox);
+        scrollPane.setPadding(new Insets(5, 5, 5, 5));
+//        scrollPane.setPrefSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        scrollPane.setPrefSize(640, 480);
+        scrollPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+//        scrollPane.setFitToHeight(true);
+        getChildren().add(scrollPane);
         this.reactor = reactor;
         winApiClass = new EventSource<>();
-
+        setPadding(new Insets(5, 10, 10, 10));
         winApiClass
                 .map(WinApiClass::getId)
                 .subscribe(e -> id = e);
@@ -44,21 +54,21 @@ public abstract class ClassCreateForm extends VBox {
         winApiClass
                 .map(WinApiClass::getName)
                 .feedTo(name.textProperty());
-
-
-        VBox vBox = new VBox(label, name);
-        getChildren().add(vBox);
+        HBox hBox = new HBox(label, name);
+        hBox.setSpacing(10);
+        vBox.getChildren().add(hBox);
     }
 
     void createDescriptionBlock() {
         Label label = new Label("Description");
-        description = new TextField();
+        description = new TextArea();
+        description.setWrapText(true);
         winApiClass
                 .map(WinApiClass::getDescription)
                 .feedTo(description.textProperty());
 
         VBox vBox = new VBox(label, description);
-        getChildren().add(vBox);
+        this.vBox.getChildren().add(vBox);
     }
 
     void createFunctionsFields() {
@@ -67,29 +77,34 @@ public abstract class ClassCreateForm extends VBox {
         addFunction.setOnAction(this::addNewFunction);
 
         VBox vBox = new VBox(addFunction, functionForms);
-        winApiClass.
-                map(WinApiClass::getFunctions)
+        winApiClass
+                .map(WinApiClass::getFunctions)
                 .map(f -> f.stream().map(this::functionCreateForm).collect(toList()))
+                .hook(list -> {
+                    for (int i = 0; i < list.size(); i++) {
+                        int num = i;
+                        list.get(i).removeAction(() -> removeFunction(num));
+                    }
+                })
                 .subscribe(functionForms.getChildren()::setAll);
-        getChildren().add(vBox);
+        this.vBox.getChildren().add(vBox);
     }
 
     void createSaveButton() {
         Button create = new Button("Save");
         create.setOnAction(this::submit);
+        Button delete = new Button("Delete");
+        delete.setOnAction(this::delete);
         Button back = new Button("Back");
         back.setOnAction(this::back);
-        getChildren().addAll(create, back);
+
+        HBox hBox = new HBox(create, delete, back);
+        getChildren().addAll(hBox);
     }
 
-    void back(ActionEvent actionEvent) {
-        reactor.getFindEventSource().push(new ActionEvent());
-    }
-
-    void addNewFunction(ActionEvent e) {
+    void removeFunction(int number) {
         WinApiClass winApiClass = getWinApiClass();
-        winApiClass.getFunctions().add(
-                new WinApiFunction(0l, "", "", "", new ArrayList<>()));
+        winApiClass.getFunctions().remove(number);
         pushClass(winApiClass);
     }
 
@@ -112,6 +127,21 @@ public abstract class ClassCreateForm extends VBox {
                 .map(FunctionCreateForm.class::cast)
                 .map(FunctionCreateForm::getFunction)
                 .collect(toList());
+    }
+
+    private void delete(ActionEvent actionEvent) {
+        reactor.delete(getWinApiClass());
+    }
+
+    void back(ActionEvent actionEvent) {
+        reactor.getFindEventSource().push(new ActionEvent());
+    }
+
+    void addNewFunction(ActionEvent e) {
+        WinApiClass winApiClass = getWinApiClass();
+        winApiClass.getFunctions().add(
+                new WinApiFunction(0l, "", "", "", new ArrayList<>()));
+        pushClass(winApiClass);
     }
 
     void submit(ActionEvent e) {

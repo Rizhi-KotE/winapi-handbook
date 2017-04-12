@@ -5,7 +5,9 @@ import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.WinApiFunction;
 import model.WinApiParameter;
@@ -21,8 +23,9 @@ public class FunctionCreateForm extends VBox {
     final EventSource<WinApiFunction> function;
     ObservableList<Node> paramsForms;
     TextField name;
-    TextField description;
+    TextArea description;
     long id;
+    private Runnable o;
 
     FunctionCreateForm() {
         function = new EventSource<>();
@@ -42,13 +45,17 @@ public class FunctionCreateForm extends VBox {
                 .feedTo(name.textProperty());
 
 
-        VBox vBox = new VBox(label, name);
-        getChildren().add(vBox);
+        Button remove = new Button("Remove");
+        remove.setOnAction(e -> o.run());
+        HBox hBox = new HBox(label, name, remove);
+        hBox.setSpacing(10);
+        getChildren().add(hBox);
     }
 
     private void createDescriptionBlock() {
         Label label = new Label("Description");
-        description = new TextField();
+        description = new TextArea();
+        description.setWrapText(true);
         function
                 .map(WinApiFunction::getDescription)
                 .feedTo(description.textProperty());
@@ -68,6 +75,12 @@ public class FunctionCreateForm extends VBox {
         function
                 .map(WinApiFunction::getParams)
                 .map(f -> f.stream().map(ParamsForm::new).collect(toList()))
+                .hook(list -> {
+                    for (int i = 0; i < list.size(); i++) {
+                        int num = i;
+                        list.get(i).removeAction(() -> removeParam(num));
+                    }
+                })
                 .subscribe(f -> vBox.getChildren().setAll(f));
         getChildren().add(vBox1);
     }
@@ -78,9 +91,9 @@ public class FunctionCreateForm extends VBox {
                 .subscribe(l -> id = l);
     }
 
-    void addNewParam(ActionEvent actionEvent) {
+    void removeParam(int number) {
         WinApiFunction function = getFunction();
-        function.getParams().add(new WinApiParameter(0l, "",""));
+        function.getParams().remove(number);
         pushFunction(function);
     }
 
@@ -100,10 +113,20 @@ public class FunctionCreateForm extends VBox {
                 .collect(toList());
     }
 
+    void addNewParam(ActionEvent actionEvent) {
+        WinApiFunction function = getFunction();
+        function.getParams().add(new WinApiParameter(0l, "", ""));
+        pushFunction(function);
+    }
+
     List<ParamsForm> getParamsForm() {
         return paramsForms
                 .stream()
                 .map(ParamsForm.class::cast)
                 .collect(toList());
+    }
+
+    public void removeAction(Runnable o) {
+        this.o = o;
     }
 }

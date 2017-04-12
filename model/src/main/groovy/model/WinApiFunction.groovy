@@ -16,7 +16,7 @@ import javax.persistence.Table
 
 @Entity
 @Canonical
-@EqualsAndHashCode(excludes = "params")
+@EqualsAndHashCode(excludes = ["id", "params"])
 class WinApiFunction {
 
     @Id

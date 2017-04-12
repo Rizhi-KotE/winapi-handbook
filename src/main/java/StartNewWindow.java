@@ -1,7 +1,8 @@
-import client.gui.ClassCreateForm;
 import client.gui.MainWindow;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.springframework.context.support.GenericGroovyApplicationContext;
@@ -16,7 +17,7 @@ public class StartNewWindow extends Application {
                 new GenericGroovyApplicationContext(new ClassPathResource("ClassCreateFormTestContext.groovy"));
         MainWindow bean = context.getBean(MainWindow.class);
         stage.setTitle("Web View");
-        Scene scene = new Scene(bean, 1030, 500, Color.web("#666970"));
+        Scene scene = new Scene(bean, 640, 480, Color.web("#666970"));
         stage.setScene(scene);
         stage.show();
     }
