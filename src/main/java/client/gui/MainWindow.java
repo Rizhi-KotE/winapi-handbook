@@ -7,12 +7,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.WinApiClass;
-import model.WinApiFunction;
-import model.WinApiParameter;
 
 import java.util.ArrayList;
-
-import static org.codehaus.groovy.runtime.InvokerHelper.asList;
 
 public class MainWindow extends VBox {
 

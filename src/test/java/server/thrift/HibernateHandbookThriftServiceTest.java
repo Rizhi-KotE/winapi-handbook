@@ -43,37 +43,42 @@ public class HibernateHandbookThriftServiceTest {
         DbTestUtil.resetAutoIncrementColumns(applicationContext, "topics");
     }
 
-    @Test
-    @DatabaseSetup(value = "datasets/getContentDataSet.xml")
-    public void getContent() throws Exception {
-        String name = service.getWinApiClass(1l).getName();
-        assertEquals("class", name);
-    }
+//    @Test
+//    @DatabaseSetup(value = "datasets/getContentDataSet.xml")
+//    public void getContent() throws Exception {
+//        String name = service.getWinApiClass(1l).getName();
+//        assertEquals("class", name);
+//    }
+//
+//    @Test
+//    @DatabaseSetup("classpath:datasets/sampleData.xml")
+//    @ExpectedDatabase(value = "classpath:datasets/createTopicExpectedDataSet.xml")
+//    public void createTopic() throws Exception {
+//        service.createWinApiClass(new WinApiClass(
+//                0l, "class", "", "",
+//                asList(new WinApiFunction())
+//        ));
+//    }
+//
+//    @Test
+//    @DatabaseSetup("classpath:datasets/sampleData.xml")
+//    @ExpectedDatabase("classpath:datasets/updateTopicExpected.xml")
+//    public void updateTopic() throws Exception {
+//        WinApiClass winApiClass = service.getWinApiClass(1l);
+//        winApiClass.setName("updated");
+//        service.updateTopic(winApiClass);
+//    }
+//
+//    @Test
+//    @DatabaseSetup("classpath:datasets/sampleData.xml")
+//    @ExpectedDatabase("classpath:datasets/removeTopicExpected.xml")
+//    public void removeTopic() throws Exception {
+//        service.removeTopic(1l);
+//    }
 
     @Test
-    @DatabaseSetup("classpath:datasets/sampleData.xml")
-    @ExpectedDatabase(value = "classpath:datasets/createTopicExpectedDataSet.xml")
-    public void createTopic() throws Exception {
-        service.createWinApiClass(new WinApiClass(
-                0l, "class", "", "",
-                asList(new WinApiFunction())
-        ));
-    }
-
-    @Test
-    @DatabaseSetup("classpath:datasets/sampleData.xml")
-    @ExpectedDatabase("classpath:datasets/updateTopicExpected.xml")
-    public void updateTopic() throws Exception {
-        WinApiClass winApiClass = service.getWinApiClass(1l);
-        winApiClass.setName("updated");
-        service.updateTopic(winApiClass);
-    }
-
-    @Test
-    @DatabaseSetup("classpath:datasets/sampleData.xml")
-    @ExpectedDatabase("classpath:datasets/removeTopicExpected.xml")
-    public void removeTopic() throws Exception {
-        service.removeTopic(1l);
+    public void testClassCreate() throws Exception {
+        new WinApiClass()
     }
 
 //    @Test

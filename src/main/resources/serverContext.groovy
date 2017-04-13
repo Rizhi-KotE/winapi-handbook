@@ -1,33 +1,33 @@
 import common.service.WinApiHibernateHandbookService
 import org.apache.commons.dbcp.BasicDataSource
 import org.springframework.orm.jpa.JpaTransactionManager
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
 import server.EntityManageFactoryFactory
-import server.soap.HandbookSoapPublisher
-import server.soap.HandbookSoapServiceImpl
-
 import server.thrift.InitializeBase
 import server.thrift.TWinApiHandbookHandler
 import server.thrift.ThriftServer
-
-import javax.persistence.EntityManagerFactory
 
 beans {
 
     xmlns([jpa: 'http://www.springframework.org/schema/data/jpa'])
     jpa.'repositories'('base-package': 'common.service')
 
+//    dataSource(BasicDataSource) {
+//        driverClassName = "org.h2.Driver"
+//        url = "jdbc:h2:mem:grailsDB"
+//        username = "sa"
+//        password = ""
+//    }
+
     dataSource(BasicDataSource) {
-        driverClassName = "org.h2.Driver"
-        url = "jdbc:h2:mem:grailsDB"
-        username = "sa"
-        password = ""
+        driverClassName = "com.mysql.jdbc.Driver"
+        url = "jdbc:mysql://localhost:3306/winapi_handbook?useUnicode=true&characterEncoding=utf8"
+        username = "root"
+        password = "1"
     }
 
 
-
-    vendorAdapter(HibernateJpaVendorAdapter){
+    vendorAdapter(HibernateJpaVendorAdapter) {
         generateDdl = true
     }
 
@@ -53,7 +53,7 @@ beans {
 
     handbookThriftHandler(TWinApiHandbookHandler, winApiHandbookHibernateService)
 
-    thriftServer(ThriftServer){
+    thriftServer(ThriftServer) {
         handler = handbookThriftHandler
         port = 9090
     }
