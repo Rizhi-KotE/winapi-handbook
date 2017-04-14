@@ -7,7 +7,7 @@ import org.springframework.beans.factory.support.MethodOverrides
 beans {
     reactor(WinApiHandbookReactor)
 
-    functionCreateForm(FunctionCreateForm){
+    functionCreateForm(FunctionCreateForm, reactor){
         bean -> bean.scope = 'prototype'
     }
 

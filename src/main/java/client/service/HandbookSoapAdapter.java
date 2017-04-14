@@ -37,7 +37,7 @@ public class HandbookSoapAdapter implements WinApiHandbookService {
     }
 
     @Override
-    public void saveOrUpdateFunction(WinApiFunction function) throws HandbookException {
+    public void updateFunction(WinApiFunction function) throws HandbookException {
 
     }
 
@@ -47,7 +47,7 @@ public class HandbookSoapAdapter implements WinApiHandbookService {
     }
 
     @Override
-    public void saveOrUpdateParameter(WinApiParameter parameter) throws HandbookException {
+    public void updateParam(WinApiParameter parameter) throws HandbookException {
 
     }
 

@@ -53,12 +53,12 @@ public interface WinApiHandbookService {
     void removeClass(long id) throws HandbookException;
 
     /**
-     * Save function instance or update if class's id not equal 0
+     * Update function
      *
      * @param function
      * @throws HandbookException
      */
-    void saveOrUpdateFunction(WinApiFunction function) throws HandbookException;
+    void updateFunction(WinApiFunction function) throws HandbookException;
 
     /**
      * Remove existence function and all nested instances
@@ -69,12 +69,12 @@ public interface WinApiHandbookService {
     void removeWinApiFunction(long id) throws HandbookException;
 
     /**
-     * Save parameter instance or update if class's id not equal 0
+     * Update parameter
      *
      * @param parameter
      * @throws HandbookException
      */
-    void saveOrUpdateParameter(WinApiParameter parameter) throws HandbookException;
+    void updateParam(WinApiParameter parameter) throws HandbookException;
 
     /**
      * Remove existence parameter and all nested instances

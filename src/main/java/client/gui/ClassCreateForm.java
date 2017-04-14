@@ -104,7 +104,8 @@ public abstract class ClassCreateForm extends VBox {
 
     void removeFunction(int number) {
         WinApiClass winApiClass = getWinApiClass();
-        winApiClass.getFunctions().remove(number);
+        WinApiFunction function = winApiClass.getFunctions().get(number);
+        reactor.removeFunction(function);
         pushClass(winApiClass);
     }
 

@@ -90,7 +90,7 @@ public class ThriftHandbookService implements WinApiHandbookService {
     }
 
     @Override
-    public void saveOrUpdateFunction(WinApiFunction function) throws HandbookException {
+    public void updateFunction(WinApiFunction function) throws HandbookException {
         try {
             client.updateFunction(convert(function));
         } catch (TException e) {
@@ -108,7 +108,7 @@ public class ThriftHandbookService implements WinApiHandbookService {
     }
 
     @Override
-    public void saveOrUpdateParameter(WinApiParameter parameter) throws HandbookException {
+    public void updateParam(WinApiParameter parameter) throws HandbookException {
         try {
             client.updateParameter(convert(parameter));
         } catch (TException e) {

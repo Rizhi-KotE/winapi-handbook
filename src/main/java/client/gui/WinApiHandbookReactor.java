@@ -6,6 +6,8 @@ import javafx.event.ActionEvent;
 import lombok.Getter;
 import lombok.Setter;
 import model.WinApiClass;
+import model.WinApiFunction;
+import model.WinApiParameter;
 import org.reactfx.EventSource;
 
 import java.util.List;
@@ -52,6 +54,24 @@ public class WinApiHandbookReactor {
     public void delete(WinApiClass winApiClass) {
         try {
             service.removeClass(winApiClass.getId());
+            refreshEventSource.push(new ActionEvent());
+        } catch (HandbookException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeFunction(WinApiFunction function) {
+        try {
+            service.removeClass(function.getId());
+            refreshEventSource.push(new ActionEvent());
+        } catch (HandbookException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeParameter(WinApiParameter winApiParameter) {
+        try {
+            service.removeClass(winApiParameter.getId());
             refreshEventSource.push(new ActionEvent());
         } catch (HandbookException e) {
             e.printStackTrace();

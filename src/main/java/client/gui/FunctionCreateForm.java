@@ -21,13 +21,15 @@ import static javafx.collections.FXCollections.observableArrayList;
 public class FunctionCreateForm extends VBox {
 
     final EventSource<WinApiFunction> function;
+    private final WinApiHandbookReactor reactor;
     ObservableList<Node> paramsForms;
     TextField name;
     TextArea description;
     long id;
     private Runnable o;
 
-    FunctionCreateForm() {
+    FunctionCreateForm(WinApiHandbookReactor reactor) {
+        this.reactor = reactor;
         function = new EventSource<>();
         paramsForms = observableArrayList();
         createNameBlock();
@@ -93,8 +95,8 @@ public class FunctionCreateForm extends VBox {
 
     void removeParam(int number) {
         WinApiFunction function = getFunction();
-        function.getParams().remove(number);
-        pushFunction(function);
+        WinApiParameter winApiParameter = function.getParams().get(number);
+        reactor.removeParameter(winApiParameter);
     }
 
     public WinApiFunction getFunction() {

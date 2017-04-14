@@ -80,7 +80,7 @@ public class ClassCreateFormTest {
 
     @Test
     public void testEditFunction() throws Exception {
-        FunctionCreateForm form = new FunctionCreateForm();
+        FunctionCreateForm form = new FunctionCreateForm(null);
         form.pushFunction(new WinApiFunction(1l, "name", "desc",  new ArrayList<>()));
 
         assertEquals(1l, form.getFunction().getId());

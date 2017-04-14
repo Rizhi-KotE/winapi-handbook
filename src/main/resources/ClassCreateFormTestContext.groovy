@@ -22,7 +22,7 @@ beans {
 
     reactor(WinApiHandbookReactor, handbookService)
 
-    functionCreateForm(FunctionCreateForm){
+    functionCreateForm(FunctionCreateForm, reactor){
         bean -> bean.scope = 'prototype'
     }
 

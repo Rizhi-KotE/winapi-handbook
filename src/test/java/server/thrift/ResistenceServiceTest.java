@@ -132,7 +132,7 @@ public class ResistenceServiceTest {
     @ExpectedDatabase("classpath:datasets/updateParameter.xml")
     public void updateParam() throws Exception {
         WinApiParameter winApiParameter = new WinApiParameter(1, "type1", "param1");
-        service.saveOrUpdateParameter(winApiParameter);
+        service.updateParam(winApiParameter);
     }
 
     @Test
@@ -141,7 +141,7 @@ public class ResistenceServiceTest {
     public void updateFunction() throws Exception {
         WinApiParameter winApiParameter = new WinApiParameter(1, "type1", "param1");
         WinApiFunction winApiFunction = new WinApiFunction(1, "func1", "desc1", asList(winApiParameter));
-        service.saveOrUpdateFunction(winApiFunction);
+        service.updateFunction(winApiFunction);
     }
 
     @Test

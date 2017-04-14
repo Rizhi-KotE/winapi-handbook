@@ -82,7 +82,7 @@ public class TWinApiHandbookHandler implements TWinApiHandbookService.Iface {
     public void updateFunction(TWinApiFunction func) throws THandbookException {
         try {
             log.debug(format("Update function [id=%d]", func.getId()));
-            service.saveOrUpdateFunction(convert(func));
+            service.updateFunction(convert(func));
         } catch (HandbookException e) {
             throw new THandbookException(e.getMessage());
         }
@@ -102,7 +102,7 @@ public class TWinApiHandbookHandler implements TWinApiHandbookService.Iface {
     public void updateParameter(TWinApiParams params) throws THandbookException {
         try {
             log.debug(format("Update parameter [id=%d]", params.getId()));
-            service.saveOrUpdateParameter(convert(params));
+            service.updateParam(convert(params));
         } catch (HandbookException e) {
             throw new THandbookException(e.getMessage());
         }
