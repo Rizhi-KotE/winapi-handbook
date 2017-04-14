@@ -40,10 +40,10 @@ public class ClassCreateFormTest {
 
         WinApiFunction function = new WinApiFunction(1,
                 "functionForms",
-                "",
+
                 "", emptyList());
-        WinApiFunction function1 = new WinApiFunction(2, "functionForms", "", "", emptyList());
-        WinApiClass winApiClass = new WinApiClass(1, "class1", "", "", asList(function, function1));
+        WinApiFunction function1 = new WinApiFunction(2, "functionForms", "",  emptyList());
+        WinApiClass winApiClass = new WinApiClass(1, "class1", "", asList(function, function1));
 
         bean.pushClass(winApiClass);
 
@@ -67,7 +67,7 @@ public class ClassCreateFormTest {
     @Test
     public void addNewFunction() throws Exception {
 
-        WinApiClass winApiClass = new WinApiClass(1l, "class1", "", "", new ArrayList<>());
+        WinApiClass winApiClass = new WinApiClass(1l, "class1", "",  new ArrayList<>());
 
         bean.pushClass(winApiClass);
 
@@ -81,7 +81,7 @@ public class ClassCreateFormTest {
     @Test
     public void testEditFunction() throws Exception {
         FunctionCreateForm form = new FunctionCreateForm();
-        form.pushFunction(new WinApiFunction(1l, "name", "desc", "example", new ArrayList<>()));
+        form.pushFunction(new WinApiFunction(1l, "name", "desc",  new ArrayList<>()));
 
         assertEquals(1l, form.getFunction().getId());
         assertEquals("name", form.getFunction().getName());
@@ -109,7 +109,7 @@ public class ClassCreateFormTest {
     @Test
     public void addNewParam() throws Exception {
 
-        WinApiFunction function = new WinApiFunction(1, "function", "", "", new ArrayList<>());
+        WinApiFunction function = new WinApiFunction(1, "function", "", new ArrayList<>());
 
         functionCreate.pushFunction(function);
 
@@ -130,8 +130,8 @@ public class ClassCreateFormTest {
     public void classesList() throws Exception {
 
         List<WinApiClass> winApiClasses = asList(
-                new WinApiClass(1l, "class1", "", "", new ArrayList<>()),
-                new WinApiClass(2l, "class2", "", "", new ArrayList<>()));
+                new WinApiClass(1l, "class1", "",  new ArrayList<>()),
+                new WinApiClass(2l, "class2", "",  new ArrayList<>()));
 
 
         find.pushClasses(winApiClasses);
@@ -145,8 +145,8 @@ public class ClassCreateFormTest {
     public void chooseClass() throws Exception {
 
         List<WinApiClass> winApiClasses = asList(
-                new WinApiClass(1l, "class1", "", "", new ArrayList<>()),
-                new WinApiClass(2l, "class2", "", "", new ArrayList<>()));
+                new WinApiClass(1l, "class1", "",  new ArrayList<>()),
+                new WinApiClass(2l, "class2", "",  new ArrayList<>()));
 
 
         find.pushClasses(winApiClasses);

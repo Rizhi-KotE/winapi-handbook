@@ -2,15 +2,12 @@ package server.thrift;
 
 import common.exception.NoSuchEntityException;
 import common.service.ConverterUtils;
-import common.service.WinApiClassRepository;
 import common.service.WinApiHandbookService;
-import lombok.Setter;
 import model.TWinApiClass;
 import org.apache.thrift.TException;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static common.service.ConverterUtils.convert;
 import static java.util.stream.Collectors.toList;

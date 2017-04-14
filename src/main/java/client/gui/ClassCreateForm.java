@@ -112,7 +112,6 @@ public abstract class ClassCreateForm extends VBox {
         return new WinApiClass(
                 id,
                 name.getText(),
-                "",
                 description.getText(),
                 getClassFunctions());
     }
@@ -140,7 +139,7 @@ public abstract class ClassCreateForm extends VBox {
     void addNewFunction(ActionEvent e) {
         WinApiClass winApiClass = getWinApiClass();
         winApiClass.getFunctions().add(
-                new WinApiFunction(0l, "", "", "", new ArrayList<>()));
+                new WinApiFunction(0l, "", "",  new ArrayList<>()));
         pushClass(winApiClass);
     }
 

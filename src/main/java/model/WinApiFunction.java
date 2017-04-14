@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"id", "params"})
+@Table(name = "WINAPI_FUNCTION")
 public class WinApiFunction {
 
     @Id
@@ -21,13 +22,9 @@ public class WinApiFunction {
 
     String name;
 
-    @Column(length = 1000)
     String description;
 
-
-    @Column(length = 1000)
-    String example;
-
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "function_id")
     List<WinApiParameter> params;
 }

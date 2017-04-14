@@ -1,0 +1,6 @@
+<!DOCTYPE dataset SYSTEM "test.dtd">
+<dataset>
+    <!--<winapi_class id="1" name="class" description="class_dec"/>-->
+    <!--<winapi_function id="1" name="function" description="func_dec"/>-->
+    <!--&lt;!&ndash;<winapi_parameter id="1" type="type" name="parameter"/>&ndash;&gt;-->
+</dataset>

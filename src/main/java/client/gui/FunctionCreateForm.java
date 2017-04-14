@@ -99,7 +99,7 @@ public class FunctionCreateForm extends VBox {
 
     public WinApiFunction getFunction() {
         List<WinApiParameter> collect = getParams();
-        return new WinApiFunction(id, name.getText(), description.getText(), "", collect);
+        return new WinApiFunction(id, name.getText(), description.getText(), collect);
     }
 
     public void pushFunction(WinApiFunction function) {

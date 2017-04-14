@@ -12,19 +12,19 @@ beans {
     xmlns([jpa: 'http://www.springframework.org/schema/data/jpa'])
     jpa.'repositories'('base-package': 'common.service')
 
-//    dataSource(BasicDataSource) {
-//        driverClassName = "org.h2.Driver"
-//        url = "jdbc:h2:mem:grailsDB"
-//        username = "sa"
-//        password = ""
-//    }
-
     dataSource(BasicDataSource) {
-        driverClassName = "com.mysql.jdbc.Driver"
-        url = "jdbc:mysql://localhost:3306/winapi_handbook?useUnicode=true&characterEncoding=utf8"
-        username = "root"
-        password = "1"
+        driverClassName = "org.h2.Driver"
+        url = "jdbc:h2:mem:grailsDB"
+        username = "sa"
+        password = ""
     }
+
+//    dataSource(BasicDataSource) {
+//        driverClassName = "com.mysql.jdbc.Driver"
+//        url = "jdbc:mysql://localhost:3306/winapi_handbook?useUnicode=true&characterEncoding=utf8"
+//        username = "root"
+//        password = "1"
+//    }
 
 
     vendorAdapter(HibernateJpaVendorAdapter) {
@@ -45,11 +45,11 @@ beans {
             ref("winApiParameterRepository")
     )
 
-    initDatabase(InitializeBase) { bean ->
-        bean.initMethod = 'setup'
-        content = ['methods/winApiClasses.json']
-        repository = winApiHandbookHibernateService
-    }
+//    initDatabase(InitializeBase) { bean ->
+//        bean.initMethod = 'setup'
+//        content = ['methods/winApiClasses.json']
+//        repository = winApiHandbookHibernateService
+//    }
 
     handbookThriftHandler(TWinApiHandbookHandler, winApiHandbookHibernateService)
 

@@ -36,8 +36,7 @@ public class TWinApiClass implements org.apache.thrift.TBase<TWinApiClass, TWinA
   private static final org.apache.thrift.protocol.TField ID_FIELD_DESC = new org.apache.thrift.protocol.TField("id", org.apache.thrift.protocol.TType.I64, (short)1);
   private static final org.apache.thrift.protocol.TField NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("name", org.apache.thrift.protocol.TType.STRING, (short)2);
   private static final org.apache.thrift.protocol.TField DESCRIPTION_FIELD_DESC = new org.apache.thrift.protocol.TField("description", org.apache.thrift.protocol.TType.STRING, (short)3);
-  private static final org.apache.thrift.protocol.TField EXAMPLE_FIELD_DESC = new org.apache.thrift.protocol.TField("example", org.apache.thrift.protocol.TType.STRING, (short)4);
-  private static final org.apache.thrift.protocol.TField FUNCTIONS_FIELD_DESC = new org.apache.thrift.protocol.TField("functions", org.apache.thrift.protocol.TType.LIST, (short)5);
+  private static final org.apache.thrift.protocol.TField FUNCTIONS_FIELD_DESC = new org.apache.thrift.protocol.TField("functions", org.apache.thrift.protocol.TType.LIST, (short)4);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -48,7 +47,6 @@ public class TWinApiClass implements org.apache.thrift.TBase<TWinApiClass, TWinA
   public long id; // required
   public String name; // required
   public String description; // required
-  public String example; // required
   public List<TWinApiFunction> functions; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -56,8 +54,7 @@ public class TWinApiClass implements org.apache.thrift.TBase<TWinApiClass, TWinA
     ID((short)1, "id"),
     NAME((short)2, "name"),
     DESCRIPTION((short)3, "description"),
-    EXAMPLE((short)4, "example"),
-    FUNCTIONS((short)5, "functions");
+    FUNCTIONS((short)4, "functions");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -78,9 +75,7 @@ public class TWinApiClass implements org.apache.thrift.TBase<TWinApiClass, TWinA
           return NAME;
         case 3: // DESCRIPTION
           return DESCRIPTION;
-        case 4: // EXAMPLE
-          return EXAMPLE;
-        case 5: // FUNCTIONS
+        case 4: // FUNCTIONS
           return FUNCTIONS;
         default:
           return null;
@@ -133,8 +128,6 @@ public class TWinApiClass implements org.apache.thrift.TBase<TWinApiClass, TWinA
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     tmpMap.put(_Fields.DESCRIPTION, new org.apache.thrift.meta_data.FieldMetaData("description", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.EXAMPLE, new org.apache.thrift.meta_data.FieldMetaData("example", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     tmpMap.put(_Fields.FUNCTIONS, new org.apache.thrift.meta_data.FieldMetaData("functions", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
             new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, TWinApiFunction.class))));
@@ -149,7 +142,6 @@ public class TWinApiClass implements org.apache.thrift.TBase<TWinApiClass, TWinA
     long id,
     String name,
     String description,
-    String example,
     List<TWinApiFunction> functions)
   {
     this();
@@ -157,7 +149,6 @@ public class TWinApiClass implements org.apache.thrift.TBase<TWinApiClass, TWinA
     setIdIsSet(true);
     this.name = name;
     this.description = description;
-    this.example = example;
     this.functions = functions;
   }
 
@@ -172,9 +163,6 @@ public class TWinApiClass implements org.apache.thrift.TBase<TWinApiClass, TWinA
     }
     if (other.isSetDescription()) {
       this.description = other.description;
-    }
-    if (other.isSetExample()) {
-      this.example = other.example;
     }
     if (other.isSetFunctions()) {
       List<TWinApiFunction> __this__functions = new ArrayList<TWinApiFunction>();
@@ -195,7 +183,6 @@ public class TWinApiClass implements org.apache.thrift.TBase<TWinApiClass, TWinA
     this.id = 0;
     this.name = null;
     this.description = null;
-    this.example = null;
     this.functions = null;
   }
 
@@ -270,30 +257,6 @@ public class TWinApiClass implements org.apache.thrift.TBase<TWinApiClass, TWinA
     }
   }
 
-  public String getExample() {
-    return this.example;
-  }
-
-  public TWinApiClass setExample(String example) {
-    this.example = example;
-    return this;
-  }
-
-  public void unsetExample() {
-    this.example = null;
-  }
-
-  /** Returns true if field example is set (has been assigned a value) and false otherwise */
-  public boolean isSetExample() {
-    return this.example != null;
-  }
-
-  public void setExampleIsSet(boolean value) {
-    if (!value) {
-      this.example = null;
-    }
-  }
-
   public int getFunctionsSize() {
     return (this.functions == null) ? 0 : this.functions.size();
   }
@@ -359,14 +322,6 @@ public class TWinApiClass implements org.apache.thrift.TBase<TWinApiClass, TWinA
       }
       break;
 
-    case EXAMPLE:
-      if (value == null) {
-        unsetExample();
-      } else {
-        setExample((String)value);
-      }
-      break;
-
     case FUNCTIONS:
       if (value == null) {
         unsetFunctions();
@@ -389,9 +344,6 @@ public class TWinApiClass implements org.apache.thrift.TBase<TWinApiClass, TWinA
     case DESCRIPTION:
       return getDescription();
 
-    case EXAMPLE:
-      return getExample();
-
     case FUNCTIONS:
       return getFunctions();
 
@@ -412,8 +364,6 @@ public class TWinApiClass implements org.apache.thrift.TBase<TWinApiClass, TWinA
       return isSetName();
     case DESCRIPTION:
       return isSetDescription();
-    case EXAMPLE:
-      return isSetExample();
     case FUNCTIONS:
       return isSetFunctions();
     }
@@ -457,15 +407,6 @@ public class TWinApiClass implements org.apache.thrift.TBase<TWinApiClass, TWinA
       if (!(this_present_description && that_present_description))
         return false;
       if (!this.description.equals(that.description))
-        return false;
-    }
-
-    boolean this_present_example = true && this.isSetExample();
-    boolean that_present_example = true && that.isSetExample();
-    if (this_present_example || that_present_example) {
-      if (!(this_present_example && that_present_example))
-        return false;
-      if (!this.example.equals(that.example))
         return false;
     }
 
@@ -524,16 +465,6 @@ public class TWinApiClass implements org.apache.thrift.TBase<TWinApiClass, TWinA
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetExample()).compareTo(typedOther.isSetExample());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetExample()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.example, typedOther.example);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
     lastComparison = Boolean.valueOf(isSetFunctions()).compareTo(typedOther.isSetFunctions());
     if (lastComparison != 0) {
       return lastComparison;
@@ -581,14 +512,6 @@ public class TWinApiClass implements org.apache.thrift.TBase<TWinApiClass, TWinA
       sb.append("null");
     } else {
       sb.append(this.description);
-    }
-    first = false;
-    if (!first) sb.append(", ");
-    sb.append("example:");
-    if (this.example == null) {
-      sb.append("null");
-    } else {
-      sb.append(this.example);
     }
     first = false;
     if (!first) sb.append(", ");
@@ -668,15 +591,7 @@ public class TWinApiClass implements org.apache.thrift.TBase<TWinApiClass, TWinA
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 4: // EXAMPLE
-            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-              struct.example = iprot.readString();
-              struct.setExampleIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
-          case 5: // FUNCTIONS
+          case 4: // FUNCTIONS
             if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
               {
                 org.apache.thrift.protocol.TList _list8 = iprot.readListBegin();
@@ -723,11 +638,6 @@ public class TWinApiClass implements org.apache.thrift.TBase<TWinApiClass, TWinA
         oprot.writeString(struct.description);
         oprot.writeFieldEnd();
       }
-      if (struct.example != null) {
-        oprot.writeFieldBegin(EXAMPLE_FIELD_DESC);
-        oprot.writeString(struct.example);
-        oprot.writeFieldEnd();
-      }
       if (struct.functions != null) {
         oprot.writeFieldBegin(FUNCTIONS_FIELD_DESC);
         {
@@ -767,13 +677,10 @@ public class TWinApiClass implements org.apache.thrift.TBase<TWinApiClass, TWinA
       if (struct.isSetDescription()) {
         optionals.set(2);
       }
-      if (struct.isSetExample()) {
+      if (struct.isSetFunctions()) {
         optionals.set(3);
       }
-      if (struct.isSetFunctions()) {
-        optionals.set(4);
-      }
-      oprot.writeBitSet(optionals, 5);
+      oprot.writeBitSet(optionals, 4);
       if (struct.isSetId()) {
         oprot.writeI64(struct.id);
       }
@@ -782,9 +689,6 @@ public class TWinApiClass implements org.apache.thrift.TBase<TWinApiClass, TWinA
       }
       if (struct.isSetDescription()) {
         oprot.writeString(struct.description);
-      }
-      if (struct.isSetExample()) {
-        oprot.writeString(struct.example);
       }
       if (struct.isSetFunctions()) {
         {
@@ -800,7 +704,7 @@ public class TWinApiClass implements org.apache.thrift.TBase<TWinApiClass, TWinA
     @Override
     public void read(org.apache.thrift.protocol.TProtocol prot, TWinApiClass struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
-      BitSet incoming = iprot.readBitSet(5);
+      BitSet incoming = iprot.readBitSet(4);
       if (incoming.get(0)) {
         struct.id = iprot.readI64();
         struct.setIdIsSet(true);
@@ -814,10 +718,6 @@ public class TWinApiClass implements org.apache.thrift.TBase<TWinApiClass, TWinA
         struct.setDescriptionIsSet(true);
       }
       if (incoming.get(3)) {
-        struct.example = iprot.readString();
-        struct.setExampleIsSet(true);
-      }
-      if (incoming.get(4)) {
         {
           org.apache.thrift.protocol.TList _list13 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
           struct.functions = new ArrayList<TWinApiFunction>(_list13.size);

@@ -15,7 +15,6 @@ public class ConverterUtils {
                 topic.id,
                 topic.name,
                 topic.description,
-                topic.example,
                 collect);
     }
 
@@ -27,7 +26,6 @@ public class ConverterUtils {
                 topic.getId(),
                 topic.getName(),
                 topic.getDescription(),
-                topic.getExample(),
                 collect);
     }
 
@@ -39,7 +37,6 @@ public class ConverterUtils {
                 function.getId(),
                 function.getName(),
                 function.getDescription(),
-                function.getExample(),
                 collect);
     }
 
@@ -58,7 +55,6 @@ public class ConverterUtils {
                 function.getId(),
                 function.getName(),
                 function.getDescription(),
-                function.getExample(),
                 collect);
     }
 

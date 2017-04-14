@@ -11,8 +11,8 @@ public class ConverterUtilsTest {
 
     @Test
     public void convertToThrift() throws Exception {
-        WinApiClass winApiClass = new WinApiClass(1l, "name", "desctiprion", "example",
-                asList(new WinApiFunction(2l, "fun1name", "fun1description", "fun1example",
+        WinApiClass winApiClass = new WinApiClass(1l, "name", "desctiprion",
+                asList(new WinApiFunction(2l, "fun1name", "fun1description",
                         asList(new WinApiParameter(3l, "par1type", "par1name"))
                 )));
         TWinApiClass tClass = ConverterUtils.convert(winApiClass);
@@ -20,7 +20,6 @@ public class ConverterUtilsTest {
         assertEquals(winApiClass.getId(), tClass.getId());
         assertEquals(winApiClass.getName(), tClass.getName());
         assertEquals(winApiClass.getDescription(), tClass.getDescription());
-        assertEquals(winApiClass.getExample(), tClass.getExample());
 
         WinApiFunction winApiFunction = winApiClass.getFunctions().get(0);
         TWinApiFunction tWinApiFunction = tClass.getFunctions().get(0);
@@ -28,7 +27,6 @@ public class ConverterUtilsTest {
         assertEquals(winApiFunction.getId(),          tWinApiFunction.getId());
         assertEquals(winApiFunction.getName(),        tWinApiFunction.getName());
         assertEquals(winApiFunction.getDescription(), tWinApiFunction.getDescription());
-        assertEquals(winApiFunction.getExample(),     tWinApiFunction.getExample());
 
         WinApiParameter winApiParameter = winApiFunction.getParams().get(0);
         TWinApiParams tWinApiParams = tWinApiFunction.getParams().get(0);
@@ -40,8 +38,8 @@ public class ConverterUtilsTest {
 
     @Test
     public void convertFromThrift() throws Exception {
-        TWinApiClass tClass = new TWinApiClass(1l, "name", "desctiprion", "example",
-                asList(new TWinApiFunction(2l, "fun1name", "fun1description", "fun1example",
+        TWinApiClass tClass = new TWinApiClass(1l, "name", "desctiprion",
+                asList(new TWinApiFunction(2l, "fun1name", "fun1description",
                         asList(new TWinApiParams(3l, "par1type", "par1name"))
                 )));
         WinApiClass winApiClass = ConverterUtils.convert(tClass);
@@ -49,7 +47,6 @@ public class ConverterUtilsTest {
         assertEquals(tClass.getId(), winApiClass.getId());
         assertEquals(tClass.getName(), winApiClass.getName());
         assertEquals(tClass.getDescription(), winApiClass.getDescription());
-        assertEquals(tClass.getExample(), winApiClass.getExample());
 
         WinApiFunction winApiFunction = winApiClass.getFunctions().get(0);
         TWinApiFunction tWinApiFunction = tClass.getFunctions().get(0);
@@ -57,7 +54,6 @@ public class ConverterUtilsTest {
         assertEquals(tWinApiFunction.getId(),          winApiFunction.getId());
         assertEquals(tWinApiFunction.getName(),        winApiFunction.getName());
         assertEquals(tWinApiFunction.getDescription(), winApiFunction.getDescription());
-        assertEquals(tWinApiFunction.getExample(),     winApiFunction.getExample());
 
         WinApiParameter winApiParameter = winApiFunction.getParams().get(0);
         TWinApiParams tWinApiParams = tWinApiFunction.getParams().get(0);
