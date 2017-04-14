@@ -39,7 +39,7 @@ public class BrowserTest {
 //    }
 //
 //    @Test
-//    public void createWinApiClass() throws Exception {
+//    public void saveOrUpdate() throws Exception {
 //        browser.editor.createNewTopic("newTopic");
 //        browser.editor.htmlEditor.setHtmlText("content");
 //        browser.saveTopic(null);
@@ -50,7 +50,7 @@ public class BrowserTest {
 //    @Test
 //    public void updateClass() throws Exception {
 //        WinApiClass topic = new WinApiClass(1l, "content", "header");
-//        browser.service.createWinApiClass(topic);
+//        browser.service.saveOrUpdate(topic);
 //        browser.currentTopic.setValue(topic);
 //        List<WinApiClass> topics = browser.service.findClasses("");
 //        assertEquals("content", topics.get(0).getContent());

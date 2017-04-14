@@ -40,7 +40,7 @@ public class ConverterUtils {
                 collect);
     }
 
-    private static WinApiParameter convert(TWinApiParams param) {
+    public static WinApiParameter convert(TWinApiParams param) {
         return new WinApiParameter(
                 param.getId(),
                 param.getType(),
@@ -58,7 +58,7 @@ public class ConverterUtils {
                 collect);
     }
 
-    private static TWinApiParams convert(WinApiParameter param) {
+    public static TWinApiParams convert(WinApiParameter param) {
         return new TWinApiParams(
                 param.getId(),
                 param.getName(),

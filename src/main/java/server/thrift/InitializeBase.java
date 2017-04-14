@@ -26,7 +26,7 @@ public class InitializeBase {
         for (String fileName : content) {
             WinApiClass[] winApiClasses = objectMapper.readValue(new ClassPathResource(fileName).getURL(), WinApiClass[].class);
             for (WinApiClass clazz : winApiClasses) {
-                service.createWinApiClass(clazz);
+                service.saveOrUpdate(clazz);
             }
         }
     }

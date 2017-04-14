@@ -47,7 +47,6 @@ dependencies {
 
     compile group: 'org.springframework', name: 'spring-context', version: '4.3.7.RELEASE'
     compile group: 'org.apache.thrift', name: 'libthrift', version: '0.9.3'
-//    compile group: 'org.projectlombok', name: 'lombok', version: '1.16.14'
     compile group: 'org.springframework', name: 'spring-jdbc', version: '4.3.7.RELEASE'
     compile group: 'com.h2database', name: 'h2', version: '1.4.193'
     compile group: 'org.springframework', name: 'spring-orm', version: '4.3.7.RELEASE'

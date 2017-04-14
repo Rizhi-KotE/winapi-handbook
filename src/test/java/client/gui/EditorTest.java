@@ -42,7 +42,7 @@ public class EditorTest {
 //    @Test
 //    public void changeTopic() throws Exception {
 //        WinApiClass topic = new WinApiClass(1l, "content", "header");
-//        editor.service.createWinApiClass(topic);
+//        editor.service.saveOrUpdate(topic);
 //        editor.currentTopic.setValue(topic);
 //        editor.htmlEditor.setHtmlText("changed");
 //        editor.saveTopic();

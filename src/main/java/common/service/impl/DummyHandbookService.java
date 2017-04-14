@@ -35,36 +35,27 @@ public class DummyHandbookService implements WinApiHandbookService {
     }
 
     @Override
-    public WinApiClass getWinApiClass(long id) {
-        return topics.get(id);
+    public WinApiClass getWinApiClass(long id) throws HandbookException {
+        return null;
     }
 
     @Override
-    public List<WinApiClass> findClasses(String keyword) {
-        return topics.values().stream().filter(t -> t.getName().contains(keyword)).collect(toList());
+    public List<WinApiClass> findClasses(String keyword) throws HandbookException {
+        return null;
     }
 
     @Override
-    public long createWinApiClass(WinApiClass topic) {
-        long i = topics.size() + 1;
-        topic.setId(i);
-        topics.put(i, topic);
-        return i;
+    public WinApiClass saveOrUpdate(WinApiClass topic) throws HandbookException {
+        return null;
     }
 
     @Override
-    public void updateClass(WinApiClass topic) {
-        if (!topics.containsKey(topic.getId())) throw new IllegalArgumentException(topic.toString());
-        topics.put(topic.getId(), topic);
+    public void removeClass(long id) throws HandbookException {
+
     }
 
     @Override
-    public void removeTopic(long id) {
-        topics.remove(id);
-    }
-
-    @Override
-    public void updateWinApiFunction(WinApiFunction function) throws HandbookException {
+    public void saveOrUpdateFunction(WinApiFunction function) throws HandbookException {
 
     }
 
@@ -74,7 +65,7 @@ public class DummyHandbookService implements WinApiHandbookService {
     }
 
     @Override
-    public void updateWinApiParameter(WinApiParameter parameter) throws HandbookException {
+    public void saveOrUpdateParameter(WinApiParameter parameter) throws HandbookException {
 
     }
 

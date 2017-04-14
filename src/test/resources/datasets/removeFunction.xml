@@ -1,6 +1,6 @@
 <!--<!DOCTYPE dataset SYSTEM "test.dtd">-->
 <dataset>
-    <WINAPI_CLASS/>
+    <WINAPI_CLASS ID="1" NAME="class" DESCRIPTION="desc"/>
     <WINAPI_FUNCTION/>
     <WINAPI_PARAMETER/>
 </dataset>

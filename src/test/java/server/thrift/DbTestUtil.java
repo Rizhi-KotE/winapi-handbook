@@ -10,7 +10,7 @@ import java.sql.Statement;
 public final class DbTestUtil {
 
 //    static String statement = "ALTER TABLE %s ALTER COLUMN id RESTART WITH 1";
-    static String statement = "ALTER TABLE WINAPI_CLASS AUTO_INCREMENT 1;";
+    static String statement = "ALTER TABLE %s AUTO_INCREMENT 1;";
 
     private DbTestUtil() {
     }

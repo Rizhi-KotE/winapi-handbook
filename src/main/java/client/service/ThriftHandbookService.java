@@ -13,14 +13,13 @@ import org.apache.thrift.transport.TFramedTransport;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
-import server.thrift.TNoSuchEntityException;
 import server.thrift.TWinApiHandbookService;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static common.service.ConverterUtils.convert;
-import static java.util.stream.Collectors.toList;
 
 public class ThriftHandbookService implements WinApiHandbookService {
 
@@ -45,46 +44,84 @@ public class ThriftHandbookService implements WinApiHandbookService {
 
     @Override
     public WinApiClass getWinApiClass(long id) throws HandbookException {
-        return null;
+        try {
+            return convert(client.getWinApiClass(id));
+        } catch (TException e) {
+            throw new HandbookException(e.getMessage());
+        }
     }
 
     @Override
     public List<WinApiClass> findClasses(String keyword) throws HandbookException {
-        return null;
+        try {
+            return client.findClasses(keyword)
+                    .stream()
+                    .map(ConverterUtils::convert)
+                    .collect(Collectors.toList());
+        } catch (TException e) {
+            throw new HandbookException(e.getMessage());
+        }
     }
 
     @Override
-    public long createWinApiClass(WinApiClass topic) throws HandbookException {
-        return 0;
+    public WinApiClass saveOrUpdate(WinApiClass topic) throws HandbookException {
+        try {
+            return convert(client.createWinApiClass(convert(topic)));
+        } catch (TException e) {
+            throw new HandbookException(e.getMessage());
+        }
     }
 
-    @Override
     public void updateClass(WinApiClass topic) throws HandbookException {
-
+        try {
+            client.updateClass(convert(topic));
+        } catch (TException e) {
+            throw new HandbookException(e.getMessage());
+        }
     }
 
     @Override
-    public void removeTopic(long id) throws HandbookException {
-
+    public void removeClass(long id) throws HandbookException {
+        try {
+            client.removeClass(id);
+        } catch (TException e) {
+            throw new HandbookException(e.getMessage());
+        }
     }
 
     @Override
-    public void updateWinApiFunction(WinApiFunction function) throws HandbookException {
-
+    public void saveOrUpdateFunction(WinApiFunction function) throws HandbookException {
+        try {
+            client.updateFunction(convert(function));
+        } catch (TException e) {
+            throw new HandbookException(e.getMessage());
+        }
     }
 
     @Override
     public void removeWinApiFunction(long id) throws HandbookException {
-
+        try {
+            client.removeFunction(id);
+        } catch (TException e) {
+            throw new HandbookException(e.getMessage());
+        }
     }
 
     @Override
-    public void updateWinApiParameter(WinApiParameter parameter) throws HandbookException {
-
+    public void saveOrUpdateParameter(WinApiParameter parameter) throws HandbookException {
+        try {
+            client.updateParameter(convert(parameter));
+        } catch (TException e) {
+            throw new HandbookException(e.getMessage());
+        }
     }
 
     @Override
     public void removeWinApiParameter(long id) throws HandbookException {
-
+        try {
+            client.removeParameter(id);
+        } catch (TException e) {
+            throw new HandbookException(e.getMessage());
+        }
     }
 }

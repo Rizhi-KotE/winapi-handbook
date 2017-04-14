@@ -1,5 +1,5 @@
 namespace java server.thrift
 
-exception TNoSuchEntityException {
+exception THandbookException {
     1: string message;
 }

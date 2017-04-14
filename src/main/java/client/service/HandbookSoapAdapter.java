@@ -27,22 +27,17 @@ public class HandbookSoapAdapter implements WinApiHandbookService {
     }
 
     @Override
-    public long createWinApiClass(WinApiClass topic) throws HandbookException {
-        return 0;
+    public WinApiClass saveOrUpdate(WinApiClass topic) throws HandbookException {
+        return null;
     }
 
     @Override
-    public void updateClass(WinApiClass topic) throws HandbookException {
-
-    }
-
-    @Override
-    public void removeTopic(long id) throws HandbookException {
+    public void removeClass(long id) throws HandbookException {
 
     }
 
     @Override
-    public void updateWinApiFunction(WinApiFunction function) throws HandbookException {
+    public void saveOrUpdateFunction(WinApiFunction function) throws HandbookException {
 
     }
 
@@ -52,7 +47,7 @@ public class HandbookSoapAdapter implements WinApiHandbookService {
     }
 
     @Override
-    public void updateWinApiParameter(WinApiParameter parameter) throws HandbookException {
+    public void saveOrUpdateParameter(WinApiParameter parameter) throws HandbookException {
 
     }
 

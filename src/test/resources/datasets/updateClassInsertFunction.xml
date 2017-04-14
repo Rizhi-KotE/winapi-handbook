@@ -1,0 +1,8 @@
+<!DOCTYPE dataset SYSTEM "test.dtd">
+<dataset>
+    <WINAPI_CLASS ID="1" NAME="class" DESCRIPTION="desc"/>
+    <WINAPI_FUNCTION ID="1" NAME="func" DESCRIPTION="desc" CLASS_ID="1"/>
+    <WINAPI_FUNCTION ID="2" NAME="func2" DESCRIPTION="desc2"/>
+    <WINAPI_PARAMETER ID="1" NAME="param" TYPE="type" FUNCTION_ID="1"/>
+    <WINAPI_PARAMETER ID="2" NAME="param3" TYPE="param3" FUNCTION_ID="2"/>
+</dataset>

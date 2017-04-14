@@ -1,5 +1,6 @@
 package client.gui;
 
+import common.exception.HandbookException;
 import common.service.WinApiHandbookService;
 import javafx.event.ActionEvent;
 import lombok.Getter;
@@ -32,16 +33,28 @@ public class WinApiHandbookReactor {
     }
 
     public void search(String text) {
-//        listEventSource.push(service.findClasses(text));
+        try {
+            listEventSource.push(service.findClasses(text));
+        } catch (HandbookException e) {
+            e.printStackTrace();
+        }
     }
 
     public void save(WinApiClass winApiClass) {
-//        service.createWinApiClass(winApiClass);
-        updateEventSource.push(new ActionEvent());
+        try {
+            service.saveOrUpdate(winApiClass);
+            updateEventSource.push(new ActionEvent());
+        } catch (HandbookException e) {
+            e.printStackTrace();
+        }
     }
 
     public void delete(WinApiClass winApiClass) {
-//        service.removeTopic(winApiClass.getId());
-        refreshEventSource.push(new ActionEvent());
+        try {
+            service.removeClass(winApiClass.getId());
+            refreshEventSource.push(new ActionEvent());
+        } catch (HandbookException e) {
+            e.printStackTrace();
+        }
     }
 }
