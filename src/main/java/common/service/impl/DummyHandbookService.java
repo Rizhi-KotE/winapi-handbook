@@ -1,7 +1,11 @@
-package common.service;
+package common.service.impl;
 
+import common.exception.HandbookException;
+import common.service.WinApiHandbookService;
 import lombok.Setter;
 import model.WinApiClass;
+import model.WinApiFunction;
+import model.WinApiParameter;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -49,7 +53,7 @@ public class DummyHandbookService implements WinApiHandbookService {
     }
 
     @Override
-    public void updateTopic(WinApiClass topic) {
+    public void updateClass(WinApiClass topic) {
         if (!topics.containsKey(topic.getId())) throw new IllegalArgumentException(topic.toString());
         topics.put(topic.getId(), topic);
     }
@@ -57,5 +61,25 @@ public class DummyHandbookService implements WinApiHandbookService {
     @Override
     public void removeTopic(long id) {
         topics.remove(id);
+    }
+
+    @Override
+    public void updateWinApiFunction(WinApiFunction function) throws HandbookException {
+
+    }
+
+    @Override
+    public void removeWinApiFunction(long id) throws HandbookException {
+
+    }
+
+    @Override
+    public void updateWinApiParameter(WinApiParameter parameter) throws HandbookException {
+
+    }
+
+    @Override
+    public void removeWinApiParameter(long id) throws HandbookException {
+
     }
 }

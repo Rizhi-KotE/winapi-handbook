@@ -4,8 +4,6 @@ import client.gui.FunctionCreateForm
 import client.gui.MainWindow
 import client.gui.WinApiHandbookReactor
 import client.service.ThriftHandbookService
-import common.service.DummyHandbookService
-import model.WinApiClass
 import org.springframework.beans.factory.support.LookupOverride
 import org.springframework.beans.factory.support.MethodOverrides
 

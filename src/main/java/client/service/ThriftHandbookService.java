@@ -1,10 +1,12 @@
 package client.service;
 
-import common.exception.NoSuchEntityException;
+import common.exception.HandbookException;
 import common.service.ConverterUtils;
 import common.service.WinApiHandbookService;
 import lombok.Setter;
 import model.WinApiClass;
+import model.WinApiFunction;
+import model.WinApiParameter;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.transport.TFramedTransport;
@@ -42,54 +44,47 @@ public class ThriftHandbookService implements WinApiHandbookService {
     }
 
     @Override
-    public WinApiClass getWinApiClass(long id) {
-        try {
-            return convert(client.getClass(id));
-        } catch (TException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+    public WinApiClass getWinApiClass(long id) throws HandbookException {
+        return null;
     }
 
     @Override
-    public List<WinApiClass> findClasses(String keyword) {
-        try {
-            return client.findClass(keyword).stream().map(ConverterUtils::convert).collect(toList());
-        } catch (TException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+    public List<WinApiClass> findClasses(String keyword) throws HandbookException {
+        return null;
     }
 
     @Override
-    public long createWinApiClass(WinApiClass topic) {
-        try {
-            return client.createClass(convert(topic));
-        } catch (TException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+    public long createWinApiClass(WinApiClass topic) throws HandbookException {
+        return 0;
     }
 
     @Override
-    public void updateTopic(WinApiClass topic) throws NoSuchEntityException {
-        try {
-            client.updateClass(convert(topic));
-        } catch (TNoSuchEntityException e) {
-            throw new NoSuchEntityException(e.getMessage());
-        } catch (TException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+    public void updateClass(WinApiClass topic) throws HandbookException {
+
     }
 
     @Override
-    public void removeTopic(long id) {
-        try {
-            client.removeClass(id);
-        } catch (TException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+    public void removeTopic(long id) throws HandbookException {
+
+    }
+
+    @Override
+    public void updateWinApiFunction(WinApiFunction function) throws HandbookException {
+
+    }
+
+    @Override
+    public void removeWinApiFunction(long id) throws HandbookException {
+
+    }
+
+    @Override
+    public void updateWinApiParameter(WinApiParameter parameter) throws HandbookException {
+
+    }
+
+    @Override
+    public void removeWinApiParameter(long id) throws HandbookException {
+
     }
 }

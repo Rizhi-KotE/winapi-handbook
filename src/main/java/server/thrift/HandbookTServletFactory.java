@@ -1,6 +1,5 @@
 package server.thrift;
 
-import common.service.WinApiHibernateHandbookService;
 import lombok.Setter;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.server.TServlet;

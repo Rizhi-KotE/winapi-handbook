@@ -48,7 +48,7 @@ public class BrowserTest {
 //    }
 //
 //    @Test
-//    public void updateTopic() throws Exception {
+//    public void updateClass() throws Exception {
 //        WinApiClass topic = new WinApiClass(1l, "content", "header");
 //        browser.service.createWinApiClass(topic);
 //        browser.currentTopic.setValue(topic);

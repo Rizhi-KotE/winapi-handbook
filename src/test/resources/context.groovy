@@ -1,6 +1,6 @@
 import client.gui.FindClassesWidget
 import javafx.beans.property.SimpleObjectProperty
-import common.service.DummyHandbookService
+import common.service.impl.DummyHandbookService
 import model.WinApiClass
 
 beans {

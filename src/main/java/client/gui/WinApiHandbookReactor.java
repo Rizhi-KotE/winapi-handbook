@@ -32,16 +32,16 @@ public class WinApiHandbookReactor {
     }
 
     public void search(String text) {
-        listEventSource.push(service.findClasses(text));
+//        listEventSource.push(service.findClasses(text));
     }
 
     public void save(WinApiClass winApiClass) {
-        service.createWinApiClass(winApiClass);
+//        service.createWinApiClass(winApiClass);
         updateEventSource.push(new ActionEvent());
     }
 
     public void delete(WinApiClass winApiClass) {
-        service.removeTopic(winApiClass.getId());
+//        service.removeTopic(winApiClass.getId());
         refreshEventSource.push(new ActionEvent());
     }
 }

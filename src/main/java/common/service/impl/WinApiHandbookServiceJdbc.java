@@ -1,20 +1,24 @@
-package client.service;
+package common.service.impl;
 
 import common.exception.HandbookException;
 import common.service.WinApiHandbookService;
-import common.service.HandbookSoapService;
 import model.WinApiClass;
 import model.WinApiFunction;
 import model.WinApiParameter;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
-import java.util.Arrays;
+import javax.sql.DataSource;
 import java.util.List;
 
-/**
- * Created by rizhi-kote on 16.03.17.
- */
-public class HandbookSoapAdapter implements WinApiHandbookService {
+public class WinApiHandbookServiceJdbc implements WinApiHandbookService {
 
+    private final JdbcTemplate template;
+
+    public WinApiHandbookServiceJdbc(DataSource dataSource) {
+        template = new JdbcTemplate(dataSource);
+    }
 
     @Override
     public WinApiClass getWinApiClass(long id) throws HandbookException {
@@ -27,8 +31,16 @@ public class HandbookSoapAdapter implements WinApiHandbookService {
     }
 
     @Override
-    public long createWinApiClass(WinApiClass topic) throws HandbookException {
-        return 0;
+    public WinApiClass createWinApiClass(WinApiClass topic) throws HandbookException {
+
+        SimpleJdbcInsert insert = new SimpleJdbcInsert(template);
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("name", topic.getName())
+                .addValue("description", topic.getDescription());
+        Number id = insert.usingGeneratedKeyColumns("id")
+                .executeAndReturnKey(params);
+        topic.setId(id.longValue());
+        return topic;
     }
 
     @Override
