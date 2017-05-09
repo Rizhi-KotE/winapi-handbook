@@ -18,6 +18,7 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,7 @@ import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:serverContext.groovy", "classpath:dbunit.groovy"})
+@ContextConfiguration(locations = {"classpath:serverContext.groovy"})
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
         DbUnitTestExecutionListener.class})
 public class ResistenceServiceTest {
@@ -33,15 +34,18 @@ public class ResistenceServiceTest {
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_SCHEMA, "winapi_handbook");
     }
 
-    @Autowired
     private WinApiHandbookServiceJdbc service;
+
+    @Autowired
+    DataSource dataSource;
+
     @Autowired
     private ApplicationContext applicationContext;
 
 
     @Before
     public void setUp() throws Exception {
-
+        service = new WinApiHandbookServiceJdbc(dataSource);
         DbTestUtil.resetAutoIncrementColumns(applicationContext, "WINAPI_CLASS");
         DbTestUtil.resetAutoIncrementColumns(applicationContext, "WINAPI_FUNCTION");
         DbTestUtil.resetAutoIncrementColumns(applicationContext, "WINAPI_PARAMETER");

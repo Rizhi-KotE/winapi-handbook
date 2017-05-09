@@ -1,7 +1,6 @@
 package common.service.impl;
 
 import common.exception.HandbookException;
-import common.service.WinApiHandbookService;
 import model.WinApiClass;
 import model.WinApiFunction;
 import model.WinApiParameter;
@@ -99,13 +98,38 @@ public class WinApiHandbookServiceJdbc implements WinApiHandbookService {
     }
 
     @Override
-    public void removeClass(long id) throws HandbookException {
-        template.update("DELETE FROM WINAPI_CLASS WHERE ID=?", id);
+    public int removeClass(long id) throws HandbookException {
+        return template.update("DELETE FROM WINAPI_CLASS WHERE ID=?", id);
+    }
+
+    public WinApiFunction createFunction(long topicId, WinApiFunction f) {
+        SimpleJdbcInsert functionInsert = new SimpleJdbcInsert(template)
+                .usingGeneratedKeyColumns("id")
+                .withTableName("WINAPI_FUNCTION");
+        MapSqlParameterSource mapSqlParameterSource = mapFunctionToRow(topicId, f);
+        Number number = functionInsert
+                .executeAndReturnKey(mapSqlParameterSource);
+        f.setId(number.longValue());
+        f.getParams().forEach(p -> {
+            createParam(f.getId(), p);
+        });
+        return f;
+    }
+
+    public WinApiParameter createParam(long functionId, WinApiParameter p) {
+        SimpleJdbcInsert paramsInsert = new SimpleJdbcInsert(template)
+                .usingGeneratedKeyColumns("id")
+                .withTableName("WINAPI_PARAMETER");
+        MapSqlParameterSource parameterParams = mapParameterToRow(functionId, p);
+        Number parameterId = paramsInsert
+                .executeAndReturnKey(parameterParams);
+        p.setId(parameterId.longValue());
+        return p;
     }
 
     @Override
-    public void updateFunction(WinApiFunction function) throws HandbookException {
-        template.update(UPDATE_FUNCTION,
+    public int updateFunction(WinApiFunction function) throws HandbookException {
+        int update = template.update(UPDATE_FUNCTION,
                 function.getName(), function.getDescription(), function.getId());
         for (WinApiParameter parameter : function.getParams()) {
             if (parameter.getId() == 0) {
@@ -114,22 +138,23 @@ public class WinApiHandbookServiceJdbc implements WinApiHandbookService {
                 updateParam(parameter);
             }
         }
+        return update;
     }
 
     @Override
-    public void removeWinApiFunction(long id) throws HandbookException {
-        template.update(DELETE_FUNCTION, id);
+    public int removeWinApiFunction(long id) throws HandbookException {
+        return template.update(DELETE_FUNCTION, id);
     }
 
     @Override
-    public void updateParam(WinApiParameter parameter) throws HandbookException {
-        template.update(UPDATE_PARAM,
+    public int updateParam(WinApiParameter parameter) throws HandbookException {
+        return template.update(UPDATE_PARAM,
                 parameter.getName(), parameter.getType(), parameter.getId());
     }
 
     @Override
-    public void removeWinApiParameter(long id) throws HandbookException {
-        template.update(DELETE_PARAM, id);
+    public int removeWinApiParameter(long id) throws HandbookException {
+        return template.update(DELETE_PARAM, id);
     }
 
     private WinApiClass createNewClass(WinApiClass topic) {
@@ -145,30 +170,6 @@ public class WinApiHandbookServiceJdbc implements WinApiHandbookService {
         });
 
         return topic;
-    }
-
-    private void createFunction(long topicId, WinApiFunction f) {
-        SimpleJdbcInsert functionInsert = new SimpleJdbcInsert(template)
-                .usingGeneratedKeyColumns("id")
-                .withTableName("WINAPI_FUNCTION");
-        MapSqlParameterSource mapSqlParameterSource = mapFunctionToRow(topicId, f);
-        Number number = functionInsert
-                .executeAndReturnKey(mapSqlParameterSource);
-        f.setId(number.longValue());
-        f.getParams().forEach(p -> {
-            createParam(f.getId(), p);
-        });
-    }
-
-    private void createParam(long functionId, WinApiParameter p) {
-        SimpleJdbcInsert paramsInsert = new SimpleJdbcInsert(template)
-                .usingGeneratedKeyColumns("id")
-                .withTableName("WINAPI_PARAMETER");
-        ;
-        MapSqlParameterSource parameterParams = mapParameterToRow(functionId, p);
-        Number parameterId = paramsInsert
-                .executeAndReturnKey(parameterParams);
-        p.setId(parameterId.longValue());
     }
 
     private MapSqlParameterSource mapClassToRow(WinApiClass topic) {
@@ -191,8 +192,8 @@ public class WinApiHandbookServiceJdbc implements WinApiHandbookService {
                 .addValue("function_id", functionId);
     }
 
-    public void updateClass(WinApiClass winApiClass) throws HandbookException {
-        template.update(UPDATE_CLASS,
+    public int updateClass(WinApiClass winApiClass) throws HandbookException {
+        int update = template.update(UPDATE_CLASS,
                 winApiClass.getName(), winApiClass.getDescription(), winApiClass.getId());
         for (WinApiFunction function : winApiClass.getFunctions()) {
             if (function.getId() == 0) {
@@ -201,5 +202,6 @@ public class WinApiHandbookServiceJdbc implements WinApiHandbookService {
                 updateFunction(function);
             }
         }
+        return update;
     }
 }

@@ -1,4 +1,3 @@
-<!--<!DOCTYPE dataset SYSTEM "test.dtd">-->
 <dataset>
     <WINAPI_CLASS ID="1" NAME="class" DESCRIPTION="desc"/>
     <WINAPI_FUNCTION ID="1" NAME="func" DESCRIPTION="desc" CLASS_ID="1"/>

@@ -10,7 +10,7 @@ import java.net.URL;
 
 // такой эксепшн возникнет при работе с объектом URL
 // классы, чтобы пропарсить xml-ку c wsdl описанием
-// и дотянуться до тега service в нем
+// и дотянуться до тега common.service в нем
 
 public class SoupHandbookServiceFactory {
 
@@ -33,7 +33,7 @@ public class SoupHandbookServiceFactory {
         // 2-ой аргумент смотрим в атрибуте name
         QName qname = new QName(namespaceUri, localPart);
 
-        // Теперь мы можем дотянуться до тега service в wsdl описании,
+        // Теперь мы можем дотянуться до тега common.service в wsdl описании,
         Service service = Service.create(url, qname);
         // а далее и до вложенного в него тега port, чтобы
         // получить ссылку на удаленный от нас объект веб-сервиса

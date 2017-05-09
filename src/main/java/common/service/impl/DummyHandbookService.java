@@ -1,7 +1,6 @@
 package common.service.impl;
 
 import common.exception.HandbookException;
-import common.service.WinApiHandbookService;
 import lombok.Setter;
 import model.WinApiClass;
 import model.WinApiFunction;
@@ -15,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
 
 public class DummyHandbookService implements WinApiHandbookService {
 
@@ -45,32 +43,46 @@ public class DummyHandbookService implements WinApiHandbookService {
     }
 
     @Override
-    public WinApiClass saveOrUpdate(WinApiClass topic) throws HandbookException {
+    public WinApiClass saveOrUpdate(WinApiClass winApiClass) throws HandbookException {
         return null;
     }
 
     @Override
-    public void removeClass(long id) throws HandbookException {
-
+    public int removeClass(long id) throws HandbookException {
+        return 1;
     }
 
     @Override
-    public void updateFunction(WinApiFunction function) throws HandbookException {
-
+    public WinApiFunction createFunction(long classId, WinApiFunction function) throws HandbookException {
+        return null;
     }
 
     @Override
-    public void removeWinApiFunction(long id) throws HandbookException {
-
+    public WinApiParameter createParam(long functionId, WinApiParameter parameter) throws HandbookException {
+        return null;
     }
 
     @Override
-    public void updateParam(WinApiParameter parameter) throws HandbookException {
+    public int updateFunction(WinApiFunction function) throws HandbookException {
 
+        return 0;
     }
 
     @Override
-    public void removeWinApiParameter(long id) throws HandbookException {
+    public int removeWinApiFunction(long id) throws HandbookException {
 
+        return 0;
+    }
+
+    @Override
+    public int updateParam(WinApiParameter parameter) throws HandbookException {
+
+        return 0;
+    }
+
+    @Override
+    public int removeWinApiParameter(long id) throws HandbookException {
+
+        return 0;
     }
 }

@@ -1,7 +1,7 @@
 package client.gui;
 
 import common.exception.HandbookException;
-import common.service.WinApiHandbookService;
+import common.service.impl.WinApiHandbookService;
 import javafx.event.ActionEvent;
 import lombok.Getter;
 import lombok.Setter;
