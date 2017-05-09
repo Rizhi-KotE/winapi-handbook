@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.joining;
 
@@ -39,12 +40,14 @@ public class DummyHandbookService implements WinApiHandbookService {
 
     @Override
     public List<WinApiClass> findClasses(String keyword) throws HandbookException {
-        return null;
+        return topics.entrySet().stream().filter(tuple -> tuple.getValue().getName().contains(keyword))
+                .map(Map.Entry::getValue)
+                .collect(Collectors.toList());
     }
 
     @Override
     public WinApiClass saveOrUpdate(WinApiClass winApiClass) throws HandbookException {
-        return null;
+        return topics.put(winApiClass.getId(), winApiClass);
     }
 
     @Override
@@ -54,12 +57,12 @@ public class DummyHandbookService implements WinApiHandbookService {
 
     @Override
     public WinApiFunction createFunction(long classId, WinApiFunction function) throws HandbookException {
-        return null;
+        return function;
     }
 
     @Override
     public WinApiParameter createParam(long functionId, WinApiParameter parameter) throws HandbookException {
-        return null;
+        return parameter;
     }
 
     @Override
