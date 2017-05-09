@@ -82,7 +82,7 @@ public class WinApiHandbookServiceJdbcWrapper implements WinApiHandbookService {
     @Override
     public int removeWinApiParameter(long id) throws HandbookException {
         int result;
-        if ((result = service.removeClass(id)) == 0) {
+        if ((result = service.removeWinApiParameter(id)) == 0) {
             throw new HandbookException(format("Parameter [id=%d] was not deleted",id));
         }
         return result;
