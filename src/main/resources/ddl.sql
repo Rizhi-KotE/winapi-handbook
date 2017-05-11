@@ -1,52 +1,78 @@
-USE WINAPI_HANDBOOK;
+create table REQUIREMET
+(
+  id bigint not null auto_increment
+    primary key,
+  function_id bigint not null,
+  category varchar(1000) not null,
+  category_value varchar(1000) not null,
+  constraint requirements_id_uindex
+  unique (id)
+)
+;
 
-DROP TABLE IF EXISTS WINAPI_PARAMETER;
-DROP TABLE IF EXISTS WINAPI_FUNCTION;
-DROP TABLE IF EXISTS WINAPI_CLASS ;
+create index REQUIREMET_WINAPI_FUNCTION_ID_fk
+  on REQUIREMET (function_id)
+;
 
-CREATE TABLE WINAPI_CLASS (
-  ID          BIGINT        NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  NAME        CHAR(30)      NOT NULL,
-  DESCRIPTION VARCHAR(1000) NOT NULL
-);
+create table WINAPI_FUNCTION
+(
+  ID bigint not null auto_increment
+    primary key,
+  NAME char(30) not null,
+  DESCRIPTION varchar(1000) not null,
+  CLASS_ID bigint null,
+  syntax varchar(1000) not null,
+  return_type varchar(256) not null,
+  return_type_description varchar(1000) not null,
+  constraint FUNCTIONX
+  unique (ID)
+)
+;
 
-CREATE UNIQUE INDEX CLASSX
-  ON WINAPI_CLASS (ID);
+create index CLASS_ID
+  on WINAPI_FUNCTION (CLASS_ID)
+;
 
-CREATE TABLE WINAPI_FUNCTION (
-  ID          BIGINT        NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  NAME        CHAR(30)      NOT NULL,
-  DESCRIPTION VARCHAR(1000) NOT NULL,
-  CLASS_ID    BIGINT,
-  FOREIGN KEY (CLASS_ID)
-  REFERENCES WINAPI_CLASS (ID)
-    ON DELETE CASCADE
-);
+alter table REQUIREMET
+  add constraint REQUIREMET_WINAPI_FUNCTION_ID_fk
+foreign key (function_id) references WINAPI_FUNCTION (ID)
+  on update cascade on delete cascade
+;
 
-CREATE UNIQUE INDEX FUNCTIONX
-  ON WINAPI_FUNCTION (ID);
+create table WINAPI_PARAMETER
+(
+  ID bigint not null auto_increment
+    primary key,
+  FUNCTION_ID bigint null,
+  first_defintion char(30) not null,
+  type_defintion char(30) not null,
+  description varchar(1000) not null,
+  constraint PARAMX
+  unique (ID),
+  constraint WINAPI_PARAMETER_ibfk_1
+  foreign key (FUNCTION_ID) references WINAPI_FUNCTION (ID)
+    on delete cascade
+)
+;
 
-CREATE TABLE WINAPI_PARAMETER (
-  ID          BIGINT   NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  TYPE        CHAR(30) NOT NULL,
-  NAME        CHAR(30) NOT NULL,
-  FUNCTION_ID BIGINT,
-  FOREIGN KEY (FUNCTION_ID) REFERENCES WINAPI_FUNCTION (ID)
-    ON DELETE CASCADE
-);
+create index FUNCTION_ID
+  on WINAPI_PARAMETER (FUNCTION_ID)
+;
 
-CREATE UNIQUE INDEX PARAMX
-  ON WINAPI_PARAMETER (ID);
+create table WINAPI_USER_ELEMENT
+(
+  ID bigint not null auto_increment
+    primary key,
+  NAME char(30) not null,
+  DESCRIPTION varchar(1000) not null,
+  constraint CLASSX
+  unique (ID)
+)
+;
 
-INSERT INTO WINAPI_CLASS (NAME, DESCRIPTION) VALUES ('LIST',
-                                                     'The STL list class is a template class of sequence containers that maintain their elements in a linear arrangement and allow efficient insertions and deletions at any location within the sequence. The sequence is stored as a bidirectional linked list of elements, each containing a member of some type Type.');
-INSERT INTO WINAPI_FUNCTION (NAME, DESCRIPTION, CLASS_ID) VALUES
-  ('max_size', 'Returns the maximum length of a list.', 1),
-  ('merge',
-   'Removes the elements from the argument list, inserts them into the target list, and orders the new, combined set of elements in ascending order or in some other specified order.',
-   1);
-INSERT INTO WINAPI_PARAMETER (TYPE, NAME, FUNCTION_ID) VALUES
-  (
-    'list<Type, Allocator>& ', 'right', 2
-  ),
-  ('Traits','comp', 2);
+alter table WINAPI_FUNCTION
+  add constraint WINAPI_FUNCTION_ibfk_1
+foreign key (CLASS_ID) references WINAPI_USER_ELEMENT (ID)
+  on delete cascade
+;
+

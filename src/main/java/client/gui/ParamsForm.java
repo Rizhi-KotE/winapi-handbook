@@ -24,13 +24,13 @@ class ParamsForm extends HBox {
 
     private void crateForm() {
         param = new TextField();
-        parameter
-                .map(WinApiParameter::getName)
-                .feedTo(param.textProperty());
-        Button remove = new Button("Remove");
-        remove.setOnAction(e -> o.run());
-        setSpacing(10);
-        getChildren().addAll(param, remove);
+//        parameter
+//                .map(WinApiParameter::getName)
+//                .feedTo(param.textProperty());
+//        Button remove = new Button("Remove");
+//        remove.setOnAction(e -> o.run());
+//        setSpacing(10);
+//        getChildren().addAll(param, remove);
     }
 
     void pushParameter(WinApiParameter parameter) {
@@ -38,7 +38,8 @@ class ParamsForm extends HBox {
     }
 
     WinApiParameter getParam() {
-        return new WinApiParameter(id, "", param.getText());
+        throw new IllegalArgumentException();
+//        return new WinApiParameter(id, "", param.getText());
     }
 
     public void removeAction(Runnable o) {

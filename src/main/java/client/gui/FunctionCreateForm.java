@@ -101,7 +101,8 @@ public class FunctionCreateForm extends VBox {
 
     public WinApiFunction getFunction() {
         List<WinApiParameter> collect = getParams();
-        return new WinApiFunction(id, name.getText(), description.getText(), collect);
+        throw new IllegalArgumentException();
+//        return new WinApiFunction(id, name.getText(), description.getText(),  collect);
     }
 
     public void pushFunction(WinApiFunction function) {
@@ -117,8 +118,9 @@ public class FunctionCreateForm extends VBox {
 
     void addNewParam(ActionEvent actionEvent) {
         WinApiFunction function = getFunction();
-        function.getParams().add(new WinApiParameter(0l, "", ""));
-        pushFunction(function);
+        throw new IllegalArgumentException();
+//        function.getParams().add(new WinApiParameter(0l, "", ""));
+//        pushFunction(function);
     }
 
     List<ParamsForm> getParamsForm() {

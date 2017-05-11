@@ -2,7 +2,8 @@ package common.service.impl;
 
 import common.exception.HandbookException;
 import lombok.Setter;
-import model.WinApiClass;
+import model.WinApiFunctionRequirement;
+import model.WinApiUserElement;
 import model.WinApiFunction;
 import model.WinApiParameter;
 
@@ -22,36 +23,29 @@ public class DummyHandbookService implements WinApiHandbookService {
     HashMap<String, Long> files;
 
     @Setter
-    HashMap<Long, WinApiClass> topics = new HashMap<>();
+    HashMap<Long, WinApiUserElement> topics = new HashMap<>();
 
     public void setup() {
         for (Map.Entry<String, Long> name : files.entrySet()) {
             InputStream stream = this.getClass().getClassLoader().getResourceAsStream(name.getKey());
             if (stream == null) throw new RuntimeException("resource not found " + name.getKey());
             String html = new BufferedReader(new InputStreamReader(stream)).lines().collect(joining("\n"));
-//            topics.put(name.getValue(), new WinApiClass(name.getValue(), html, name.getValue().toString()));
+//            topics.put(name.getValue(), new WinApiUserElement(name.getValue(), html, name.getValue().toString()));
         }
     }
 
     @Override
-    public WinApiClass getWinApiClass(long id) throws HandbookException {
+    public WinApiUserElement getUserElement(long id) throws HandbookException {
         return null;
     }
 
     @Override
-    public List<WinApiClass> findClasses(String keyword) throws HandbookException {
-        return topics.entrySet().stream().filter(tuple -> tuple.getValue().getName().contains(keyword))
-                .map(Map.Entry::getValue)
-                .collect(Collectors.toList());
+    public WinApiUserElement saveOrUpdateUserElement(WinApiUserElement winApiUserElement) throws HandbookException {
+        return topics.put(winApiUserElement.getId(), winApiUserElement);
     }
 
     @Override
-    public WinApiClass saveOrUpdate(WinApiClass winApiClass) throws HandbookException {
-        return topics.put(winApiClass.getId(), winApiClass);
-    }
-
-    @Override
-    public int removeClass(long id) throws HandbookException {
+    public int removeElement(long id) throws HandbookException {
         return 1;
     }
 
@@ -86,6 +80,21 @@ public class DummyHandbookService implements WinApiHandbookService {
     @Override
     public int removeWinApiParameter(long id) throws HandbookException {
 
+        return 0;
+    }
+
+    @Override
+    public WinApiFunctionRequirement createRequirement(long functionId, WinApiFunctionRequirement requirement) throws HandbookException {
+        return null;
+    }
+
+    @Override
+    public int updateRequirement(WinApiFunctionRequirement requirement) throws HandbookException {
+        return 0;
+    }
+
+    @Override
+    public int removeRequirement(long id) throws HandbookException {
         return 0;
     }
 }

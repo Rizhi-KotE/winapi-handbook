@@ -3,8 +3,8 @@ import client.gui.FindClassesWidget
 import client.gui.FunctionCreateForm
 import client.gui.MainWindow
 import client.gui.WinApiHandbookReactor
-import client.service.ThriftHandbookService
-import model.WinApiClass
+import common.service.impl.DummyHandbookService
+import model.WinApiUserElement
 import org.springframework.beans.factory.support.LookupOverride
 import org.springframework.beans.factory.support.MethodOverrides
 
@@ -12,14 +12,8 @@ beans {
     handbookService(DummyHandbookService) { bean ->
         bean.initMethod = 'setup'
         files = new HashMap<>()
-        topics = [1l: new WinApiClass(1l,"class1", "",[])]
+        topics = [1l: new WinApiUserElement(1l,"class1", "",[])]
     }
-
-//    handbookService(ThriftHandbookService) { bean ->
-//        bean.initMethod = 'setup'
-//        host = 'localhost'
-//        port = 9090
-//    }
 
     reactor(WinApiHandbookReactor, handbookService)
 

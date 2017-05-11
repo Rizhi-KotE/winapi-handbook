@@ -5,7 +5,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import model.WinApiClass;
+import model.WinApiUserElement;
 import model.WinApiFunction;
 import org.reactfx.EventSource;
 
@@ -18,7 +18,7 @@ import static java.util.stream.Collectors.toList;
 public abstract class ClassCreateForm extends VBox {
 
     final WinApiHandbookReactor reactor;
-    final EventSource<WinApiClass> winApiClass;
+    final EventSource<WinApiUserElement> winApiClass;
     private final VBox vBox;
     VBox functionForms;
     TextArea description;
@@ -39,7 +39,7 @@ public abstract class ClassCreateForm extends VBox {
         winApiClass = new EventSource<>();
         setPadding(new Insets(5, 10, 10, 10));
         winApiClass
-                .map(WinApiClass::getId)
+                .map(WinApiUserElement::getId)
                 .subscribe(e -> id = e);
         reactor.getClassEventSource().feedTo(winApiClass);
         createNameBlock();
@@ -52,7 +52,7 @@ public abstract class ClassCreateForm extends VBox {
         Label label = new Label("Name");
         name = new TextField();
         winApiClass
-                .map(WinApiClass::getName)
+                .map(WinApiUserElement::getName)
                 .feedTo(name.textProperty());
         HBox hBox = new HBox(label, name);
         hBox.setSpacing(10);
@@ -64,7 +64,7 @@ public abstract class ClassCreateForm extends VBox {
         description = new TextArea();
         description.setWrapText(true);
         winApiClass
-                .map(WinApiClass::getDescription)
+                .map(WinApiUserElement::getDescription)
                 .feedTo(description.textProperty());
 
         VBox vBox = new VBox(label, description);
@@ -78,7 +78,7 @@ public abstract class ClassCreateForm extends VBox {
 
         VBox vBox = new VBox(addFunction, functionForms);
         winApiClass
-                .map(WinApiClass::getFunctions)
+                .map(WinApiUserElement::getFunctions)
                 .map(f -> f.stream().map(this::functionCreateForm).collect(toList()))
                 .hook(list -> {
                     for (int i = 0; i < list.size(); i++) {
@@ -103,22 +103,22 @@ public abstract class ClassCreateForm extends VBox {
     }
 
     void removeFunction(int number) {
-        WinApiClass winApiClass = getWinApiClass();
-        WinApiFunction function = winApiClass.getFunctions().get(number);
+        WinApiUserElement winApiUserElement = getWinApiClass();
+        WinApiFunction function = winApiUserElement.getFunctions().get(number);
         reactor.removeFunction(function);
-        pushClass(winApiClass);
+        pushClass(winApiUserElement);
     }
 
-    WinApiClass getWinApiClass() {
-        return new WinApiClass(
+    WinApiUserElement getWinApiClass() {
+        return new WinApiUserElement(
                 id,
                 name.getText(),
                 description.getText(),
                 getClassFunctions());
     }
 
-    void pushClass(WinApiClass winApiClass) {
-        this.winApiClass.push(winApiClass);
+    void pushClass(WinApiUserElement winApiUserElement) {
+        this.winApiClass.push(winApiUserElement);
     }
 
     List<WinApiFunction> getClassFunctions() {
@@ -138,10 +138,11 @@ public abstract class ClassCreateForm extends VBox {
     }
 
     void addNewFunction(ActionEvent e) {
-        WinApiClass winApiClass = getWinApiClass();
-        winApiClass.getFunctions().add(
-                new WinApiFunction(0l, "", "",  new ArrayList<>()));
-        pushClass(winApiClass);
+        WinApiUserElement winApiUserElement = getWinApiClass();
+
+//        winApiUserElement.getFunctions().add(
+//                new WinApiFunction(0l, "", "",  new ArrayList<>()));
+//        pushClass(winApiUserElement);
     }
 
     void submit(ActionEvent e) {

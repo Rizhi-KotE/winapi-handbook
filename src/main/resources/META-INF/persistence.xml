@@ -5,10 +5,10 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <!--<class>model.WinApiParameter</class>-->
         <!--<class>model.WinApiFunction</class>-->
-        <!--<class>model.WinApiClass</class>-->
+        <!--<clmodel.WinApiUserElementlementlass</class>-->
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
-            <!--<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>-->
+            <!--<property name="hibernate.dialevaluealue="org.hibernate.dialect.MySQL5Dialect"/>-->
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
         </properties>

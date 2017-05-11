@@ -1,5 +1,8 @@
 <dataset>
-    <WINAPI_CLASS ID="1" NAME="class" DESCRIPTION="desc"/>
-    <WINAPI_FUNCTION ID="1" NAME="func" DESCRIPTION="desc" CLASS_ID="1"/>
-    <WINAPI_PARAMETER ID="1" NAME="param1" TYPE="type1" FUNCTION_ID="1"/>
+    <WINAPI_USER_ELEMENT ID="1" NAME="elem" DESCRIPTION="dec"/>
+    <WINAPI_FUNCTION ID="1" NAME="func" DESCRIPTION="dec" CLASS_ID="1" return_type="return_type"
+                     return_type_description="return_dec" syntax="syntax"/>
+    <WINAPI_PARAMETER ID="1" description="dec1" first_definition="first_def1"
+                      type_definition="type_def1" FUNCTION_ID="1"/>
+    <REQUIREMET function_id="1" id="1" category="key" category_value="value"/>
 </dataset>

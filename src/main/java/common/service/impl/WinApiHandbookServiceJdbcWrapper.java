@@ -1,7 +1,8 @@
 package common.service.impl;
 
 import common.exception.HandbookException;
-import model.WinApiClass;
+import model.WinApiFunctionRequirement;
+import model.WinApiUserElement;
 import model.WinApiFunction;
 import model.WinApiParameter;
 
@@ -19,24 +20,19 @@ public class WinApiHandbookServiceJdbcWrapper implements WinApiHandbookService {
     }
 
     @Override
-    public WinApiClass getWinApiClass(long id) throws HandbookException {
-        return service.getWinApiClass(id);
+    public WinApiUserElement getUserElement(long id) throws HandbookException {
+        return service.getUserElement(id);
     }
 
     @Override
-    public List<WinApiClass> findClasses(String keyword) throws HandbookException {
-        return service.findClasses(keyword);
+    public WinApiUserElement saveOrUpdateUserElement(WinApiUserElement winApiUserElement) throws HandbookException {
+        return service.saveOrUpdateUserElement(winApiUserElement);
     }
 
     @Override
-    public WinApiClass saveOrUpdate(WinApiClass winApiClass) throws HandbookException {
-        return service.saveOrUpdate(winApiClass);
-    }
-
-    @Override
-    public int removeClass(long id) throws HandbookException {
+    public int removeElement(long id) throws HandbookException {
         int result;
-        if ((result = service.removeClass(id)) == 0) {
+        if ((result = service.removeElement(id)) == 0) {
             throw new HandbookException(format("Class [id=%d] was not deleted",id));
         }
         return result;
@@ -86,5 +82,20 @@ public class WinApiHandbookServiceJdbcWrapper implements WinApiHandbookService {
             throw new HandbookException(format("Parameter [id=%d] was not deleted",id));
         }
         return result;
+    }
+
+    @Override
+    public WinApiFunctionRequirement createRequirement(long functionId, WinApiFunctionRequirement requirement) throws HandbookException {
+        return null;
+    }
+
+    @Override
+    public int updateRequirement(WinApiFunctionRequirement requirement) throws HandbookException {
+        return 0;
+    }
+
+    @Override
+    public int removeRequirement(long id) throws HandbookException {
+        return 0;
     }
 }

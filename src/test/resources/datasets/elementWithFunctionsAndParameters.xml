@@ -1,0 +1,17 @@
+<!--<!DOCTYPE dataset SYSTEM "test.dtd">-->
+<dataset>
+    <WINAPI_USER_ELEMENT ID="1" NAME="elem" DESCRIPTION="dec"/>
+    <WINAPI_FUNCTION ID="1" NAME="func" DESCRIPTION="dec" CLASS_ID="1" return_type="return_type"
+                     return_type_description="return_dec" syntax="syntax"/>
+    <WINAPI_FUNCTION ID="2" NAME="func" DESCRIPTION="dec" CLASS_ID="1" return_type="return_type"
+                     return_type_description="return_dec" syntax="syntax"/>
+    <WINAPI_PARAMETER ID="1" description="dec" first_definition="first_def"
+                      type_definition="type_def" FUNCTION_ID="1"/>
+    <WINAPI_PARAMETER ID="2" description="dec" first_definition="first_def"
+                      type_definition="type_def" FUNCTION_ID="1"/>
+    <WINAPI_PARAMETER ID="3" description="dec" first_definition="first_def"
+                      type_definition="type_def" FUNCTION_ID="2"/>
+    <WINAPI_PARAMETER ID="4" description="dec" first_definition="first_def"
+                      type_definition="type_def" FUNCTION_ID="2"/>
+    <REQUIREMET function_id="1" id="1" category="key" category_value="value"/>
+</dataset>

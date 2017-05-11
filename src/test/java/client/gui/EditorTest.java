@@ -35,18 +35,18 @@ public class EditorTest {
 //        editor.createNewTopic("header");
 //        editor.htmlEditor.setHtmlText("content2");
 //        editor.saveTopic();
-//        List<WinApiClass> header = editor.service.findClasses("header");
+//        List<WinApiUserElement> header = editor.service.findClasses("header");
 //        assertEquals("content2", header.get(0).getContent());
 //    }
 //
 //    @Test
 //    public void changeTopic() throws Exception {
-//        WinApiClass topic = new WinApiClass(1l, "content", "header");
-//        editor.service.saveOrUpdate(topic);
+//        WinApiUserElement topic = new WinApiUserElement(1l, "content", "header");
+//        editor.service.saveOrUpdateUserElement(topic);
 //        editor.currentTopic.setValue(topic);
 //        editor.htmlEditor.setHtmlText("changed");
 //        editor.saveTopic();
-//        List<WinApiClass> header = editor.service.findClasses("header");
+//        List<WinApiUserElement> header = editor.service.findClasses("header");
 //        assertEquals("changed", header.get(0).getContent());
 //    }
 //
@@ -58,7 +58,7 @@ public class EditorTest {
 //
 //    @Test
 //    public void changeTopicToNotNull() {
-//        WinApiClass topic = new WinApiClass(1, "content", "header");
+//        WinApiUserElement topic = new WinApiUserElement(1, "content", "header");
 //        editor.currentTopic.setValue(topic);
 //        assertEquals(topic.getContent(), editor.htmlEditor.getHtmlText());
 //    }

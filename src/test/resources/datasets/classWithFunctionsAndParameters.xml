@@ -1,9 +1,0 @@
-<dataset>
-    <WINAPI_CLASS ID="1" NAME="class" DESCRIPTION="class_dec"/>
-    <WINAPI_FUNCTION ID="1" NAME="function" DESCRIPTION="func_dec" CLASS_ID="1"/>
-    <WINAPI_FUNCTION ID="2" NAME="function" DESCRIPTION="func_dec" CLASS_ID="1"/>
-    <WINAPI_PARAMETER ID="1" NAME="param" TYPE="type" FUNCTION_ID="1"/>
-    <WINAPI_PARAMETER ID="2" NAME="param" TYPE="type" FUNCTION_ID="1"/>
-    <WINAPI_PARAMETER ID="3" NAME="param" TYPE="type" FUNCTION_ID="2"/>
-    <WINAPI_PARAMETER ID="4" NAME="param" TYPE="type" FUNCTION_ID="2"/>
-</dataset>

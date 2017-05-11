@@ -8,9 +8,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class WinApiParameter {
+    /**
+     * identifier in database
+     */
     long id;
 
-    String type;
+    /**
+     * definition of name and attributes of parameter
+     */
+    String firstDefinition;
 
-    String name;
+    /**
+     * definition of parameter values type
+     */
+    String typeDefinition;
+
+    /**
+     * special description of parameter
+     */
+    String description;
 }

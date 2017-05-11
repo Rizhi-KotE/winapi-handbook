@@ -1,7 +1,7 @@
 import client.gui.FindClassesWidget
 import javafx.beans.property.SimpleObjectProperty
 import common.service.impl.DummyHandbookService
-import model.WinApiClass
+import model.WinApiUserElement
 
 beans {
     dummyHandbookService(DummyHandbookService) { bean ->
@@ -10,7 +10,7 @@ beans {
         topics = new HashMap<>()
     }
     currentTopicProperty(SimpleObjectProperty) {
-        value = new WinApiClass()
+        value = new WinApiUserElement()
     }
 
     findView(FindClassesWidget) { bean ->

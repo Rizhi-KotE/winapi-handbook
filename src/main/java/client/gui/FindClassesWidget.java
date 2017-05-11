@@ -1,30 +1,24 @@
 package client.gui;
 
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventType;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import model.WinApiClass;
+import model.WinApiUserElement;
 import org.reactfx.EventSource;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
 import static javafx.scene.input.MouseEvent.MOUSE_CLICKED;
 import static org.reactfx.EventStreams.eventsOf;
 
 
 public class FindClassesWidget extends VBox {
 
-    final EventSource<List<WinApiClass>> classes;
+    final EventSource<List<WinApiUserElement>> classes;
     final WinApiHandbookReactor reactor;
-    ListView<WinApiClass> classesView;
+    ListView<WinApiUserElement> classesView;
 
     public FindClassesWidget(WinApiHandbookReactor reactor) {
         this.reactor = reactor;
@@ -51,27 +45,27 @@ public class FindClassesWidget extends VBox {
                 .subscribe(this::chooseClass);
     }
 
-    void pushClasses(List<WinApiClass> classes) {
+    void pushClasses(List<WinApiUserElement> classes) {
         this.classes.push(classes);
     }
 
-    void chooseClass(WinApiClass s) {
+    void chooseClass(WinApiUserElement s) {
         reactor.getEditEventSource().push(new ActionEvent());
         reactor.pushClass(s);
     }
 
-    List<WinApiClass> getClasses() {
+    List<WinApiUserElement> getClasses() {
         return new ArrayList<>(classesView.getItems());
     }
 
-    private static class Cell extends ListCell<WinApiClass> {
+    private static class Cell extends ListCell<WinApiUserElement> {
 
-        Cell(ListView<WinApiClass> winApiClassListView) {
+        Cell(ListView<WinApiUserElement> winApiClassListView) {
             super();
         }
 
         @Override
-        protected void updateItem(WinApiClass item, boolean empty) {
+        protected void updateItem(WinApiUserElement item, boolean empty) {
             super.updateItem(item, empty);
             if (!empty) setText(item.getName());
             else setText("");

@@ -12,12 +12,24 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"functions", "id"})
-public class WinApiClass {
+public class WinApiUserElement {
+    /**
+     * identifier in database
+     */
     long id;
 
+    /**
+     * name of element
+     */
     String name;
 
+    /**
+     * element description
+     */
     String description;
 
+    /**
+     * element's functions
+     */
     List<WinApiFunction> functions;
 }

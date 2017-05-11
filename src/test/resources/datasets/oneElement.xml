@@ -1,6 +1,5 @@
-<!--<!DOCTYPE dataset SYSTEM "test.dtd">-->
 <dataset>
-    <WINAPI_USER_ELEMENT/>
+    <WINAPI_USER_ELEMENT ID="1" NAME="element" DESCRIPTION="element_dec"/>
     <WINAPI_FUNCTION/>
     <WINAPI_PARAMETER/>
     <REQUIREMET/>

@@ -1,5 +1,8 @@
+<!--<!DOCTYPE dataset SYSTEM "test.dtd">-->
 <dataset>
-    <WINAPI_CLASS ID="1" NAME="class" DESCRIPTION="desc"/>
-    <WINAPI_FUNCTION ID="1" NAME="func" DESCRIPTION="desc" CLASS_ID="1"/>
+    <WINAPI_USER_ELEMENT ID="1" NAME="elem" DESCRIPTION="dec"/>
+    <WINAPI_FUNCTION ID="1" NAME="func" DESCRIPTION="dec" CLASS_ID="1" return_type="return_type"
+                     return_type_description="return_dec" syntax="syntax"/>
     <WINAPI_PARAMETER/>
+    <REQUIREMET function_id="1" id="1" category="key" category_value="value"/>
 </dataset>

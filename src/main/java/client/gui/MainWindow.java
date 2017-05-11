@@ -6,13 +6,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import model.WinApiClass;
-import model.WinApiFunction;
-import model.WinApiParameter;
+import model.WinApiUserElement;
 
 import java.util.ArrayList;
-
-import static org.codehaus.groovy.runtime.InvokerHelper.asList;
 
 public class MainWindow extends VBox {
 
@@ -37,7 +33,7 @@ public class MainWindow extends VBox {
         reactor.getUpdateEventSource().subscribe(this::find);
         getChildren().addAll(classCreateForm, findClassesWidget);
         changeToEditorState(new ActionEvent());
-//        reactor.pushClass(new WinApiClass(1, "class", "description", "example",
+//        reactor.pushClass(new WinApiUserElement(1, "class", "description", "example",
 //                asList(new WinApiFunction(1, "function", "description", "example",
 //                        asList(new WinApiParameter(1, "type", "parameter"))))));
     }
@@ -66,7 +62,7 @@ public class MainWindow extends VBox {
 
     private void createClass(ActionEvent actionEvent) {
         classCreateForm.submit(new ActionEvent());
-        reactor.pushClass(new WinApiClass(0, "", "", new ArrayList<>()));
+        reactor.pushClass(new WinApiUserElement(0, "", "", new ArrayList<>()));
     }
 
     void find(ActionEvent actionEvent) {
