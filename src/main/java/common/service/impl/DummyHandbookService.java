@@ -8,13 +8,12 @@ import model.WinApiFunctionRequirement;
 import model.WinApiParameter;
 import model.WinApiUserElement;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.*;
-
-import static java.util.stream.Collectors.joining;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 
 public class DummyHandbookService implements WinApiHandbookService {
 
@@ -41,7 +40,11 @@ public class DummyHandbookService implements WinApiHandbookService {
 
     @Override
     public WinApiUserElement getUserElement(long id) throws HandbookException {
-        return topics.get(id);
+        WinApiUserElement element = topics.get(id);
+        if (element == null) {
+            throw new HandbookException();
+        }
+        return element;
     }
 
     @Override
@@ -64,14 +67,24 @@ public class DummyHandbookService implements WinApiHandbookService {
 
     @Override
     public int updateFunction(WinApiFunction function) throws HandbookException {
-
-        return 0;
+        Collection<WinApiUserElement> element = topics.values();
+        element.forEach(e -> {
+            for (int i = 0; i < e.getFunctions().size(); i++) {
+                if (e.getFunctions().get(i).getId() == function.getId()) {
+                    e.getFunctions().set(i, function);
+                }
+            }
+        });
+        return 1;
     }
 
     @Override
     public int removeWinApiFunction(long id) throws HandbookException {
-
-        return 0;
+        Collection<WinApiUserElement> element = topics.values();
+        element.forEach(e -> {
+            e.getFunctions().removeIf(f -> f.getId() == id);
+        });
+        return 1;
     }
 
     @Override
@@ -138,7 +151,8 @@ public class DummyHandbookService implements WinApiHandbookService {
                 }
             });
         });
-        return 1;    }
+        return 1;
+    }
 
     @Override
     public int removeRequirement(long id) throws HandbookException {

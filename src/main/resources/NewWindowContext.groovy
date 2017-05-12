@@ -1,4 +1,4 @@
-import client.gui.ClassCreateForm
+import client.gui.ElementCreateForm
 import client.gui.FunctionCreateForm
 import client.gui.WinApiHandbookReactor
 import org.springframework.beans.factory.support.LookupOverride
@@ -11,7 +11,7 @@ beans {
         bean -> bean.scope = 'prototype'
     }
 
-    classCreateForm(ClassCreateForm, reactor) { bean ->
+    classCreateForm(ElementCreateForm, reactor) { bean ->
         bean.methodOverrides = new MethodOverrides()
         bean.methodOverrides.addOverride(new LookupOverride('functionCreateForm', 'functionCreateForm'))
     }

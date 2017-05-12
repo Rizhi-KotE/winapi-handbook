@@ -13,38 +13,38 @@ import java.util.ArrayList;
 public class MainWindow extends VBox {
 
     private final WinApiHandbookReactor reactor;
-    private final ClassCreateForm classCreateForm;
+    private final ElementCreateForm elementCreateForm;
     private final FindClassesWidget findClassesWidget;
     TextField search;
 
-    public MainWindow(WinApiHandbookReactor reactor, ClassCreateForm classCreateForm, FindClassesWidget findClassesWidget) {
+    public MainWindow(WinApiHandbookReactor reactor, ElementCreateForm elementCreateForm, FindClassesWidget findClassesWidget) {
 
         this.reactor = reactor;
-        this.classCreateForm = classCreateForm;
+        this.elementCreateForm = elementCreateForm;
         this.findClassesWidget = findClassesWidget;
         reactor.listEventSource.subscribe(e -> changeToBrowseState(new ActionEvent()));
         reactor.refreshEventSource.subscribe(this::find);
         reactor.classEventSource.subscribe(e -> changeToEditorState(new ActionEvent()));
-        classCreateForm.managedProperty().bind(classCreateForm.visibleProperty());
+        elementCreateForm.managedProperty().bind(elementCreateForm.visibleProperty());
         findClassesWidget.managedProperty().bind(findClassesWidget.visibleProperty());
         reactor.getEditEventSource().subscribe(this::changeToEditorState);
         reactor.getFindEventSource().subscribe(this::changeToBrowseState);
         createSearchLine();
         reactor.getUpdateEventSource().subscribe(this::find);
-        getChildren().addAll(classCreateForm, findClassesWidget);
+        getChildren().addAll(elementCreateForm, findClassesWidget);
         changeToEditorState(new ActionEvent());
-//        reactor.pushClass(new WinApiUserElement(1, "class", "description", "example",
-//                asList(new WinApiFunction(1, "function", "description", "example",
+//        reactor.pushClass(new WinApiUserElement(1, "class", "key", "example",
+//                asList(new WinApiFunction(1, "function", "key", "example",
 //                        asList(new WinApiParameter(1, "type", "parameter"))))));
     }
 
     void changeToBrowseState(Event e) {
-        classCreateForm.setVisible(false);
+        elementCreateForm.setVisible(false);
         findClassesWidget.setVisible(true);
     }
 
     void changeToEditorState(Event e) {
-        classCreateForm.setVisible(true);
+        elementCreateForm.setVisible(true);
         findClassesWidget.setVisible(false);
     }
 
@@ -68,7 +68,7 @@ public class MainWindow extends VBox {
     }
 
     private void createClass(ActionEvent actionEvent) {
-        classCreateForm.submit(new ActionEvent());
+        elementCreateForm.submit(new ActionEvent());
         reactor.pushClass(new WinApiUserElement(0, "", "", new ArrayList<>()));
     }
 

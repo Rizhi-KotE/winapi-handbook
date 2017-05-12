@@ -51,7 +51,7 @@ public class FindClassesWidget extends VBox {
 
     void chooseClass(WinApiUserElement s) {
         reactor.getEditEventSource().push(new ActionEvent());
-        reactor.pushClass(s);
+        reactor.chooseClass(s.getId());
     }
 
     List<WinApiUserElement> getClasses() {

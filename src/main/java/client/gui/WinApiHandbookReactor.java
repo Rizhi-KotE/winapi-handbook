@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import lombok.Getter;
 import lombok.Setter;
 import model.WinApiFunction;
+import model.WinApiFunctionRequirement;
 import model.WinApiParameter;
 import model.WinApiUserElement;
 import org.reactfx.EventSource;
@@ -66,8 +67,9 @@ public class WinApiHandbookReactor {
 
     public void removeFunction(WinApiFunction function) {
         try {
-            service.removeElement(function.getId());
+            service.removeWinApiFunction(function.getId());
             refreshEventSource.push(new ActionEvent());
+            editEventSource.push(new ActionEvent());
         } catch (HandbookException e) {
             exceptionEventSource.push(e);
         }
@@ -75,8 +77,28 @@ public class WinApiHandbookReactor {
 
     public void removeParameter(WinApiParameter winApiParameter) {
         try {
-            service.removeElement(winApiParameter.getId());
+            service.removeWinApiParameter(winApiParameter.getId());
             refreshEventSource.push(new ActionEvent());
+            editEventSource.push(new ActionEvent());
+        } catch (HandbookException e) {
+            exceptionEventSource.push(e);
+        }
+    }
+
+    public void removeRequirement(WinApiFunctionRequirement requirement) {
+        try {
+            service.removeRequirement(requirement.getId());
+            refreshEventSource.push(new ActionEvent());
+            editEventSource.push(new ActionEvent());
+        } catch (HandbookException e) {
+            exceptionEventSource.push(e);
+        }
+    }
+
+    public void chooseClass(long id) {
+        try {
+            WinApiUserElement userElement = service.getUserElement(id);
+            pushClass(userElement);
         } catch (HandbookException e) {
             exceptionEventSource.push(e);
         }

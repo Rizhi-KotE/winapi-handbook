@@ -2,30 +2,32 @@ package client.gui;
 
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import model.WinApiUserElement;
 import model.WinApiFunction;
+import model.WinApiUserElement;
 import org.reactfx.EventSource;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
 
-public abstract class ClassCreateForm extends VBox {
+public abstract class ElementCreateForm extends VBox {
 
     final WinApiHandbookReactor reactor;
     final EventSource<WinApiUserElement> winApiClass;
     private final VBox vBox;
     VBox functionForms;
-    TextArea description;
+    //    TextArea key;
     TextField name;
     long id;
 
-    ClassCreateForm(WinApiHandbookReactor reactor) {
+    ElementCreateForm(WinApiHandbookReactor reactor) {
         vBox = new VBox();
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(vBox);
@@ -43,32 +45,22 @@ public abstract class ClassCreateForm extends VBox {
                 .subscribe(e -> id = e);
         reactor.getClassEventSource().feedTo(winApiClass);
         createNameBlock();
-        createDescriptionBlock();
         createFunctionsFields();
         createSaveButton();
+        setMaxWidth(630);
+        reactor.refreshEventSource.subscribe(e -> reactor.chooseClass(id));
     }
 
     void createNameBlock() {
         Label label = new Label("Name");
         name = new TextField();
+        name.setPrefWidth(500);
         winApiClass
                 .map(WinApiUserElement::getName)
                 .feedTo(name.textProperty());
         HBox hBox = new HBox(label, name);
         hBox.setSpacing(10);
         vBox.getChildren().add(hBox);
-    }
-
-    void createDescriptionBlock() {
-        Label label = new Label("Description");
-        description = new TextArea();
-        description.setWrapText(true);
-        winApiClass
-                .map(WinApiUserElement::getDescription)
-                .feedTo(description.textProperty());
-
-        VBox vBox = new VBox(label, description);
-        this.vBox.getChildren().add(vBox);
     }
 
     void createFunctionsFields() {
@@ -106,14 +98,13 @@ public abstract class ClassCreateForm extends VBox {
         WinApiUserElement winApiUserElement = getWinApiClass();
         WinApiFunction function = winApiUserElement.getFunctions().get(number);
         reactor.removeFunction(function);
-        pushClass(winApiUserElement);
     }
 
     WinApiUserElement getWinApiClass() {
         return new WinApiUserElement(
                 id,
                 name.getText(),
-                description.getText(),
+                "",
                 getClassFunctions());
     }
 
@@ -140,9 +131,9 @@ public abstract class ClassCreateForm extends VBox {
     void addNewFunction(ActionEvent e) {
         WinApiUserElement winApiUserElement = getWinApiClass();
 
-//        winApiUserElement.getFunctions().add(
-//                new WinApiFunction(0l, "", "",  new ArrayList<>()));
-//        pushClass(winApiUserElement);
+        winApiUserElement.getFunctions().add(
+                new WinApiFunction());
+        pushClass(winApiUserElement);
     }
 
     void submit(ActionEvent e) {

@@ -5,13 +5,18 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @EqualsAndHashCode(exclude = {"id", "params"})
 public class WinApiFunction {
+
+    public WinApiFunction() {
+        params = new ArrayList<>();
+        requirements = new ArrayList<>();
+    }
 
     /**
      * identifier in db

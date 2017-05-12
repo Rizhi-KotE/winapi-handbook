@@ -1,4 +1,4 @@
-import client.gui.ClassCreateForm
+import client.gui.ElementCreateForm
 import client.gui.FindClassesWidget
 import client.gui.FunctionCreateForm
 import client.gui.MainWindow
@@ -21,7 +21,7 @@ beans {
         bean -> bean.scope = 'prototype'
     }
 
-    classCreateForm(ClassCreateForm, reactor) { bean ->
+    classCreateForm(ElementCreateForm, reactor) { bean ->
         bean.methodOverrides = new MethodOverrides()
         bean.methodOverrides.addOverride(new LookupOverride('functionCreateForm', 'functionCreateForm'))
     }
