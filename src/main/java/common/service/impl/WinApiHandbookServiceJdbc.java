@@ -31,10 +31,10 @@ public class WinApiHandbookServiceJdbc implements WinApiHandbookService {
     public static final String WINAPI_FUNCTION = "WINAPI_FUNCTION";
     public static final String WINAPI_PARAMETER = "WINAPI_PARAMETER";
     public static final String WINAPI_USER_ELEMENT = "WINAPI_USER_ELEMENT";
-    private static final String SELECT_BY_ID = "SELECT * FROM WINAPI_USER_ELEMENT WHERE id=?";
-    private static final String SELECT_BY_CLASS = "SELECT * FROM WINAPI_FUNCTION WHERE class_id=?";
     public static final String GET_REQUIREMENT_BY_FUNCTION = "SELECT * FROM REQUIREMET WHERE function_id=?";
     public static final String DELETE_REQUIREMENT = "DELETE FROM REQUIREMET WHERE id=?";
+    private static final String SELECT_BY_ID = "SELECT * FROM WINAPI_USER_ELEMENT WHERE id=?";
+    private static final String SELECT_BY_CLASS = "SELECT * FROM WINAPI_FUNCTION WHERE class_id=?";
     public static Logger log = Logger.getLogger(WinApiHandbookServiceJdbc.class);
     private final JdbcTemplate template;
     private RowMapper<WinApiUserElement> winApiClassRowMapper = (rs, rowNum) -> {
@@ -68,7 +68,7 @@ public class WinApiHandbookServiceJdbc implements WinApiHandbookService {
         String description = rs.getString("description");
         return new WinApiParameter(id, firstDefinition, typeDefinition, description);
     };
-    private RowMapper<WinApiFunctionRequirement> winApiRequirementRowMapper = (rs, rowNum)->{
+    private RowMapper<WinApiFunctionRequirement> winApiRequirementRowMapper = (rs, rowNum) -> {
         long id = rs.getLong("id");
         String category = rs.getString("category");
         String categoryValue = rs.getString("category_value");
@@ -101,7 +101,7 @@ public class WinApiHandbookServiceJdbc implements WinApiHandbookService {
         log.debug(format("save or update class [id=%d]", winApiUserElement.getId()));
         long id = winApiUserElement.getId();
         if (winApiUserElement.getId() == 0) {
-            id = createNewClass(winApiUserElement).getId();
+            id = createNewUserElement(winApiUserElement).getId();
         } else {
             updateClass(winApiUserElement);
         }
@@ -159,11 +159,13 @@ public class WinApiHandbookServiceJdbc implements WinApiHandbookService {
 
     @Override
     public int removeWinApiFunction(long id) throws HandbookException {
+        log.debug(format("remove function [id=%d]", id));
         return template.update(DELETE_FUNCTION, id);
     }
 
     @Override
     public WinApiParameter createParam(long functionId, WinApiParameter p) {
+        log.debug(format("create parameter function [id=%d] -> parameter [id=%d]", functionId, p.getId()));
         SimpleJdbcInsert paramsInsert = new SimpleJdbcInsert(template)
                 .usingGeneratedKeyColumns("id")
                 .withTableName(WINAPI_PARAMETER);
@@ -176,6 +178,7 @@ public class WinApiHandbookServiceJdbc implements WinApiHandbookService {
 
     @Override
     public int updateParam(WinApiParameter parameter) throws HandbookException {
+        log.debug(format("update parameter [id=%d]", parameter.getId()));
         return template.update(UPDATE_PARAM,
                 parameter.getFirstDefinition(), parameter.getTypeDefinition(), parameter.getDescription(), parameter.getId());
     }
@@ -187,6 +190,7 @@ public class WinApiHandbookServiceJdbc implements WinApiHandbookService {
 
     @Override
     public WinApiFunctionRequirement createRequirement(long functionId, WinApiFunctionRequirement r) throws HandbookException {
+        log.debug(format("create requirement function [id=%d] -> requirement [id=%d]", functionId, r.getId()));
         SimpleJdbcInsert insert = new SimpleJdbcInsert(template)
                 .usingGeneratedKeyColumns("id")
                 .withTableName(REQUIREMENT);
@@ -199,23 +203,19 @@ public class WinApiHandbookServiceJdbc implements WinApiHandbookService {
 
     @Override
     public int updateRequirement(WinApiFunctionRequirement requirement) throws HandbookException {
+        log.debug(format("update requirement [id=%d]", requirement.getId()));
         return template.update(UPDATE_REQUIREMENT,
                 requirement.getKey(), requirement.getValue(), requirement.getId());
     }
 
     @Override
     public int removeRequirement(long id) throws HandbookException {
+        log.debug(format("remove requirement [id=%d]", id));
         return template.update(DELETE_REQUIREMENT, id);
     }
 
-    private MapSqlParameterSource mapRequirementToRow(long functionId, WinApiFunctionRequirement r) {
-        return new MapSqlParameterSource()
-                .addValue("category", r.getKey())
-                .addValue("category_value", r.getValue())
-                .addValue("function_id", functionId);
-    }
-
-    public List<WinApiFunction> getFunctionByClass(WinApiUserElement winApiUserElement) {
+    List<WinApiFunction> getFunctionByClass(WinApiUserElement winApiUserElement) {
+        log.debug(format("get element's [id=%d] functions ", winApiUserElement.getId()));
         List<WinApiFunction> query = template.query(SELECT_BY_CLASS, new Object[]{winApiUserElement.getId()}, winApiFunctionRowMapper);
         return query.stream().map(f -> {
             List<WinApiParameter> params = getParameterByFunction(f.getId());
@@ -226,27 +226,37 @@ public class WinApiHandbookServiceJdbc implements WinApiHandbookService {
         }).collect(toList());
     }
 
-    private List<WinApiFunctionRequirement> getRequirementsByFunction(long id) {
-        return template.query(GET_REQUIREMENT_BY_FUNCTION, new Object[]{id}, winApiRequirementRowMapper);
-    }
-
-    public List<WinApiParameter> getParameterByFunction(long functionId) {
+    List<WinApiParameter> getParameterByFunction(long functionId) {
+        log.debug(format("get function's [id=%d] parameters ", functionId));
         return template.query(SELECT_PARAMETERS_BY_FUNCTION, new Object[]{functionId}, winApiParameterRowMapper);
     }
 
-    private WinApiUserElement createNewClass(WinApiUserElement topic) throws HandbookException {
+    private List<WinApiFunctionRequirement> getRequirementsByFunction(long id) {
+        log.debug(format("get function's [id=%d] requirements ", id));
+        return template.query(GET_REQUIREMENT_BY_FUNCTION, new Object[]{id}, winApiRequirementRowMapper);
+    }
+
+    private MapSqlParameterSource mapRequirementToRow(long functionId, WinApiFunctionRequirement r) {
+        return new MapSqlParameterSource()
+                .addValue("category", r.getKey())
+                .addValue("category_value", r.getValue())
+                .addValue("function_id", functionId);
+    }
+
+    private WinApiUserElement createNewUserElement(WinApiUserElement element) throws HandbookException {
+        log.debug(format("create element [name=%s]", element.getName()));
         SimpleJdbcInsert insert = new SimpleJdbcInsert(template);
 
-        MapSqlParameterSource params = mapClassToRow(topic);
+        MapSqlParameterSource params = mapClassToRow(element);
         Number id = insert.usingGeneratedKeyColumns("id")
                 .withTableName(WINAPI_USER_ELEMENT)
                 .executeAndReturnKey(params);
-        topic.setId(id.longValue());
-        for (WinApiFunction f : topic.getFunctions()) {
-            createFunction(topic.getId(), f);
+        element.setId(id.longValue());
+        for (WinApiFunction f : element.getFunctions()) {
+            createFunction(element.getId(), f);
         }
 
-        return topic;
+        return element;
     }
 
     private MapSqlParameterSource mapClassToRow(WinApiUserElement topic) {
@@ -274,6 +284,7 @@ public class WinApiHandbookServiceJdbc implements WinApiHandbookService {
     }
 
     public int updateClass(WinApiUserElement winApiUserElement) throws HandbookException {
+        log.debug(format("update element [id=%d]", winApiUserElement.getId()));
         int update = template.update(UPDATE_CLASS,
                 winApiUserElement.getName(), winApiUserElement.getDescription(), winApiUserElement.getId());
         for (WinApiFunction function : winApiUserElement.getFunctions()) {

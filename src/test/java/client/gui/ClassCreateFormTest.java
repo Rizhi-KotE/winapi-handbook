@@ -182,14 +182,15 @@ public class ClassCreateFormTest {
     @Test
     public void chooseClass() throws Exception {
 
-        List<WinApiUserElement> winApiUserElements = asList(
-                new WinApiUserElement(1l, "class1", "", new ArrayList<>()),
-                new WinApiUserElement(2l, "class2", "", new ArrayList<>()));
+        reactor.save(new WinApiUserElement(1l, "class1", "", new ArrayList<>()));
+        reactor.save(new WinApiUserElement(2l, "class2", "", new ArrayList<>()));
 
+        reactor.refreshEventSource.push(new ActionEvent());
 
-        find.pushClasses(winApiUserElements);
+//        find.pushClasses(winApiUserElements);
 
-        find.chooseClass(winApiUserElements.get(0));
+        List<WinApiUserElement> all = reactor.getService().getAll();
+        find.chooseClass(all.get(0));
 
         assertEquals("class1", bean.getWinApiClass().getName());
 
