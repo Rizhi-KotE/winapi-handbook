@@ -20,6 +20,11 @@ public class WinApiHandbookServiceJdbcWrapper implements WinApiHandbookService {
     }
 
     @Override
+    public List<WinApiUserElement> getAll() throws HandbookException {
+        return null;
+    }
+
+    @Override
     public WinApiUserElement getUserElement(long id) throws HandbookException {
         return service.getUserElement(id);
     }

@@ -6,7 +6,16 @@ import model.WinApiFunctionRequirement;
 import model.WinApiParameter;
 import model.WinApiUserElement;
 
+import java.util.List;
+
 public interface WinApiHandbookService {
+
+    /**
+     * Get all exists elements
+     * @return
+     * @throws HandbookException
+     */
+    List<WinApiUserElement> getAll() throws HandbookException;
 
     /**
      * Find class instance by id

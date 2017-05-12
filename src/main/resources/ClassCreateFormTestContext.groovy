@@ -11,7 +11,7 @@ import org.springframework.beans.factory.support.MethodOverrides
 beans {
     handbookService(DummyHandbookService) { bean ->
         bean.initMethod = 'setup'
-        files = new HashMap<>()
+        files = ['methods/comboBox.json']
         topics = [1l: new WinApiUserElement(1l,"class1", "",[])]
     }
 

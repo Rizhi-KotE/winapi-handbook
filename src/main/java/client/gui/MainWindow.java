@@ -43,6 +43,11 @@ public class MainWindow extends VBox {
         findClassesWidget.setVisible(true);
     }
 
+    void changeToEditorState(Event e) {
+        classCreateForm.setVisible(true);
+        findClassesWidget.setVisible(false);
+    }
+
     private void createSearchLine() {
         search = new TextField();
         search.setPromptText("write class name");
@@ -51,13 +56,15 @@ public class MainWindow extends VBox {
 
         Button create = new Button("Create");
         create.setOnAction(this::createClass);
-        HBox hBox = new HBox(create, search, button);
+        Button refresh = new Button("Refresh");
+        refresh.setOnAction(this::refresh);
+        HBox hBox = new HBox(create, search, button, refresh);
         getChildren().add(hBox);
+
     }
 
-    void changeToEditorState(Event e) {
-        classCreateForm.setVisible(true);
-        findClassesWidget.setVisible(false);
+    void refresh(ActionEvent e) {
+        reactor.refreshEventSource.push(e);
     }
 
     private void createClass(ActionEvent actionEvent) {

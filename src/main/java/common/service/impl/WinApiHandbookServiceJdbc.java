@@ -80,6 +80,16 @@ public class WinApiHandbookServiceJdbc implements WinApiHandbookService {
     }
 
     @Override
+    public List<WinApiUserElement> getAll() throws HandbookException {
+        List<WinApiUserElement> elements = template.query("SELECT * FROM WINAPI_USER_ELEMENT", winApiClassRowMapper);
+        for (WinApiUserElement e : elements) {
+            List<WinApiFunction> functionByClass = getFunctionByClass(e);
+            e.setFunctions(functionByClass);
+        }
+        return elements;
+    }
+
+    @Override
     public WinApiUserElement getUserElement(long id) throws HandbookException {
         WinApiUserElement winApiUserElement = this.template.queryForObject(SELECT_BY_ID, new Object[]{id}, winApiClassRowMapper);
         winApiUserElement.setFunctions(getFunctionByClass(winApiUserElement));
