@@ -53,6 +53,14 @@ public interface WinApiHandbookService {
     WinApiFunction createFunction(long classId, WinApiFunction function) throws HandbookException;
 
     /**
+     * Get function
+     *
+     * @param functionId  - id of function
+     * @throws HandbookException
+     */
+    WinApiFunction getFunction(long functionId) throws HandbookException;
+
+    /**
      * Update function
      *
      * @param function

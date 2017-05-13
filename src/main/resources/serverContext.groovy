@@ -1,3 +1,4 @@
+import common.service.impl.InitBase
 import common.service.impl.WinApiHandbookServiceJdbcWrapper
 import org.springframework.jdbc.datasource.DriverManagerDataSource
 
@@ -21,10 +22,6 @@ beans {
     winApiHandbookService(WinApiHandbookServiceJdbcWrapper,
             dataSource)
 
-//    initDatabase(InitializeBase) { bean ->
-//        bean.initMethod = 'setup'
-//        content = ['methods/winApiClasses.json']
-//        repository = winApiHandbookHibernateService
-//    }
+    initDatabase(InitBase, winApiHandbookService, ['methods/comboBox.json'])
 
 }

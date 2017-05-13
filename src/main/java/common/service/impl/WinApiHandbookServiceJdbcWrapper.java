@@ -1,10 +1,12 @@
 package common.service.impl;
 
 import common.exception.HandbookException;
-import model.WinApiFunctionRequirement;
-import model.WinApiUserElement;
+import common.exception.WinApiNoContentException;
 import model.WinApiFunction;
+import model.WinApiFunctionRequirement;
 import model.WinApiParameter;
+import model.WinApiUserElement;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -21,12 +23,16 @@ public class WinApiHandbookServiceJdbcWrapper implements WinApiHandbookService {
 
     @Override
     public List<WinApiUserElement> getAll() throws HandbookException {
-        return null;
+        return service.getAll();
     }
 
     @Override
     public WinApiUserElement getUserElement(long id) throws HandbookException {
-        return service.getUserElement(id);
+        try {
+            return service.getUserElement(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new WinApiNoContentException(e);
+        }
     }
 
     @Override
@@ -38,7 +44,7 @@ public class WinApiHandbookServiceJdbcWrapper implements WinApiHandbookService {
     public int removeElement(long id) throws HandbookException {
         int result;
         if ((result = service.removeElement(id)) == 0) {
-            throw new HandbookException(format("Class [id=%d] was not deleted",id));
+            throw new HandbookException(format("Class [id=%d] was not deleted", id));
         }
         return result;
     }
@@ -49,15 +55,19 @@ public class WinApiHandbookServiceJdbcWrapper implements WinApiHandbookService {
     }
 
     @Override
-    public WinApiParameter createParam(long functionId, WinApiParameter parameter) throws HandbookException {
-        return service.createParam(functionId, parameter);
+    public WinApiFunction getFunction(long functionId) throws HandbookException {
+        try {
+            return service.getFunction(functionId);
+        } catch (EmptyResultDataAccessException e) {
+            throw new WinApiNoContentException(e);
+        }
     }
 
     @Override
     public int updateFunction(WinApiFunction function) throws HandbookException {
         int result;
         if ((result = service.updateFunction(function)) == 0) {
-            throw new HandbookException(format("Function [id=%d] was not updated",function.getId()));
+            throw new HandbookException(format("Function [id=%d] was not updated", function.getId()));
         }
         return result;
     }
@@ -66,16 +76,21 @@ public class WinApiHandbookServiceJdbcWrapper implements WinApiHandbookService {
     public int removeWinApiFunction(long id) throws HandbookException {
         int result;
         if ((result = service.removeWinApiFunction(id)) == 0) {
-            throw new HandbookException(format("Function [id=%d] was not deleted",id));
+            throw new HandbookException(format("Function [id=%d] was not deleted", id));
         }
         return result;
+    }
+
+    @Override
+    public WinApiParameter createParam(long functionId, WinApiParameter parameter) throws HandbookException {
+        return service.createParam(functionId, parameter);
     }
 
     @Override
     public int updateParam(WinApiParameter parameter) throws HandbookException {
         int result;
         if ((result = service.updateParam(parameter)) == 0) {
-            throw new HandbookException(format("Parameter [id=%d] was not updated",parameter.getId()));
+            throw new HandbookException(format("Parameter [id=%d] was not updated", parameter.getId()));
         }
         return result;
     }
@@ -84,23 +99,31 @@ public class WinApiHandbookServiceJdbcWrapper implements WinApiHandbookService {
     public int removeWinApiParameter(long id) throws HandbookException {
         int result;
         if ((result = service.removeWinApiParameter(id)) == 0) {
-            throw new HandbookException(format("Parameter [id=%d] was not deleted",id));
+            throw new HandbookException(format("Parameter [id=%d] was not deleted", id));
         }
         return result;
     }
 
     @Override
     public WinApiFunctionRequirement createRequirement(long functionId, WinApiFunctionRequirement requirement) throws HandbookException {
-        return null;
+        return service.createRequirement(functionId, requirement);
     }
 
     @Override
     public int updateRequirement(WinApiFunctionRequirement requirement) throws HandbookException {
-        return 0;
+        int result;
+        if ((result = service.updateRequirement(requirement)) == 0) {
+            throw new HandbookException(format("Requirement [id=%d] was not updated", requirement.getId()));
+        }
+        return result;
     }
 
     @Override
     public int removeRequirement(long id) throws HandbookException {
-        return 0;
+        int result;
+        if ((result = service.removeRequirement(id)) == 0) {
+            throw new HandbookException(format("Requirement [id=%d] was not deleted", id));
+        }
+        return result;
     }
 }

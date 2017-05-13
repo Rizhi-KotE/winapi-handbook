@@ -1,10 +1,8 @@
 {
-  "id": 1,
   "name": "ComboBox Control Functions",
   "description": "",
   "functions": [
     {
-      "id": 1,
       "name": "DlgDirListComboBox function",
       "description": "Replaces the contents of a combo box with the names of the subdirectories and files in a specified directory. You can filter the list of names by specifying a set of file attributes. The list of names can include mapped drive letters.",
       "syntax": "int DlgDirListComboBox(\n  _In_    HWND   hDlg,\n  _Inout_ LPTSTR lpPathSpec,\n  _In_    int    nIDComboBox,\n  _In_    int    nIDStaticPath,\n  _In_    UINT   uFiletype\n);",
@@ -12,31 +10,26 @@
       "returnTypeDescription": "If the function succeeds, the return value is nonzero.\n\nIf the function fails, the return value is zero. For example, if the string specified by lpPathSpec is not a valid path, the function fails. To get extended error information, call GetLastError.",
       "params": [
         {
-          "id": 1,
           "firstDefinition": "hDlg [in]",
           "typeDefinition": "HWND",
           "description": "A handle to the dialog box that contains the combo box."
         },
         {
-          "id": 2,
           "firstDefinition": "lpPathSpec [in, out]",
           "typeDefinition": "LPTSTR",
           "description": "A pointer to a buffer containing a null-terminated string that specifies an absolute path, relative path, or file name. An absolute path can begin with a drive letter (for example, d:) or a UNC name (for example, \\machinenamesharename).\n\nThe function splits the string into a directory and a file name. The function searches the directory for names that match the file name. If the string does not specify a directory, the function searches the current directory.\n\nIf the string includes a file name, the file name must contain at least one wildcard character (? or *). If the string does not include a file name, the function behaves as if you had specified the asterisk wildcard character (*) as the file name. All names in the specified directory that match the file name and have the attributes specified by the uFiletype parameter are added to the list displayed in the combo box."
         },
         {
-          "id": 3,
           "firstDefinition": "nIDComboBox [in]",
           "typeDefinition": "int",
           "description": "The identifier of a combo box in the hDlg dialog box. If this parameter is zero, DlgDirListComboBox does not try to fill a combo box."
         },
         {
-          "id": 4,
           "firstDefinition": "nIDStaticPath [in]",
           "typeDefinition": "int",
           "description": "The identifier of a static control in the hDlg dialog box. DlgDirListComboBox sets the text of this control to display the current drive and directory. This parameter can be zero if you do not want to display the current drive and directory."
         },
         {
-          "id": 5,
           "firstDefinition": "uFiletype [in]",
           "typeDefinition": "UINT",
           "description": "A set of bit flags that specifies the attributes of the files or directories to be added to the combo box. This parameter can be a combination of the following values."
@@ -44,12 +37,10 @@
       ],
       "requirements": [
         {
-          "id": 1,
           "key": "Minimum supported client",
           "value": "Windows Vista [desktop apps only]"
         },
         {
-          "id": 2,
           "key": "Minimum supported server",
           "value": "Windows Server 2003 [desktop apps only]"
         }

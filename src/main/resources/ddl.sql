@@ -44,8 +44,8 @@ create table WINAPI_PARAMETER
   ID bigint not null auto_increment
     primary key,
   FUNCTION_ID bigint null,
-  first_defintion char(30) not null,
-  type_defintion char(30) not null,
+  first_definition char(30) not null,
+  type_definition char(30) not null,
   description varchar(1000) not null,
   constraint PARAMX
   unique (ID),

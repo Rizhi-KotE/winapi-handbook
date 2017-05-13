@@ -21,12 +21,12 @@ public class WinApiUserElement {
     /**
      * name of element
      */
-    String name;
+    String name = "";
 
     /**
      * element description
      */
-    String description;
+    String description = "";
 
     /**
      * element's functions

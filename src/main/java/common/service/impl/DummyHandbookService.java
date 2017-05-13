@@ -66,6 +66,11 @@ public class DummyHandbookService implements WinApiHandbookService {
     }
 
     @Override
+    public WinApiFunction getFunction(long functionId) throws HandbookException {
+        return null;
+    }
+
+    @Override
     public int updateFunction(WinApiFunction function) throws HandbookException {
         Collection<WinApiUserElement> element = topics.values();
         element.forEach(e -> {
