@@ -27,6 +27,7 @@ public class FunctionCreateForm extends VBox {
     TextField name;
     TextArea description;
     long id;
+    long elementId;
     private Runnable o;
     private TextField returnType;
     private TextArea returnTypeDescription;
@@ -166,6 +167,10 @@ public class FunctionCreateForm extends VBox {
         function
                 .map(WinApiFunction::getId)
                 .subscribe(l -> id = l);
+        function
+                .map(WinApiFunction::getElementId)
+                .subscribe(l -> elementId = l);
+
     }
 
     void removeParam(int number) {
@@ -183,7 +188,8 @@ public class FunctionCreateForm extends VBox {
     public WinApiFunction getFunction() {
         List<WinApiParameter> collect = getParams();
         List<WinApiFunctionRequirement> requirements = getRequirements();
-        return new WinApiFunction(id, name.getText(),
+        return new WinApiFunction(id, elementId,
+                name.getText(),
                 description.getText(),
                 syntax.getText(),
                 collect,

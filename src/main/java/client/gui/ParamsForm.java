@@ -13,6 +13,8 @@ class ParamsForm extends VBox {
     final EventSource<WinApiParameter> parameter;
     TextField firstDefinition;
     long id;
+    long functionId;
+    long elementId;
     private Runnable o;
     private TextArea description;
     private TextField typeDefinition;
@@ -23,6 +25,12 @@ class ParamsForm extends VBox {
         this.parameter
                 .map(WinApiParameter::getId)
                 .subscribe(e -> id = e);
+        this.parameter
+                .map(WinApiParameter::getElementId)
+                .subscribe(e -> elementId = e);
+        this.parameter
+                .map(WinApiParameter::getFunctionId)
+                .subscribe(e -> functionId = e);
         Button remove = new Button("Remove");
         remove.setOnAction(e -> o.run());
         setSpacing(10);
@@ -71,7 +79,7 @@ class ParamsForm extends VBox {
     }
 
     WinApiParameter getFirstDefinition() {
-        return new WinApiParameter(id, firstDefinition.getText(), typeDefinition.getText(), description.getText());
+        return new WinApiParameter(id, functionId, elementId, firstDefinition.getText(), typeDefinition.getText(), description.getText());
     }
 
     public void removeAction(Runnable o) {

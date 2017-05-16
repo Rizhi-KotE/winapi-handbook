@@ -12,6 +12,8 @@ class RequirementForm extends VBox {
     final EventSource<WinApiFunctionRequirement> parameter;
     TextField key;
     long id;
+    long functionId;
+    long elementId;
     private TextField value;
     private TextField typeDefinition;
     private Runnable o;
@@ -22,6 +24,12 @@ class RequirementForm extends VBox {
         this.parameter
                 .map(WinApiFunctionRequirement::getId)
                 .subscribe(e -> id = e);
+        this.parameter
+                .map(WinApiFunctionRequirement::getFunctionId)
+                .subscribe(e -> functionId = e);
+        this.parameter
+                .map(WinApiFunctionRequirement::getElementId)
+                .subscribe(e -> elementId = e);
         crateForm();
         pushRequirement(requirement);
     }
@@ -50,14 +58,14 @@ class RequirementForm extends VBox {
     }
 
     WinApiParameter getKey() {
-        return new WinApiParameter(id, value.getText(), typeDefinition.getText(), key.getText());
+        return new WinApiParameter(id, functionId, elementId, value.getText(), typeDefinition.getText(), key.getText());
     }
 
     public WinApiFunctionRequirement getRequirement() {
-        return new WinApiFunctionRequirement(id, key.getText(), value.getText());
+        return new WinApiFunctionRequirement(id, functionId, elementId, key.getText(), value.getText());
     }
 
-    public void removeAction(Runnable o){
+    public void removeAction(Runnable o) {
 
         this.o = o;
     }

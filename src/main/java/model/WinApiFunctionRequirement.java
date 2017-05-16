@@ -13,6 +13,10 @@ public class WinApiFunctionRequirement {
      */
     long id;
 
+    long functionId;
+
+    long elementId;
+
     String key;
 
     String value;

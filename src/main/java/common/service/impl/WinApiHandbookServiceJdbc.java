@@ -46,12 +46,14 @@ public class WinApiHandbookServiceJdbc implements WinApiHandbookService {
     };
     private RowMapper<WinApiFunction> winApiFunctionRowMapper = (rs, rowNum) -> {
         long id = rs.getLong("id");
+        long elementId = rs.getLong("element_id");
         String name = rs.getString("name");
         String description = rs.getString("description");
         String syntax = rs.getString("syntax");
         String returnType = rs.getString("return_type");
         String returnTypeDescription = rs.getString("return_type_description");
         return new WinApiFunction(id,
+                elementId,
                 name,
                 description,
                 syntax,
@@ -63,16 +65,20 @@ public class WinApiHandbookServiceJdbc implements WinApiHandbookService {
 
     private RowMapper<WinApiParameter> winApiParameterRowMapper = (rs, rowNum) -> {
         long id = rs.getLong("id");
+        long functionId = rs.getLong("function_id");
+        long elementId = rs.getLong("element_id");
         String firstDefinition = rs.getString("first_definition");
         String typeDefinition = rs.getString("type_definition");
         String description = rs.getString("description");
-        return new WinApiParameter(id, firstDefinition, typeDefinition, description);
+        return new WinApiParameter(id, functionId, elementId, firstDefinition, typeDefinition, description);
     };
     private RowMapper<WinApiFunctionRequirement> winApiRequirementRowMapper = (rs, rowNum) -> {
         long id = rs.getLong("id");
+        long functionId = rs.getLong("function_id");
+        long elementId = rs.getLong("element_id");
         String category = rs.getString("category");
         String categoryValue = rs.getString("category_value");
-        return new WinApiFunctionRequirement(id, category, categoryValue);
+        return new WinApiFunctionRequirement(id, functionId, elementId, category, categoryValue);
     };
 
     public WinApiHandbookServiceJdbc(DataSource dataSource) {

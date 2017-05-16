@@ -13,6 +13,10 @@ public class WinApiParameter {
      */
     long id;
 
+    long functionId;
+
+    long elementId;
+
     /**
      * definition of name and attributes of parameter
      */

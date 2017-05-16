@@ -23,6 +23,8 @@ public class WinApiFunction {
      */
     long id;
 
+    long elementId;
+
     /**
      * name of function
      */

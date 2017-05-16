@@ -1,7 +1,7 @@
 package client.gui;
 
 import common.exception.HandbookException;
-import common.service.impl.WinApiHandbookService;
+import common.service.impl.RestClientService;
 import javafx.event.ActionEvent;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Getter
 public class WinApiHandbookReactor {
 
-    private final WinApiHandbookService service;
+    private final RestClientService service;
     EventSource<WinApiUserElement> classEventSource = new EventSource<>();
     EventSource<List<WinApiUserElement>> listEventSource = new EventSource<>();
     EventSource<ActionEvent> editEventSource = new EventSource<>();
@@ -27,13 +27,9 @@ public class WinApiHandbookReactor {
     EventSource<ActionEvent> refreshEventSource = new EventSource<>();
     EventSource<Exception> exceptionEventSource = new EventSource<>();
 
-    public WinApiHandbookReactor(WinApiHandbookService service) {
+    public WinApiHandbookReactor(RestClientService service) {
 
         this.service = service;
-    }
-
-    public void pushClass(WinApiUserElement winApiUserElement) {
-        classEventSource.push(winApiUserElement);
     }
 
     public void search(String text) {
@@ -67,7 +63,7 @@ public class WinApiHandbookReactor {
 
     public void removeFunction(WinApiFunction function) {
         try {
-            service.removeWinApiFunction(function.getId());
+            service.removeWinApiFunction(function.getElementId(), function.getId());
             refreshEventSource.push(new ActionEvent());
             editEventSource.push(new ActionEvent());
         } catch (HandbookException e) {
@@ -77,7 +73,7 @@ public class WinApiHandbookReactor {
 
     public void removeParameter(WinApiParameter winApiParameter) {
         try {
-            service.removeWinApiParameter(winApiParameter.getId());
+            service.removeWinApiParameter(winApiParameter.getElementId(), winApiParameter.getFunctionId(), winApiParameter.getId());
             refreshEventSource.push(new ActionEvent());
             editEventSource.push(new ActionEvent());
         } catch (HandbookException e) {
@@ -87,7 +83,7 @@ public class WinApiHandbookReactor {
 
     public void removeRequirement(WinApiFunctionRequirement requirement) {
         try {
-            service.removeRequirement(requirement.getId());
+            service.removeRequirement(requirement.getElementId(), requirement.getFunctionId(), requirement.getId());
             refreshEventSource.push(new ActionEvent());
             editEventSource.push(new ActionEvent());
         } catch (HandbookException e) {
@@ -102,5 +98,9 @@ public class WinApiHandbookReactor {
         } catch (HandbookException e) {
             exceptionEventSource.push(e);
         }
+    }
+
+    public void pushClass(WinApiUserElement winApiUserElement) {
+        classEventSource.push(winApiUserElement);
     }
 }
