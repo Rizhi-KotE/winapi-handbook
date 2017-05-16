@@ -1,6 +1,7 @@
 package common.service.impl;
 
 import common.exception.HandbookException;
+import model.WinApiFunction;
 import model.WinApiUserElement;
 
 import javax.sql.DataSource;
@@ -16,6 +17,18 @@ public class RestServiceJdbsWrapper implements RestClientService {
         service = new WinApiHandbookServiceJdbc(ds);
     }
 
+    WinApiFunction restoreIds(WinApiFunction function) {
+        function.getParams().forEach(p -> {
+            p.setFunctionId(function.getId());
+            p.setElementId(function.getElementId());
+        });
+        function.getRequirements().forEach(r -> {
+            r.setFunctionId(function.getId());
+            r.setElementId(function.getElementId());
+        });
+        return function;
+    }
+
     @Override
     public List<WinApiUserElement> getAll() throws HandbookException {
         return service.getAll();
@@ -23,7 +36,13 @@ public class RestServiceJdbsWrapper implements RestClientService {
 
     @Override
     public void saveOrUpdateUserElement(WinApiUserElement winApiUserElement) throws HandbookException {
-        service.saveOrUpdateUserElement(winApiUserElement);
+        service.saveOrUpdateUserElement(restoreIds(winApiUserElement));
+    }
+
+    WinApiUserElement restoreIds(WinApiUserElement element) {
+        element.getFunctions().forEach(f -> f.setElementId(element.getId()));
+        element.getFunctions().forEach(this::restoreIds);
+        return element;
     }
 
     @Override
@@ -63,6 +82,6 @@ public class RestServiceJdbsWrapper implements RestClientService {
 
     @Override
     public WinApiUserElement getUserElement(long id) throws HandbookException {
-        return service.getUserElement(id);
+        return restoreIds(service.getUserElement(id)) ;
     }
 }
